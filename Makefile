@@ -32,7 +32,7 @@ versions:
 
 $(RESULTS_DIR)/maven/output.txt: $(BUILD_DIR)/maven/src $(BUILD_DIR)/maven/pom.xml
 	$(info ******* maven start)
-	cd $(BUILD_DIR)/maven; time mvn -q package > output.log
+	cd $(BUILD_DIR)/maven; time mvn -q package -Dsurefire.printSummary=false
 
 $(BUILD_DIR)/maven/src: $(BUILD_DIR)/src
 	mkdir -p $(BUILD_DIR)/maven
@@ -52,6 +52,7 @@ $(BUILD_DIR)/gradle/src: $(BUILD_DIR)/src
 	cd $(BUILD_DIR)/gradle; ln -s ../src
 
 $(BUILD_DIR)/gradle/build.gradle: $(BUILD_DIR)/src
+	echo "rootProject.name = 'project1'" > $(BUILD_DIR)/gradle/settings.gradle
 	cheetah fill --quiet  -R --idir $(TEMPLATES_DIR)/gradle --odir $(BUILD_DIR)/gradle --nobackup --oext gradle
 
 ## sbt
@@ -82,6 +83,17 @@ $(BUILD_DIR)/buildr/buildfile: $(BUILD_DIR)/src
 	mv $(BUILD_DIR)/buildr/buildfile.html $(BUILD_DIR)/buildr/buildfile
 
 ## Leiningen
+
+$(RESULTS_DIR)/leiningen/output.txt: $(BUILD_DIR)/leiningen/src $(BUILD_DIR)/leiningen/project.clj
+	$(info ******* leiningen start)
+	cd $(BUILD_DIR)/leiningen; time lein jar
+
+$(BUILD_DIR)/leiningen/src: $(BUILD_DIR)/src
+	mkdir -p $(BUILD_DIR)/leiningen
+	cd $(BUILD_DIR)/leiningen; ln -s ../src
+
+$(BUILD_DIR)/leiningen/project.clj: $(BUILD_DIR)/src
+	cheetah fill --quiet  -R --idir $(TEMPLATES_DIR)/leiningen --odir $(BUILD_DIR)/leiningen --nobackup --oext clj
 
 
 ## regen sources

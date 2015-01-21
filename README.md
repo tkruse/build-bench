@@ -1,6 +1,6 @@
 # build-bench
 
-Benchmarks for different Java buildystems.
+Benchmarks for different Java buildsystems.
 A number of source files is generated, and then compiled, tested and jarred.
 
 Manual installation of different buildsystems is required.
@@ -16,10 +16,13 @@ Still looking at how to best create a nice summary of versions used andresults.
 * gradle
 * sbt
 * buildr
+* leiningen (no junit tests)
 
 Installing some of those can be a pain. I recommend ```gvm``` for gradle, and ```gem install --user-install buildr``` for buildr.
 
 Cheetah was not a perfect choice for templating of files, as it makes it hard to control generated filenames.
+
+Running junit 4.11 tests with scala was a pain, because getting junit 4.x to work was not trivial, required 3rd party testing libs in specific versions.
 
 ## Running
 ```
@@ -52,9 +55,9 @@ Generating 500 java test source files
 568inputs+5360outputs (0major+68575minor)pagefaults 0swaps
 ```
 
+## Comments
+
 Note that I am not sure whether the sample code is useful for a benchmark,
 nor have the buildsystem parameters been adapted for maximum speed.
-
-I hope to also add Leiningen, ant+Ivy and buck, and measure speed for incremental builds.
 
 Contributions welcome.
