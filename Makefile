@@ -97,8 +97,11 @@ $(BUILD_DIR)/leiningen/project.clj: $(BUILD_DIR)/src
 
 
 ## regen sources
-
 $(BUILD_DIR)/src:
+	mkdir $(BUILD_DIR)
+	cd $(BUILD_DIR); ln -s ../3rdparty/src
+
+$(BUILD_DIR)/src2:
 	$(info Generating $(FILE_NUM) java source files)
 	mkdir -p $(BUILD_DIR)/src/main/java/com
 	for number in `seq 0 $(FILE_NUM)` ; do \
