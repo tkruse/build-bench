@@ -1,8 +1,15 @@
-
+# only works when running make in root folder :-(
+ROOT_DIR = $(shell pwd)
 BUILD_DIR=build
 RESULTS_DIR=$(BUILD_DIR)/results
+
+# Folder with structures for running buildsystems
+BUILD_DEFINITIONS=singleModule
+# folder containing source resources ecept for buildfiles
+SOURCES_DIR=$(BUILD_DEFINITIONS)/apacheCommons
+
 TEMPLATES_DIR=templates
-FILE_NUM=500
+FILE_NUM=5
 JAVA_HOME=/usr/lib/jvm/java-7-oracle/
 
 .PHONY: default
@@ -14,10 +21,12 @@ clean:
 
 .PHONY: all
 all: versions\
-$(RESULTS_DIR)/buildr/output.txt \
 $(RESULTS_DIR)/maven/output.txt \
+$(RESULTS_DIR)/leiningen/output.txt \
+$(RESULTS_DIR)/buildr/output.txt \
 $(RESULTS_DIR)/sbt/output.txt \
 $(RESULTS_DIR)/gradle/output.txt \
+#$(RESULTS_DIR)/buck/output.txt \
 
 .PHONY: versions
 versions:
@@ -39,7 +48,7 @@ $(BUILD_DIR)/maven/src: $(BUILD_DIR)/src
 	cd $(BUILD_DIR)/maven; ln -s ../src
 
 $(BUILD_DIR)/maven/pom.xml: $(BUILD_DIR)/src
-	cheetah fill --quiet -R --idir $(TEMPLATES_DIR)/maven --odir $(BUILD_DIR)/maven --nobackup --oext xml
+	cp -r $(BUILD_DEFINITIONS)/maven $(BUILD_DIR)
 
 ## gradle
 
@@ -52,8 +61,7 @@ $(BUILD_DIR)/gradle/src: $(BUILD_DIR)/src
 	cd $(BUILD_DIR)/gradle; ln -s ../src
 
 $(BUILD_DIR)/gradle/build.gradle: $(BUILD_DIR)/src
-	echo "rootProject.name = 'project1'" > $(BUILD_DIR)/gradle/settings.gradle
-	cheetah fill --quiet  -R --idir $(TEMPLATES_DIR)/gradle --odir $(BUILD_DIR)/gradle --nobackup --oext gradle
+	cp -r $(BUILD_DEFINITIONS)/gradle $(BUILD_DIR)
 
 ## sbt
 
@@ -66,7 +74,7 @@ $(BUILD_DIR)/sbt/src: $(BUILD_DIR)/src
 	cd $(BUILD_DIR)/sbt; ln -s ../src
 
 $(BUILD_DIR)/sbt/build.sbt: $(BUILD_DIR)/src
-	cheetah fill --quiet  -R --idir $(TEMPLATES_DIR)/sbt --odir $(BUILD_DIR)/sbt --nobackup --oext sbt
+	cp -r $(BUILD_DEFINITIONS)/sbt $(BUILD_DIR)
 
 ## buildr
 
@@ -79,8 +87,7 @@ $(BUILD_DIR)/buildr/src: $(BUILD_DIR)/src
 	cd $(BUILD_DIR)/buildr; ln -s ../src
 
 $(BUILD_DIR)/buildr/buildfile: $(BUILD_DIR)/src
-	CLASSPATH=;cheetah fill --quiet  -R --idir $(TEMPLATES_DIR)/buildr --odir $(BUILD_DIR)/buildr
-	mv $(BUILD_DIR)/buildr/buildfile.html $(BUILD_DIR)/buildr/buildfile
+	cp -r $(BUILD_DEFINITIONS)/buildr $(BUILD_DIR)
 
 ## Leiningen
 
@@ -93,13 +100,17 @@ $(BUILD_DIR)/leiningen/src: $(BUILD_DIR)/src
 	cd $(BUILD_DIR)/leiningen; ln -s ../src
 
 $(BUILD_DIR)/leiningen/project.clj: $(BUILD_DIR)/src
-	cheetah fill --quiet  -R --idir $(TEMPLATES_DIR)/leiningen --odir $(BUILD_DIR)/leiningen --nobackup --oext clj
+	cp -r $(BUILD_DEFINITIONS)/leiningen $(BUILD_DIR)
 
 
-## regen sources
+# 
+# Different sources to be used for benchmark
+#
+
+
 $(BUILD_DIR)/src:
 	mkdir $(BUILD_DIR)
-	cd $(BUILD_DIR); ln -s ../3rdparty/src
+	cd $(BUILD_DIR); ln -s ../$(SOURCES_DIR)/src
 
 $(BUILD_DIR)/src2:
 	$(info Generating $(FILE_NUM) java source files)
