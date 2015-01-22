@@ -20,13 +20,14 @@ clean:
 	rm -rf build
 
 .PHONY: all
-all: versions\
+all: \
+$(RESULTS_DIR)/buck/output.txt \
 $(RESULTS_DIR)/maven/output.txt \
 $(RESULTS_DIR)/leiningen/output.txt \
 $(RESULTS_DIR)/buildr/output.txt \
 $(RESULTS_DIR)/sbt/output.txt \
 $(RESULTS_DIR)/gradle/output.txt \
-#$(RESULTS_DIR)/buck/output.txt \
+
 
 .PHONY: versions
 versions:
@@ -35,6 +36,7 @@ versions:
 	gradle --version
 	sbt --version
 	buildr --version
+	buck --version
 
 
 ## maven
@@ -102,6 +104,18 @@ $(BUILD_DIR)/leiningen/src: $(BUILD_DIR)/src
 $(BUILD_DIR)/leiningen/project.clj: $(BUILD_DIR)/src
 	cp -r $(BUILD_DEFINITIONS)/leiningen $(BUILD_DIR)
 
+## buck
+
+$(RESULTS_DIR)/buck/output.txt: $(BUILD_DIR)/buck/src $(BUILD_DIR)/buck/BUCK
+	$(info ******* buck start)
+	cd $(BUILD_DIR)/buck; time buck test
+
+$(BUILD_DIR)/buck/src: $(BUILD_DIR)/src
+	mkdir -p $(BUILD_DIR)/buck
+	cd $(BUILD_DIR)/buck; ln -s ../src
+
+$(BUILD_DIR)/buck/BUCK: $(BUILD_DIR)/src
+	cp -r $(BUILD_DEFINITIONS)/buck $(BUILD_DIR)
 
 # 
 # Different sources to be used for benchmark
