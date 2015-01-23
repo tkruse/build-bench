@@ -23,11 +23,10 @@ clean:
 all: \
 $(RESULTS_DIR)/buck/output.txt \
 $(RESULTS_DIR)/maven/output.txt \
-$(RESULTS_DIR)/leiningen/output.txt \
 $(RESULTS_DIR)/buildr/output.txt \
-$(RESULTS_DIR)/sbt/output.txt \
 $(RESULTS_DIR)/gradle/output.txt \
-
+# $(RESULTS_DIR)/leiningen/output.txt \
+# $(RESULTS_DIR)/sbt/output.txt \
 
 .PHONY: versions
 versions:
