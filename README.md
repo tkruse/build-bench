@@ -24,6 +24,13 @@ Cheetah was not a perfect choice for templating of files, as it makes it hard to
 
 Running junit 4.11 tests with scala was a pain, because getting junit 4.x to work was not trivial, required 3rd party testing libs in specific versions.
 
+Getting buck to do anything was a real pain, so many details to consider that are settled by convention inother build tools. Most failures had no helpful error messages. Making buck run existing tests was painful because buck will try to run any class it finds as a testcase, and fail if it is not (TestUtils, abstract test classes), and does not provide any help in filtering what shall be considered a TestCase.
+
+Leiningen does not have any easy option to run junit tests, so it's benchmark results are not to be compared.
+
+
+buildr (and scala I think) used the current CLASSPATH when running tests (instead of an isolated classpath). That caused surprising test failures.
+
 ## Running
 ```
 $ make clean all --silent
