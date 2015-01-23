@@ -119,26 +119,39 @@ $(BUILD_DIR)/buck/src: $(BUILD_DIR)/src
 $(BUILD_DIR)/buck/BUCK: $(BUILD_DIR)/src
 	cp -r $(BUILD_DEFINITIONS)/buck $(BUILD_DIR)
 
+## ivy
+
+$(RESULTS_DIR)/ivy/output.txt: $(BUILD_DIR)/ivy/src $(BUILD_DIR)/ivy/build.xml
+	$(info ******* ant-ivy start)
+	cd $(BUILD_DIR)/ivy; time ant jar
+
+$(BUILD_DIR)/ivy/src: $(BUILD_DIR)/src
+	mkdir -p $(BUILD_DIR)/ivy
+	cd $(BUILD_DIR)/ivy; ln -s ../src
+
+$(BUILD_DIR)/ivy/build.xml: $(BUILD_DIR)/src
+	cp -r $(BUILD_DEFINITIONS)/ivy $(BUILD_DIR)
+
 #
 # Different sources to be used for benchmark
 #
 
 
-$(BUILD_DIR)/src:
+$(BUILD_DIR)/src2:
 	mkdir $(BUILD_DIR)
 # 	cd $(SOURCES_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-math.git
 # 	cd $(SOURCES_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-text.git
 # 	cd $(SOURCES_DIR); svn checkout https://svn.apache.org/repos/asf/commons/proper/net/trunk commons-net
 	cd $(BUILD_DIR); ln -s ../$(SOURCES_DIR)/src
 
-$(BUILD_DIR)/src2:
+$(BUILD_DIR)/src:
 	$(info Generating $(FILE_NUM) java source files)
 	mkdir -p $(BUILD_DIR)/src/main/java/com
 	for number in `seq 0 $(FILE_NUM)` ; do \
-	  INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/src/main --env --nobackup -p >> $(BUILD_DIR)/src/main/java/com/Simple$$number.java ; \
+	  INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/simple//src/main --env --nobackup -p >> $(BUILD_DIR)/src/main/java/com/Simple$$number.java ; \
 	done
 	$(info Generating $(FILE_NUM) java test source files)
 	mkdir -p $(BUILD_DIR)/src/test/java/com
 	for number in `seq 0 $(FILE_NUM)` ; do \
-	  INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/src/test --env --nobackup -p >> $(BUILD_DIR)/src/test/java/com/Simple"$$number"Test.java ; \
+	  INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/simple/src/test --env --nobackup -p >> $(BUILD_DIR)/src/test/java/com/Simple"$$number"Test.java ; \
 	done
