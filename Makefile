@@ -21,12 +21,14 @@ clean:
 
 .PHONY: all
 all: \
-$(RESULTS_DIR)/buck/output.txt \
-$(RESULTS_DIR)/maven/output.txt \
-$(RESULTS_DIR)/buildr/output.txt \
 $(RESULTS_DIR)/gradle/output.txt \
-# $(RESULTS_DIR)/leiningen/output.txt \
+#$(RESULTS_DIR)/buck/output.txt \
+#$(RESULTS_DIR)/maven/output.txt \
+#$(RESULTS_DIR)/buildr/output.txt \
 # $(RESULTS_DIR)/sbt/output.txt \
+## don't know how to exclude *AbstractTest.java from leiningen junit test plugin
+# $(RESULTS_DIR)/leiningen/output.txt \
+
 
 .PHONY: versions
 versions:
@@ -55,7 +57,7 @@ $(BUILD_DIR)/maven/pom.xml: $(BUILD_DIR)/src
 
 $(RESULTS_DIR)/gradle/output.txt: $(BUILD_DIR)/gradle/src $(BUILD_DIR)/gradle/build.gradle
 	$(info ******* gradle start)
-	cd $(BUILD_DIR)/gradle; time gradle -q jar
+	cd $(BUILD_DIR)/gradle; time gradle -q test jar
 
 $(BUILD_DIR)/gradle/src: $(BUILD_DIR)/src
 	mkdir -p $(BUILD_DIR)/gradle
@@ -94,7 +96,8 @@ $(BUILD_DIR)/buildr/buildfile: $(BUILD_DIR)/src
 
 $(RESULTS_DIR)/leiningen/output.txt: $(BUILD_DIR)/leiningen/src $(BUILD_DIR)/leiningen/project.clj
 	$(info ******* leiningen start)
-	cd $(BUILD_DIR)/leiningen; time lein jar
+# need hack to run both tests and jar? Using plugin to run junit tests
+	cd $(BUILD_DIR)/leiningen; time sh -c 'lein junit; lein jar'
 
 $(BUILD_DIR)/leiningen/src: $(BUILD_DIR)/src
 	mkdir -p $(BUILD_DIR)/leiningen
@@ -116,13 +119,16 @@ $(BUILD_DIR)/buck/src: $(BUILD_DIR)/src
 $(BUILD_DIR)/buck/BUCK: $(BUILD_DIR)/src
 	cp -r $(BUILD_DEFINITIONS)/buck $(BUILD_DIR)
 
-# 
+#
 # Different sources to be used for benchmark
 #
 
 
 $(BUILD_DIR)/src:
 	mkdir $(BUILD_DIR)
+# 	cd $(SOURCES_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-math.git
+# 	cd $(SOURCES_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-text.git
+# 	cd $(SOURCES_DIR); svn checkout https://svn.apache.org/repos/asf/commons/proper/net/trunk commons-net
 	cd $(BUILD_DIR); ln -s ../$(SOURCES_DIR)/src
 
 $(BUILD_DIR)/src2:
