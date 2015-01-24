@@ -71,6 +71,7 @@ Then it invokes the build command to compile, unit-test and jar the sources.
 # Samples
 
 The builds should work for any source tree that follows these conventions (Canonical Maven/Gradle/sbt/clojure):
+* Java 7 compliant code
 * Java sources in src/main/java
 * Test sources in src/test/java
 * Other resources in src/test/resources
