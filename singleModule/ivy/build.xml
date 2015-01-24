@@ -56,8 +56,7 @@ under the License.
            destdir="${build.main}"
            source="1.7"
            target="1.7"
-           fork="yes"
-           optimize="on"
+           debug="yes"
            includeantruntime="false"/>
     <copy todir="${build.main}"
           failonerror="no">
@@ -71,7 +70,7 @@ under the License.
            destdir="${build.test}"
            source="1.7"
            target="1.7"
-           fork="yes"
+           debug="yes"
            includeantruntime="false">
       <classpath>
         <path refid="default.classpath" />
