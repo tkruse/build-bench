@@ -9,12 +9,13 @@
   :repositories [["java.net" "http://download.java.net/maven/2"]]
   :update :never
   :checksum :fail
-  :source-paths ["src" "src/main/clojure"]
-  ;; not sure how to
-  :java-source-paths ["src/main/java" "src/test/java"]  ; Java source is stored separately.
-  :test-paths ["test" "src/test/clojure"]
+  :source-paths ["src/main/clojure"]
+  :java-source-paths ["src/main/java"]  ; Java source is stored separately.
+  :test-paths ["src/test/clojure"]
   :junit ["src/test/java"]
-  :resource-paths ["src/main/resource"] ; Non-code files included in classpath/jar.
+  ;; regex magic to include all *Test.java, but no *AbstractTest.java
+  :junit-test-file-pattern #"^((?!Abstract).)*Test.java$"
+  :resource-paths ["src/test/resources" "src/main/resources"] ; Non-code files included in classpath/jar.
   :target-path "target/%s/"
   :clean-targets [:target-path :compile-path "out"]
   ;;; Jar Output
