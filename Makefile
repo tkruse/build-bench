@@ -153,6 +153,7 @@ $(BUILD_DIR)/src: $(DOWNLOAD_SOURCES_DIR)/commons-math/src
 	@cd $(BUILD_DIR); ln -s ../$(DOWNLOAD_SOURCES_DIR)/commons-math/src
 
 $(DOWNLOAD_SOURCES_DIR)/commons-math/src:
+	@mkdir -p $(DOWNLOAD_SOURCES_DIR)
 	cd $(DOWNLOAD_SOURCES_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-math.git
 # Sadly one commons-math test fails in buck because java.io.File cannot handle uris inside jars.
 	rm $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/random/EmpiricalDistributionTest.java
