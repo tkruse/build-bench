@@ -21,5 +21,5 @@
   ;;; Jar Output
   ;; Name of the jar file produced. Will be placed inside :target-path.
   ;; Including %s will splice the project version into the filename.
-  :jar-name "example.jar"
+  :jar-name "leiningen-example.jar"
   :auto-clean false)

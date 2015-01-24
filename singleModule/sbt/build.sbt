@@ -1,4 +1,4 @@
-name := "example"
+name := "sbt-example"
 
 organization := "com.example"
 

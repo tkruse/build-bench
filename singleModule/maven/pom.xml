@@ -4,7 +4,7 @@
   <name>Maven Example Project</name>
 
   <groupId>com.example</groupId>
-  <artifactId>example</artifactId>
+  <artifactId>maven-example</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 
   <repositories>

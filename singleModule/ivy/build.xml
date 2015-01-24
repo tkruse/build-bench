@@ -163,7 +163,7 @@ under the License.
 
   <target name="jar" depends="test">
     <mkdir dir="${dist.dir}"/>
-    <jar destfile="${dist.dir}/lib/app.jar"
+    <jar destfile="${dist.dir}/lib/ivy-example.jar"
          basedir="${build.main}"
          includes="**"
          />
