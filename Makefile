@@ -6,7 +6,7 @@ RESULTS_DIR=$(BUILD_DIR)/results
 # Folder with structures for running buildsystems
 BUILD_DEFINITIONS=singleModule
 # folder containing source resources except for buildfiles
-SOURCES_DIR=$(BUILD_DEFINITIONS)/apacheCommons
+DOWNLOAD_SOURCES_DIR=$(BUILD_DIR)/downloads
 
 TEMPLATES_DIR=templates
 FILE_NUM=5
@@ -148,14 +148,27 @@ $(BUILD_DIR)/ivy/build.xml: $(BUILD_DIR)/src
 #
 
 
-$(BUILD_DIR)/src2:
-	@mkdir $(BUILD_DIR)
-# 	cd $(SOURCES_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-math.git
-# 	cd $(SOURCES_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-text.git
-# 	cd $(SOURCES_DIR); svn checkout https://svn.apache.org/repos/asf/commons/proper/net/trunk commons-net
-	@cd $(BUILD_DIR); ln -s ../$(SOURCES_DIR)/src
+$(BUILD_DIR)/src: $(DOWNLOAD_SOURCES_DIR)/commons-math/src
+	@mkdir -p $(BUILD_DIR)
+	@cd $(BUILD_DIR); ln -s ../$(DOWNLOAD_SOURCES_DIR)/commons-math/src
 
-$(BUILD_DIR)/src:
+$(DOWNLOAD_SOURCES_DIR)/commons-math/src:
+	cd $(DOWNLOAD_SOURCES_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-math.git
+# Sadly one commons-math test fails in buck because java.io.File cannot handle uris inside jars.
+	rm $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/random/EmpiricalDistributionTest.java
+
+$(DOWNLOAD_SOURCES_DIR)/commons-text/src:
+	cd $(DOWNLOAD_SOURCES_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-text.git
+
+$(DOWNLOAD_SOURCES_DIR)/commons-net/src:
+	cd $(DOWNLOAD_SOURCES_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-text.git
+	cd $(DOWNLOAD_SOURCES_DIR); svn checkout https://svn.apache.org/repos/asf/commons/proper/net/trunk commons-net
+
+$(BUILD_DIR)/src3:
+	@mkdir -p $(BUILD_DIR)
+	@cd $(BUILD_DIR); ln -s ../$(DOWNLOAD_SOURCES_DIR)/src
+
+$(BUILD_DIR)/src2:
 	$(info Generating $(FILE_NUM) java source files)
 	@mkdir -p $(BUILD_DIR)/src/main/java/com
 	@for number in `seq 0 $(FILE_NUM)` ; do \
