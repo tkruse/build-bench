@@ -10,7 +10,7 @@
   :update :never
   :checksum :fail
   :source-paths ["src/main/clojure"]
-  :java-source-paths ["src/main/java"]  ; Java source is stored separately.
+  :java-source-paths ["src/main/java" "src/test/java"]  ; Java source is stored separately.
   :test-paths ["src/test/clojure"]
   :junit ["src/test/java"]
   ;; regex magic to include all *Test.java, but no *AbstractTest.java
