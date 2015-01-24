@@ -5,7 +5,10 @@ Benchmarks for different buildsystems for Java. This can also be used as a kind 
 Manual installation of different buildsystems is required.
 Still looking at how to best create a nice summary of versions used and results.
 
-Do not interpret the test results unless you understand well how they were produced. I make no claim (yet) that if in any test one system ends before another, that systemis generally faster than the other.
+Do not interpret the test results unless you understand well how they were produced. 
+Several ystems (at least buck and gradle) have the possibility of starting a daemon process to reduce startup times.
+
+I make no claim (yet) that if in any test one system ends before another, that system is generally faster than the other.
 
 # Prerequisites
 
