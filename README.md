@@ -5,7 +5,7 @@ Benchmarks for different buildsystems for Java. This can also be used as a kind 
 Manual installation of different buildsystems is required.
 Still looking at how to best create a nice summary of versions used and results.
 
-Do not interpret the test results unless you understand well how they were produced. 
+Do not interpret the test results unless you understand well how they were produced.
 Several ystems (at least buck and gradle) have the possibility of starting a daemon process to reduce startup times.
 
 I make no claim (yet) that if in any test one system ends before another, that system is generally faster than the other.
@@ -60,9 +60,12 @@ git clone, run ant, that yi            elds a working binray that can be put ont
 
 
 ## Running
+
 ```
 $ make clean all --silent
 ```
+
+In case you want to run with other projects, modify the ```Makefile``` as required.
 
 ## Features
 
@@ -78,10 +81,13 @@ The builds should work for any source tree that follows these conventions (Canon
 * Java sources in src/main/java
 * Test sources in src/test/java
 * Other resources in src/test/resources
-* Tests written in Junit4 compatible fashion
+* Tests written in JUnit4.11 compatible fashion, not requiring 4.12 (sbt issues)
 * Test classes named *Test.java
 * Abstract Test parent classes named *AbstractTest.java (to be excluded, some buildsystems fail else)
+* Single module projects (as opposed to multi-project builds)
+* No other dependencies than standard Java and JUnit4
 
+These constraints can be eliminated by more coding.
 
 ## Output
 
@@ -185,3 +191,6 @@ buildr (and scala I think) used the current CLASSPATH when running tests (instea
 java.lang.InstantiationException during tests is usually a sign that a TestRunner is trying to run a non-Testcase class (like abstract or util classes).
 
 sbt occasionally failed apache commons-math tests, but not consistently so.
+
+I chose GNU make for this project because it is omnipresent in linux and very close to shell scripting.
+I chose to test against commons-math because it is reasonably large, well tested, and has no dependencies outside the JDK. Other libraries working okay are commons-text, commons-io, commons-imaging, guava. But those are too small to matter, or cause several problems with tests failing for stupid reasons.

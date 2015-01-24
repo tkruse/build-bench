@@ -21,14 +21,13 @@ clean:
 
 .PHONY: all
 all: \
-leiningen \
-ivy \
 gradle \
-buck \
 maven \
 buildr \
+ivy \
+buck \
+leiningen \
 sbt \
-
 
 
 .PHONY: versions
@@ -158,12 +157,8 @@ $(DOWNLOAD_SOURCES_DIR)/commons-math/src:
 # Sadly one commons-math test fails in buck because java.io.File cannot handle uris inside jars.
 	rm $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/random/EmpiricalDistributionTest.java
 
-$(DOWNLOAD_SOURCES_DIR)/commons-text/src:
-	cd $(DOWNLOAD_SOURCES_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-text.git
 
-$(DOWNLOAD_SOURCES_DIR)/commons-net/src:
-	cd $(DOWNLOAD_SOURCES_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-text.git
-	cd $(DOWNLOAD_SOURCES_DIR); svn checkout https://svn.apache.org/repos/asf/commons/proper/net/trunk commons-net
+
 
 $(BUILD_DIR)/src3:
 	@mkdir -p $(BUILD_DIR)
