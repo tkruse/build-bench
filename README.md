@@ -5,7 +5,7 @@ Benchmarks for different buildsystems for Java. This can also be used as a kind 
 Manual installation of different buildsystems is required.
 Still looking at how to best create a nice summary of versions used and results.
 
-Do not interpret the test results unless you understand well how they were produced.
+Do not interpret the test results unless you understand well how they were produced. I make no claim (yet) that if in any test one system ends before another, that systemis generally faster than the other.
 
 # Prerequisites
 
@@ -15,15 +15,45 @@ Do not interpret the test results unless you understand well how they were produ
 
 # Buildsystems
 
-* maven
-* gradle
-* sbt
-* buildr
-* buck
-* ant + ivy
-* leiningen
+## ant + ivy
 
-Installing some of those can be a pain. I recommend ```gvm``` for gradle, and ```gem install --user-install buildr``` for buildr.
+ant is packaged for Ubuntu.
+For more recent version see: http://ant.apache.org/manual/install.html
+
+## Maven
+
+Installing a 3.x version should be easy, it is packaged for Ubuntu.
+E.g.
+
+$ sudo apt-get install maven3
+
+More recent versios can be found at: http://maven.apache.org/download.cgi
+
+## Gradle
+
+I recommend ```gvm``` for gradle: http://gvmtool.net/
+
+## Leiningen
+
+Leiningen has an installer for Windows and Linux: http://leiningen.org/
+
+## Sbt
+
+sbt is package for Ubuntu.
+Else Ssee http://www.scala-sbt.org/download.html
+
+## buildr
+
+```gem install --user-install buildr``` for buildr installs buildr into the local .gem folder.
+
+## buck
+
+Two repositories exist, seem to stay in sync:
+
+* https://github.com/facebook/buck
+* https://gerrit.googlesource.com/buck (Beware! 'master' branch was very outdated for me and broken, use branch 'github-master')
+
+git clone, run ant, that yi            elds a working binray that can be put onto PATH (softlinking failed for me).
 
 
 ## Running
@@ -39,6 +69,17 @@ Then it creates project setups for each buildsystem inside
 Then it invokes the build command to compile, unit-test and jar the sources.
 
 # Samples
+
+The builds should work for any source tree that follows these conventions (Canonical Maven/Gradle/sbt/clojure):
+* Java sources in src/main/java
+* Test sources in src/test/java
+* Other resources in src/test/resources
+* Tests written in Junit4 compatible fashion
+* Test classes named *Test.java
+* Abstract Test parent classes named *AbstractTest.java (to be excluded, some buildsystems fail else)
+
+
+## Output
 
 Sample output (manually cleaned up) for a clean build of apache commons.math (compile + test):
 ```
@@ -74,7 +115,7 @@ cd build/ivy; time ant jar -q
 1672inputs+194360outputs (0major+7661187minor)pagefaults 0swaps
 ```
 
-## Comments
+# Comments
 
 Note that I am not sure whether the sample code is useful for a benchmark,
 nor have the buildsystem parameters been adapted for maximum speed.
