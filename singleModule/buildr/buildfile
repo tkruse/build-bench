@@ -4,6 +4,7 @@
 # Version number for this release
 VERSION_NUMBER = "1.0.0-SNAPSHOT"
 # Group identifier for your projects
+PROJECT_NAME = 'example'
 GROUP = "example"
 COPYRIGHT = ""
 
@@ -11,11 +12,13 @@ COPYRIGHT = ""
 repositories.remote << "http://repo1.maven.org/maven2"
 
 desc "The Buildr project"
-define "buildr" do
+
+define "example" do
   project.version = VERSION_NUMBER
   project.group = GROUP
   manifest["Implementation-Vendor"] = COPYRIGHT
   compile.with
+  compile.using :source=>'1.7', :target=>'1.7', :debug=>false
   test.with 'junit:junit:jar:4.11'
-  package(:jar)
+  package(:jar, :id => PROJECT_NAME)
 end
