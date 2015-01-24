@@ -5,7 +5,7 @@ RESULTS_DIR=$(BUILD_DIR)/results
 
 # Folder with structures for running buildsystems
 BUILD_DEFINITIONS=singleModule
-# folder containing source resources ecept for buildfiles
+# folder containing source resources except for buildfiles
 SOURCES_DIR=$(BUILD_DEFINITIONS)/apacheCommons
 
 TEMPLATES_DIR=templates
@@ -21,13 +21,13 @@ clean:
 
 .PHONY: all
 all: \
+$(RESULTS_DIR)/ivy/output.txt \
 $(RESULTS_DIR)/gradle/output.txt \
-#$(RESULTS_DIR)/buck/output.txt \
-#$(RESULTS_DIR)/maven/output.txt \
-#$(RESULTS_DIR)/buildr/output.txt \
-# $(RESULTS_DIR)/sbt/output.txt \
-## don't know how to exclude *AbstractTest.java from leiningen junit test plugin
-# $(RESULTS_DIR)/leiningen/output.txt \
+$(RESULTS_DIR)/buck/output.txt \
+$(RESULTS_DIR)/maven/output.txt \
+$(RESULTS_DIR)/buildr/output.txt \
+#$(RESULTS_DIR)/sbt/output.txt \
+#$(RESULTS_DIR)/leiningen/output.txt \
 
 
 .PHONY: versions
@@ -38,6 +38,7 @@ versions:
 	sbt --version
 	buildr --version
 	buck --version
+	ant -version
 
 
 ## maven
@@ -123,7 +124,7 @@ $(BUILD_DIR)/buck/BUCK: $(BUILD_DIR)/src
 
 $(RESULTS_DIR)/ivy/output.txt: $(BUILD_DIR)/ivy/src $(BUILD_DIR)/ivy/build.xml
 	$(info ******* ant-ivy start)
-	cd $(BUILD_DIR)/ivy; time ant jar
+	cd $(BUILD_DIR)/ivy; time ant jar -q
 
 $(BUILD_DIR)/ivy/src: $(BUILD_DIR)/src
 	mkdir -p $(BUILD_DIR)/ivy
@@ -148,7 +149,7 @@ $(BUILD_DIR)/src:
 	$(info Generating $(FILE_NUM) java source files)
 	mkdir -p $(BUILD_DIR)/src/main/java/com
 	for number in `seq 0 $(FILE_NUM)` ; do \
-	  INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/simple//src/main --env --nobackup -p >> $(BUILD_DIR)/src/main/java/com/Simple$$number.java ; \
+	  INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/simple/src/main --env --nobackup -p >> $(BUILD_DIR)/src/main/java/com/Simple$$number.java ; \
 	done
 	$(info Generating $(FILE_NUM) java test source files)
 	mkdir -p $(BUILD_DIR)/src/test/java/com

@@ -37,9 +37,6 @@ under the License.
     <isset property="env.IVY_HOME" />
   </condition>
 
-
-
-
   <target name="init">
     <!-- Create the time stamp -->
     <tstamp/>
@@ -57,10 +54,8 @@ under the License.
            target="1.7"
            fork="yes"
            optimize="on"
-           deprecation="on"
-           includeantruntime="false"
-           verbose="yes"/>
-    <copy todir="${build.main}/classes"
+           includeantruntime="false"/>
+    <copy todir="${build.main}"
           failonerror="no">
       <fileset dir="${src.main.resources}"/>
     </copy>
@@ -76,9 +71,10 @@ under the License.
            includeantruntime="false">
       <classpath>
         <path refid="default.classpath" />
+        <pathelement location="${build.main}"/>
       </classpath>
     </javac>
-    <copy todir="${build.test}/classes"
+    <copy todir="${build.test}"
           failonerror="no">
       <fileset dir="${src.test.resources}"/>
     </copy>

@@ -1,13 +1,16 @@
+import os
+
 java_library(
   name = 'example',
-  srcs = glob(['src/main/java/**/*.java'])
+  srcs = glob(['src/main/java/**/*.java']),
+  resources_root = 'src/main/resources' if os.path.exists('src/main/resources') else None
 )
 
 java_library(
   name = 'test_utils',
   srcs = glob(['src/test/java/**/*.java'], excludes = ['src/test/java/**/*Test.java']),
   resources = glob(['src/test/resources/**/*']),
-  resources_root = 'src/test/resources',
+  resources_root = 'src/test/resources' if os.path.exists('src/test/resources') else None,
   deps = [':example', ':junit', ':hamcrest']
 )
 
@@ -15,7 +18,7 @@ java_library(
   name = 'abstract_tests',
   srcs = glob(['src/test/java/**/*Test.java']),
   resources = glob(['src/test/resources/**/*']),
-  resources_root = 'src/test/resources',
+  resources_root = 'src/test/resources' if os.path.exists('src/test/resources') else None,
   deps = [':example', ':test_utils', ':junit', ':hamcrest']
 )
 
@@ -23,7 +26,7 @@ java_test(
   name = 'tests',
   srcs = glob(['src/test/java/**/*Test.java'], excludes = ['src/test/java/**/*AbstractTest.java']),
   resources = glob(['src/test/resources/**/*']),
-  resources_root = 'src/test/resources',
+  resources_root = 'src/test/resources' if os.path.exists('src/test/resources') else None,
   deps = [':example', ':test_utils', ':abstract_tests', ':junit', ':hamcrest'],
   source_under_test = [':example']
 )
