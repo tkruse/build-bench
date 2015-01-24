@@ -50,11 +50,11 @@ maven: $(BUILD_DIR)/maven/src $(BUILD_DIR)/maven/pom.xml
 	cd $(BUILD_DIR)/maven; time mvn -q package -Dsurefire.printSummary=false
 
 $(BUILD_DIR)/maven/src: $(BUILD_DIR)/src
-	mkdir -p $(BUILD_DIR)/maven
-	cd $(BUILD_DIR)/maven; ln -s ../src
+	@mkdir -p $(BUILD_DIR)/maven
+	@cd $(BUILD_DIR)/maven; ln -s ../src
 
 $(BUILD_DIR)/maven/pom.xml: $(BUILD_DIR)/src
-	cp -r $(BUILD_DEFINITIONS)/maven $(BUILD_DIR)
+	@cp -r $(BUILD_DEFINITIONS)/maven $(BUILD_DIR)
 
 ## gradle
 
@@ -64,11 +64,11 @@ gradle: $(BUILD_DIR)/gradle/src $(BUILD_DIR)/gradle/build.gradle
 	cd $(BUILD_DIR)/gradle; time gradle -q test jar
 
 $(BUILD_DIR)/gradle/src: $(BUILD_DIR)/src
-	mkdir -p $(BUILD_DIR)/gradle
-	cd $(BUILD_DIR)/gradle; ln -s ../src
+	@mkdir -p $(BUILD_DIR)/gradle
+	@cd $(BUILD_DIR)/gradle; ln -s ../src
 
 $(BUILD_DIR)/gradle/build.gradle: $(BUILD_DIR)/src
-	cp -r $(BUILD_DEFINITIONS)/gradle $(BUILD_DIR)
+	@cp -r $(BUILD_DEFINITIONS)/gradle $(BUILD_DIR)
 
 ## sbt
 
@@ -78,11 +78,11 @@ sbt: $(BUILD_DIR)/sbt/src $(BUILD_DIR)/sbt/build.sbt
 	cd $(BUILD_DIR)/sbt; time sbt -java-home $(JAVA_HOME) -q test package
 
 $(BUILD_DIR)/sbt/src: $(BUILD_DIR)/src
-	mkdir -p $(BUILD_DIR)/sbt
-	cd $(BUILD_DIR)/sbt; ln -s ../src
+	@mkdir -p $(BUILD_DIR)/sbt
+	@cd $(BUILD_DIR)/sbt; ln -s ../src
 
 $(BUILD_DIR)/sbt/build.sbt: $(BUILD_DIR)/src
-	cp -r $(BUILD_DEFINITIONS)/sbt $(BUILD_DIR)
+	@cp -r $(BUILD_DEFINITIONS)/sbt $(BUILD_DIR)
 
 ## buildr
 
@@ -93,10 +93,10 @@ buildr: $(BUILD_DIR)/buildr/src $(BUILD_DIR)/buildr/buildfile
 
 $(BUILD_DIR)/buildr/src: $(BUILD_DIR)/src
 	mkdir -p $(BUILD_DIR)/buildr
-	cd $(BUILD_DIR)/buildr; ln -s ../src
+	@cd $(BUILD_DIR)/buildr; ln -s ../src
 
 $(BUILD_DIR)/buildr/buildfile: $(BUILD_DIR)/src
-	cp -r $(BUILD_DEFINITIONS)/buildr $(BUILD_DIR)
+	@cp -r $(BUILD_DEFINITIONS)/buildr $(BUILD_DIR)
 
 ## Leiningen
 
@@ -107,11 +107,11 @@ leiningen: $(BUILD_DIR)/leiningen/src $(BUILD_DIR)/leiningen/project.clj
 	cd $(BUILD_DIR)/leiningen; LEIN_SILENT=true time sh -c 'lein junit; lein jar'
 
 $(BUILD_DIR)/leiningen/src: $(BUILD_DIR)/src
-	mkdir -p $(BUILD_DIR)/leiningen
-	cd $(BUILD_DIR)/leiningen; ln -s ../src
+	@mkdir -p $(BUILD_DIR)/leiningen
+	@cd $(BUILD_DIR)/leiningen; ln -s ../src
 
 $(BUILD_DIR)/leiningen/project.clj: $(BUILD_DIR)/src
-	cp -r $(BUILD_DEFINITIONS)/leiningen $(BUILD_DIR)
+	@cp -r $(BUILD_DEFINITIONS)/leiningen $(BUILD_DIR)
 
 ## buck
 
@@ -121,11 +121,11 @@ buck: $(BUILD_DIR)/buck/src $(BUILD_DIR)/buck/BUCK
 	cd $(BUILD_DIR)/buck; time buck test
 
 $(BUILD_DIR)/buck/src: $(BUILD_DIR)/src
-	mkdir -p $(BUILD_DIR)/buck
-	cd $(BUILD_DIR)/buck; ln -s ../src
+	@mkdir -p $(BUILD_DIR)/buck
+	@cd $(BUILD_DIR)/buck; ln -s ../src
 
 $(BUILD_DIR)/buck/BUCK: $(BUILD_DIR)/src
-	cp -r $(BUILD_DEFINITIONS)/buck $(BUILD_DIR)
+	@cp -r $(BUILD_DEFINITIONS)/buck $(BUILD_DIR)
 
 ## ivy
 
@@ -135,11 +135,11 @@ ivy: $(BUILD_DIR)/ivy/src $(BUILD_DIR)/ivy/build.xml
 	cd $(BUILD_DIR)/ivy; time ant jar -q
 
 $(BUILD_DIR)/ivy/src: $(BUILD_DIR)/src
-	mkdir -p $(BUILD_DIR)/ivy
-	cd $(BUILD_DIR)/ivy; ln -s ../src
+	@mkdir -p $(BUILD_DIR)/ivy
+	@cd $(BUILD_DIR)/ivy; ln -s ../src
 
 $(BUILD_DIR)/ivy/build.xml: $(BUILD_DIR)/src
-	cp -r $(BUILD_DEFINITIONS)/ivy $(BUILD_DIR)
+	@cp -r $(BUILD_DEFINITIONS)/ivy $(BUILD_DIR)
 
 
 
@@ -149,20 +149,20 @@ $(BUILD_DIR)/ivy/build.xml: $(BUILD_DIR)/src
 
 
 $(BUILD_DIR)/src2:
-	mkdir $(BUILD_DIR)
+	@mkdir $(BUILD_DIR)
 # 	cd $(SOURCES_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-math.git
 # 	cd $(SOURCES_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-text.git
 # 	cd $(SOURCES_DIR); svn checkout https://svn.apache.org/repos/asf/commons/proper/net/trunk commons-net
-	cd $(BUILD_DIR); ln -s ../$(SOURCES_DIR)/src
+	@cd $(BUILD_DIR); ln -s ../$(SOURCES_DIR)/src
 
 $(BUILD_DIR)/src:
 	$(info Generating $(FILE_NUM) java source files)
-	mkdir -p $(BUILD_DIR)/src/main/java/com
-	for number in `seq 0 $(FILE_NUM)` ; do \
+	@mkdir -p $(BUILD_DIR)/src/main/java/com
+	@for number in `seq 0 $(FILE_NUM)` ; do \
 	  INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/simple/src/main --env --nobackup -p >> $(BUILD_DIR)/src/main/java/com/Simple$$number.java ; \
 	done
 	$(info Generating $(FILE_NUM) java test source files)
-	mkdir -p $(BUILD_DIR)/src/test/java/com
-	for number in `seq 0 $(FILE_NUM)` ; do \
+	@mkdir -p $(BUILD_DIR)/src/test/java/com
+	@for number in `seq 0 $(FILE_NUM)` ; do \
 	  INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/simple/src/test --env --nobackup -p >> $(BUILD_DIR)/src/test/java/com/Simple"$$number"Test.java ; \
 	done
