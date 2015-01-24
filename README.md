@@ -113,11 +113,52 @@ cd build/buildr; time buildr -q package
 cd build/gradle; time gradle -q jar
 285.26user 3.62system 4:22.05elapsed 110%CPU (0avgtext+0avgdata 5394032maxresident)k
 1584inputs+71752outputs (0major+845596minor)pagefaults 0swaps
+******* leiningen start
+cd build/leiningen; LEIN_SILENT=true time sh -c 'lein junit; lein jar'
+356.54user 21.34system 8:15.80elapsed 76%CPU (0avgtext+0avgdata 4501808maxresident)k
+1920inputs+161168outputs (0major+7177918minor)pagefaults 0swaps
 ******* ant-ivy start
 cd build/ivy; time ant jar -q
-463.78user 21.06system 8:59.52elapsed 89%CPU (0avgtext+0avgdata 4843280maxresident)k
-1672inputs+194360outputs (0major+7661187minor)pagefaults 0swaps
+375.23user 19.38system 7:42.30elapsed 85%CPU (0avgtext+0avgdata 4842528maxresident)k
+912inputs+170776outputs (0major+7396810minor)pagefaults 0swaps
+******* sbt start
+cd build/sbt; time sbt -java-home /usr/lib/jvm/java-7-oracle/ -q test package
+479.33user 2.59system 2:31.61elapsed 317%CPU (0avgtext+0avgdata 4418608maxresident)k
+2240inputs+46224outputs (0major+605318minor)pagefaults 0swaps
+
+# second build
+
+******* buildr start
+cd build/buildr; time buildr -q package
+1.18user 0.07system 0:01.26elapsed 99%CPU (0avgtext+0avgdata 146064maxresident)k
+0inputs+0outputs (0major+12438minor)pagefaults 0swaps
+******* buck start
+cd build/buck; time buck test
+5.31user 0.27system 0:03.26elapsed 171%CPU (0avgtext+0avgdata 448192maxresident)k
+160inputs+288outputs (0major+65587minor)pagefaults 0swaps
+******* gradle start
+cd build/gradle; time gradle -q test jar
+6.19user 0.27system 0:04.36elapsed 148%CPU (0avgtext+0avgdata 1080240maxresident)k
+0inputs+480outputs (0major+79520minor)pagefaults 0swaps
+******* maven start
+cd build/maven; time mvn -q package -Dsurefire.printSummary=false
+170.42user 2.41system 2:00.56elapsed 143%CPU (0avgtext+0avgdata 5469680maxresident)k
+8inputs+31032outputs (0major+676916minor)pagefaults 0swaps
+******* leiningen start
+cd build/leiningen; LEIN_SILENT=true time sh -c 'lein junit; lein jar'
+325.42user 21.27system 8:05.05elapsed 71%CPU (0avgtext+0avgdata 4382144maxresident)k
+624inputs+106976outputs (0major+6905466minor)pagefaults 0swaps
+******* ant-ivy start
+cd build/ivy; time ant jar -q
+347.52user 19.39system 7:32.92elapsed 81%CPU (0avgtext+0avgdata 4840432maxresident)k
+0inputs+131544outputs (0major+7203491minor)pagefaults 0swaps
+******* sbt start
+cd build/sbt; time sbt -java-home /usr/lib/jvm/java-7-oracle/ -q test package
+405.46user 2.26system 2:12.73elapsed 307%CPU (0avgtext+0avgdata 4074880maxresident)k
+488inputs+1120outputs (0major+350640minor)pagefaults 0swaps
+
 ```
+The times vary easily by 10%. Obviously, buildr, buck and gradle use cached results.
 
 # Comments
 
@@ -132,7 +173,7 @@ Cheetah was not a perfect choice for templating of files, as it makes it hard to
 
 Running junit 4.11 tests with scala was a pain, because getting junit 4.x to work was not trivial, required 3rd party testing libs in specific versions.
 
-Getting buck to do anything at all was a real pain, ```quickstart``` did not start quickly. There were many details to consider that are settled by convention inother build tools. Most failures had no helpful error messages. Making buck run existing tests was painful because buck will try to run any class it finds as a testcase, and fail if it is not (TestUtils, abstract test classes), and does not provide any help in filtering what shall be considered a TestCase. The official documentation is okay though, but in comparison the other systems were more self-explaining. What is missing from the documentation is an exaplanation of how to create a nice library jar, the focus seems to be on creating Android APK files. Getting buck to download files from Maven Central or so is possible, but not stratightforward. The best approach seems to add "bucklets" from a different git repository and use a specialized rule.
+Getting buck to do anything at all was a real pain, ```quickstart``` did not start quickly. There were many details to consider that are settled by convention inother build tools. Most failures had no helpful error messages. Making buck run existing tests was painful because buck will try to run any class it finds as a testcase, and fail if it is not (TestUtils, abstract test classes), and does not provide any help in filtering what shall be considered a TestCase. The official documentation is okay though, but in comparison the other systems were more self-explaining. What is missing from the documentation is an exaplanation of how to create a nice library jar, the focus seems to be on creating Android APK files. Getting buck to download files from Maven Central or so is possible, but not stratightforward. The best approach seems to add "bucklets" from a different git repository and use a specialized rule. It was difficult to adapt buck project files to the traditional folder structure that Maven suggests. This makes it unnecessarily hard to migrate projects from other buildsystems, and it can be expected that projects built with buck will run into problems that have long been solved in the larger community.
 
 
 ant was also difficult to debug (in particular what was missing for junit4).
@@ -143,4 +184,4 @@ buildr (and scala I think) used the current CLASSPATH when running tests (instea
 
 java.lang.InstantiationException during tests is usually a sign that a TestRunner is trying to run a non-Testcase class (like abstract or util classes).
 
-sbt did not terminate when running certain apache commons-math tests.
+sbt occasionally failed apache commons-math tests, but not consistently so.
