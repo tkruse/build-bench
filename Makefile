@@ -21,13 +21,14 @@ clean:
 
 .PHONY: all
 all: \
-$(RESULTS_DIR)/ivy/output.txt \
-$(RESULTS_DIR)/gradle/output.txt \
-$(RESULTS_DIR)/buck/output.txt \
-$(RESULTS_DIR)/maven/output.txt \
-$(RESULTS_DIR)/buildr/output.txt \
-#$(RESULTS_DIR)/sbt/output.txt \
-#$(RESULTS_DIR)/leiningen/output.txt \
+leiningen \
+ivy \
+gradle \
+buck \
+maven \
+buildr \
+sbt \
+
 
 
 .PHONY: versions
@@ -43,7 +44,8 @@ versions:
 
 ## maven
 
-$(RESULTS_DIR)/maven/output.txt: $(BUILD_DIR)/maven/src $(BUILD_DIR)/maven/pom.xml
+.PHONY: maven
+maven: $(BUILD_DIR)/maven/src $(BUILD_DIR)/maven/pom.xml
 	$(info ******* maven start)
 	cd $(BUILD_DIR)/maven; time mvn -q package -Dsurefire.printSummary=false
 
@@ -56,7 +58,8 @@ $(BUILD_DIR)/maven/pom.xml: $(BUILD_DIR)/src
 
 ## gradle
 
-$(RESULTS_DIR)/gradle/output.txt: $(BUILD_DIR)/gradle/src $(BUILD_DIR)/gradle/build.gradle
+.PHONY: gradle
+gradle: $(BUILD_DIR)/gradle/src $(BUILD_DIR)/gradle/build.gradle
 	$(info ******* gradle start)
 	cd $(BUILD_DIR)/gradle; time gradle -q test jar
 
@@ -69,7 +72,8 @@ $(BUILD_DIR)/gradle/build.gradle: $(BUILD_DIR)/src
 
 ## sbt
 
-$(RESULTS_DIR)/sbt/output.txt: $(BUILD_DIR)/sbt/src $(BUILD_DIR)/sbt/build.sbt
+.PHONY: sbt
+sbt: $(BUILD_DIR)/sbt/src $(BUILD_DIR)/sbt/build.sbt
 	$(info ******* sbt start)
 	cd $(BUILD_DIR)/sbt; time sbt -java-home $(JAVA_HOME) -q test package
 
@@ -82,7 +86,8 @@ $(BUILD_DIR)/sbt/build.sbt: $(BUILD_DIR)/src
 
 ## buildr
 
-$(RESULTS_DIR)/buildr/output.txt: $(BUILD_DIR)/buildr/src $(BUILD_DIR)/buildr/buildfile
+.PHONY: buildr
+buildr: $(BUILD_DIR)/buildr/src $(BUILD_DIR)/buildr/buildfile
 	$(info ******* buildr start)
 	cd $(BUILD_DIR)/buildr; time buildr -q package
 
@@ -95,10 +100,11 @@ $(BUILD_DIR)/buildr/buildfile: $(BUILD_DIR)/src
 
 ## Leiningen
 
-$(RESULTS_DIR)/leiningen/output.txt: $(BUILD_DIR)/leiningen/src $(BUILD_DIR)/leiningen/project.clj
+.PHONY: leiningen
+leiningen: $(BUILD_DIR)/leiningen/src $(BUILD_DIR)/leiningen/project.clj
 	$(info ******* leiningen start)
 # need hack to run both tests and jar? Using plugin to run junit tests
-	cd $(BUILD_DIR)/leiningen; time sh -c 'lein junit; lein jar'
+	cd $(BUILD_DIR)/leiningen; LEIN_SILENT=true time sh -c 'lein junit; lein jar'
 
 $(BUILD_DIR)/leiningen/src: $(BUILD_DIR)/src
 	mkdir -p $(BUILD_DIR)/leiningen
@@ -109,7 +115,8 @@ $(BUILD_DIR)/leiningen/project.clj: $(BUILD_DIR)/src
 
 ## buck
 
-$(RESULTS_DIR)/buck/output.txt: $(BUILD_DIR)/buck/src $(BUILD_DIR)/buck/BUCK
+.PHONY: buck
+buck: $(BUILD_DIR)/buck/src $(BUILD_DIR)/buck/BUCK
 	$(info ******* buck start)
 	cd $(BUILD_DIR)/buck; time buck test
 
@@ -122,7 +129,8 @@ $(BUILD_DIR)/buck/BUCK: $(BUILD_DIR)/src
 
 ## ivy
 
-$(RESULTS_DIR)/ivy/output.txt: $(BUILD_DIR)/ivy/src $(BUILD_DIR)/ivy/build.xml
+.PHONY: ivy
+ivy: $(BUILD_DIR)/ivy/src $(BUILD_DIR)/ivy/build.xml
 	$(info ******* ant-ivy start)
 	cd $(BUILD_DIR)/ivy; time ant jar -q
 
@@ -132,6 +140,8 @@ $(BUILD_DIR)/ivy/src: $(BUILD_DIR)/src
 
 $(BUILD_DIR)/ivy/build.xml: $(BUILD_DIR)/src
 	cp -r $(BUILD_DEFINITIONS)/ivy $(BUILD_DIR)
+
+
 
 #
 # Different sources to be used for benchmark
