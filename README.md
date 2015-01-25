@@ -1,20 +1,37 @@
 # build-bench
 
-Benchmarks for different buildsystems for Java. This can also be used as a kind or Rosetta stone for buildsystem setups.
+Benchmark setup for Java buildsystems.
 
-Manual installation of different buildsystems is required.
-Still looking at how to best create a nice summary of versions used and results.
+While Maven and Gradle are used by most Java projects in the wild, there are many alternatives to choose from. Comparing those is difficult. This project is a setup to run a buildprocess for java projects using multiple buildsystems.
+It can serve to benchmark buildsystems, or just to compare features.
 
-Do not interpret the test results unless you understand well how they were produced.
-Several ystems (at least buck and gradle) have the possibility of starting a daemon process to reduce startup times.
+The project works mostly well using Apache commons-math as sample source.
 
-I make no claim (yet) that if in any test one system ends before another, that system is generally faster than the other.
+Manual installation of the different buildsystems is required.
+
+The project is driven using GNU make. The ```Makefile``` creates a ```build``` folder,
+containing a ```src``` folder, which is expected to contain sources in the canonical layout (```src/main/java``` etc.)
+Then it creates project setups for each buildsystem inside
+```build/<buildsystemname>``` with a softlink to ```src```.
+Then it invokes the build command to compile, unit-test and jar the sources.
+
+## Running
+
+```
+# to run all buildsystems
+$ make clean-builds all --silent
+
+# to run for just one buildsystem, e.g. maven:
+$ make clean-builds maven
+```
+
+In case you want to run with other projects, modify the ```Makefile``` as required.
 
 # Prerequisites
 
-* bash
-* make
-* cheetah
+* bash     (the standard Ubuntu shell)
+* GNU make    (should be present on any *nix)
+* cheetah    (if using templated sources, install via pip or apt-get)
 
 # Buildsystems
 
@@ -42,37 +59,29 @@ Leiningen has an installer for Windows and Linux: http://leiningen.org/
 
 ## Sbt
 
-sbt is package for Ubuntu.
-Else Ssee http://www.scala-sbt.org/download.html
+sbt is packaged for Ubuntu.
+
+Else see http://www.scala-sbt.org/download.html
 
 ## buildr
+
+See http://buildr.apache.org/
 
 ```gem install --user-install buildr``` for buildr installs buildr into the local .gem folder.
 
 ## buck
+
+See facebook.github.io/buck/
 
 Two repositories exist, seem to stay in sync:
 
 * https://github.com/facebook/buck
 * https://gerrit.googlesource.com/buck (Beware! 'master' branch was very outdated for me and broken, use branch 'github-master')
 
-git clone, run ant, that yi            elds a working binray that can be put onto PATH (softlinking failed for me).
+git clone, run ant. That yields a working binary that can be put onto PATH (softlinking failed for me).
 
 
-## Running
 
-```
-$ make clean all --silent
-```
-
-In case you want to run with other projects, modify the ```Makefile``` as required.
-
-## Features
-
-The makefile creates a ```build``` folder, with a ```src``` folder, which is expected to contain sources in the canonical layout (```src/main/java``` etc.)
-Then it creates project setups for each buildsystem inside
-```build/<buildsystemname>``` with a softlink to ```src```.
-Then it invokes the build command to compile, unit-test and jar the sources.
 
 # Samples
 
@@ -87,13 +96,12 @@ The builds should work for any source tree that follows these conventions (Canon
 * Single module projects (as opposed to multi-project builds)
 * No other dependencies than standard Java and JUnit4
 
-These constraints can be eliminated by more coding.
 
 ## Output
 
 Sample output (manually cleaned up) for a clean build of apache commons.math (compile + test):
 ```
-$ make clean all --silent
+$ make clean-builds all --silent
 java version "1.7.0_67"
 Apache Maven 3.0.5 (r01de14724cdef164cd33c7c8c2fe155faf9602da; 2013-02-19 14:51:28+0100)
 Gradle 2.2.1
@@ -134,6 +142,7 @@ cd build/sbt; time sbt -java-home /usr/lib/jvm/java-7-oracle/ -q test package
 
 # second build
 
+$ make all --silent
 ******* buildr start
 cd build/buildr; time buildr -q package
 1.18user 0.07system 0:01.26elapsed 99%CPU (0avgtext+0avgdata 146064maxresident)k
@@ -164,33 +173,74 @@ cd build/sbt; time sbt -java-home /usr/lib/jvm/java-7-oracle/ -q test package
 488inputs+1120outputs (0major+350640minor)pagefaults 0swaps
 
 ```
-The times vary easily by 10%. Obviously, buildr, buck and gradle use cached results.
 
-# Comments
+# Observations / FAQ
 
-Note that I am not sure whether the sample code is useful for a benchmark,
-nor have the buildsystem parameters been adapted for maximum speed.
+DISCLAIMER: I am mostly a Maven / Gradle user, so having had least problems with those can also be due to my experiencewith those.
 
-Contributions welcome.
+## Sbt
 
-## Observations
-
-Cheetah was not a perfect choice for templating of files, as it makes it hard to control generated filenames.
-
-Running junit 4.11 tests with scala was a pain, because getting junit 4.x to work was not trivial, required 3rd party testing libs in specific versions.
-
-Getting buck to do anything at all was a real pain, ```quickstart``` did not start quickly. There were many details to consider that are settled by convention inother build tools. Most failures had no helpful error messages. Making buck run existing tests was painful because buck will try to run any class it finds as a testcase, and fail if it is not (TestUtils, abstract test classes), and does not provide any help in filtering what shall be considered a TestCase. The official documentation is okay though, but in comparison the other systems were more self-explaining. What is missing from the documentation is an exaplanation of how to create a nice library jar, the focus seems to be on creating Android APK files. Getting buck to download files from Maven Central or so is possible, but not stratightforward. The best approach seems to add "bucklets" from a different git repository and use a specialized rule. It was difficult to adapt buck project files to the traditional folder structure that Maven suggests. This makes it unnecessarily hard to migrate projects from other buildsystems, and it can be expected that projects built with buck will run into problems that have long been solved in the larger community.
-
-
-ant was also difficult to debug (in particular what was missing for junit4).
-
-Leiningen does not have convenient options to run junit tests, in particular filtering out abstract classes by name was difficult. Also excluding the test files from a jar seemed not trivially possible.
-
-buildr (and scala I think) used the current CLASSPATH when running tests (instead of an isolated classpath). That caused surprising test failures, until I took care to have a clean system CLASSPATH.
-
-java.lang.InstantiationException during tests is usually a sign that a TestRunner is trying to run a non-Testcase class (like abstract or util classes).
+Running junit 4.11 tests with sbt was a pain, because getting junit 4.x to work was not trivial, required 3rd party testing libs in specific versions.
 
 sbt occasionally failed apache commons-math tests, but not consistently so.
 
+## buck
+
+Getting buck to do anything at all was a real pain, ```quickstart``` did not start quickly. There were many details to consider that are settled by convention inother build tools. Most failures had no helpful error messages. Making buck run existing tests was painful because buck will try to run any class it finds as a testcase, and fail if it is not (TestUtils, abstract test classes), and does not provide any help in filtering what shall be considered a TestCase. The official documentation is okay though, but in comparison the other systems were more self-explaining. What is missing from the documentation is an exaplanation of how to create a nice library jar, the focus seems to be on creating Android APK files. Getting buck to download files from Maven Central or so is possible, but not stratightforward. The best approach seems to add "bucklets" from a different git repository and use a specialized rule. It was difficult to adapt buck project files to the traditional folder structure that Maven suggests. This makes it unnecessarily hard to migrate projects from other buildsystems, and it can be expected that projects built with buck will run into problems that have long been solved in the larger community.
+
+## ant
+
+ant was also difficult to debug (in particular what was missing for junit4).
+
+## leiningen
+
+Leiningen does not have convenient options to run junit tests, in particular filtering out abstract classes by name was difficult. Had to use 3rd party plugin. Also excluding the test files from a jar seemed not trivially possible.
+
+## buildr
+
+buildr (and sbt I think) used the current CLASSPATH when running tests (instead of an isolated classpath). That caused surprising test failures, until I took care to have a clean system CLASSPATH.
+
+## So which buildsystem is best?
+
+It depends on what you need.
+
+To choose, consider the following:
+
+- Learning curve
+- Maturity
+- Performance
+- Documentation
+- Community size
+- IDE support
+- Plugin archives, integration with static code analysis, metrics, reports, etc.
+
+
+
+## I get InstantiationExceptions with some buildsystem, what is going on?
+
+java.lang.InstantiationException during tests is usually a sign that a TestRunner is trying to run a non-Testcase class (like abstract or util classes). Not all Buildsystems can cope well with that by default.
+
+## cheetah
+
+Originally I wanted to generate Java sources for a benchmark. But generating interesting sources quickly became tedious, so I switched to using commons-math instead. However, I still use my simple classes to debug builds.
+Cheetah was not a perfect choice for templating of files, as it makes it hard to control generated filenames.
+
+## Why GNU make?
+
 I chose GNU make for this project because it is omnipresent in linux and very close to shell scripting.
 I chose to test against commons-math because it is reasonably large, well tested, and has no dependencies outside the JDK. Other libraries working okay are commons-text, commons-io, commons-imaging, guava. But those are too small to matter, or cause several problems with tests failing for stupid reasons.
+
+## Contributions
+
+I welcome anyone who wants to add something.
+
+In particular:
+
+- Simple tweaks for individual buildsystems (they should remain realistic)
+- downloading of dependencies to location cached between builds (ant, buck)
+- templated configuration of builds (java version, dependencies)
+- Parsing the output of time and generating pretty reports / graphs
+- sbt using junit 4.12
+- other interesting buildsystems
+- multi-module project setups
+- interesting scalable generated sources
