@@ -70,6 +70,7 @@
         <version>2.5</version>
         <configuration>
           <excludes>
+            <!-- By default, maven exclude both Test*.java and *Test.java names-->
             <exclude>**/Test*.java</exclude>
           </excludes>
           <skipSurefireReport>false</skipSurefireReport>

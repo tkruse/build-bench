@@ -159,11 +159,15 @@ $(BUILD_DIR)/src: $(DOWNLOAD_SOURCES_DIR)/commons-math/src
 $(DOWNLOAD_SOURCES_DIR)/commons-math/src:
 	@mkdir -p $(DOWNLOAD_SOURCES_DIR)
 	cd $(DOWNLOAD_SOURCES_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-math.git
-# Sadly one commons-math test fails in buck because java.io.File cannot handle uris inside jars.
+# Sadly this test fails with buck because java.io.File cannot handle uris inside jars.
 	rm $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/random/EmpiricalDistributionTest.java
-
-
-
+# Some actual Tests sadly do not end with Test.java, so for fairness sake they cannot be used
+	rm $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/fitting/leastsquares/EvaluationTestValidation.java
+	rm $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/genetics/GeneticAlgorithmTestBinary.java
+	rm $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/genetics/GeneticAlgorithmTestPermutations.java
+	rm $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/optim/nonlinear/vector/jacobian/AbstractLeastSquaresOptimizerTestValidation.java
+	rm $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/optimization/general/AbstractLeastSquaresOptimizerTestValidation.java
+	rm $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/util/FastMathTestPerformance.java
 
 $(BUILD_DIR)/src3:
 	@mkdir -p $(BUILD_DIR)

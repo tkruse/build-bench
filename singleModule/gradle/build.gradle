@@ -11,6 +11,11 @@ repositories {
   mavenCentral()
 }
 
+test {
+     // This restriction is unnecessary in general, required just for the benchmark so that gradle
+     // is not punished for running more tests excluded in other buildsystems
+     include('**/**/*Test.class')
+}
 
 dependencies {
   compile 'junit:junit:4.11'

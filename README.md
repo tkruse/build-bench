@@ -21,8 +21,8 @@ Then it invokes the build command to compile, unit-test and jar the sources.
 # to run all buildsystems
 $ make clean-builds all --silent
 
-# to run for just one buildsystem, e.g. maven:
-$ make clean-builds maven
+# to run for just selected buildsystems, e.g. maven vs. gradle:
+$ make clean-builds maven gradle
 ```
 
 In case you want to run with other projects, modify the ```Makefile``` as required.
@@ -99,7 +99,9 @@ The builds should work for any source tree that follows these conventions:
 
 ## Output
 
-Sample output (manually cleaned up) for a clean build of apache commons.math (compile + test):
+Sample output (manually cleaned up) for a clean build of apache commons.math (compile + test).
+Most of the time spend is on actually running tests.
+
 ```
 $ make clean-builds all --silent
 java version "1.7.0_67"
@@ -111,22 +113,22 @@ buck version 5a6d5d00d7f3be1329bf501c710ffa409ecea3d8 (Jan 2015)
 Leiningen 2.5.1 on Java 1.7.0_76 Java HotSpot(TM) 64-Bit Server VM
 Apache Ant(TM) version 1.8.2 compiled on December 3 2011
 
+******* buildr start
+cd build/buildr; time buildr -q package
+170.12user 2.45system 2:03.98elapsed 139%CPU (0avgtext+0avgdata 5481728maxresident)k
+6664inputs+97928outputs (4major+675380minor)pagefaults 0swaps
 ******* maven start
 cd build/maven; time mvn -q package -Dsurefire.printSummary=false
 173.33user 2.36system 2:01.85elapsed 144%CPU (0avgtext+0avgdata 4760688maxresident)k
 3552inputs+51848outputs (10major+648628minor)pagefaults 0swaps
-******* buck start
-cd build/buck; time buck test
-197.42user 2.67system 2:25.22elapsed 137%CPU (0avgtext+0avgdata 5406912maxresident)k
-49712inputs+82240outputs (86major+930522minor)pagefaults 0swaps
-******* buildr start
-cd build/buildr; time buildr -q package
-261.03user 3.24system 4:04.94elapsed 107%CPU (0avgtext+0avgdata 5538144maxresident)k
-15144inputs+122240outputs (22major+751402minor)pagefaults 0swaps
 ******* gradle start
 cd build/gradle; time gradle -q jar
-285.26user 3.62system 4:22.05elapsed 110%CPU (0avgtext+0avgdata 5394032maxresident)k
-1584inputs+71752outputs (0major+845596minor)pagefaults 0swaps
+179.23user 2.93system 2:08.50elapsed 141%CPU (0avgtext+0avgdata 5312608maxresident)k
+1448inputs+54032outputs (0major+702907minor)pagefaults 0swaps
+******* buck start
+cd build/buck; time buck test
+186.03user 2.68system 2:08.45elapsed 146%CPU (0avgtext+0avgdata 5278768maxresident)k
+17032inputs+65088outputs (0major+741863minor)pagefaults 0swaps
 ******* leiningen start
 cd build/leiningen; LEIN_SILENT=true time sh -c 'lein junit; lein jar'
 356.54user 21.34system 8:15.80elapsed 76%CPU (0avgtext+0avgdata 4501808maxresident)k
@@ -137,8 +139,8 @@ cd build/ivy; time ant jar -q
 912inputs+170776outputs (0major+7396810minor)pagefaults 0swaps
 ******* sbt start
 cd build/sbt; time sbt -java-home /usr/lib/jvm/java-7-oracle/ -q test package
-479.33user 2.59system 2:31.61elapsed 317%CPU (0avgtext+0avgdata 4418608maxresident)k
-2240inputs+46224outputs (0major+605318minor)pagefaults 0swaps
+337.19user 2.20system 1:05.40elapsed 518%CPU (0avgtext+0avgdata 5660288maxresident)k
+52936inputs+45416outputs (38major+671075minor)pagefaults 0swaps
 
 # second build
 
@@ -169,14 +171,50 @@ cd build/ivy; time ant jar -q
 0inputs+131544outputs (0major+7203491minor)pagefaults 0swaps
 ******* sbt start
 cd build/sbt; time sbt -java-home /usr/lib/jvm/java-7-oracle/ -q test package
-405.46user 2.26system 2:12.73elapsed 307%CPU (0avgtext+0avgdata 4074880maxresident)k
-488inputs+1120outputs (0major+350640minor)pagefaults 0swaps
+337.19user 2.20system 1:05.40elapsed 518%CPU (0avgtext+0avgdata 5660288maxresident)k
+52936inputs+45416outputs (38major+671075minor)pagefaults 0swaps
 
 ```
 
 # Observations / FAQ
 
 DISCLAIMER: I am mostly a Maven / Gradle user, so having had least problems with those can also be due to my experiencewith those.
+
+## What influences performance?
+
+### JVM startup, for tools written in JVM languages. This adds something like 3 seconds to the whole process on my machine. Several tools offer daemons to reduce this offset.
+
+### Caching results
+
+Instead of running a task again, the results from last time may be reused if the inputs have not changed.
+The result of a build is produced by the following inputs:
+- Build system hardware / operating system
+- custom buildscripts
+- buildtool (versions and plugins)
+- environment during startup
+- input files (sources)
+
+Determining whether file contents have changed is more or less trivial. But is is tricky to determine that
+
+- a source file has been deleted/moved, so it's class file must also be deleted
+- some buildtool plugin version or environment variable has changed that influences the generation of some file
+- an input file used by a testcase has changed, so the test must be run again
+
+For that reason often it is wise to not rely on cached results, so the benefts of caching are dubious, unless you know what you're doing very well.
+
+### buildfile parsing / evaluation
+
+This is not very complex for the cases included so far.
+
+### parallel execution, usage of multiple CPUs
+
+This was not used so far. The expectable benefits depend on the available number of CPUs of course, and how much tasks can be run in parallel at all.
+
+## Gradle
+
+Gradle was most convenient at testing with junit, it detected itself what was a testcase and what not without relying on the name. The other buildsystems either relied on names (causing both false positives and false negatives), or simply failed with InstantiationException.
+
+To produce fair benchmark results, some test classes had to be removed because they would have punished Gradle for being smarter than the rest, running more tests.
 
 ## Sbt
 
@@ -199,6 +237,14 @@ Leiningen does not have convenient options to run junit tests, in particular fil
 ## buildr
 
 buildr (and sbt I think) used the current CLASSPATH when running tests (instead of an isolated classpath). That caused surprising test failures, until I took care to have a clean system CLASSPATH.
+
+## Why are ant/sbt/leiningen so slow for clean testing of commons-math?
+
+I do not know for sure. There must be some overhead not present in the other systems, maybe a new JVM process is started for each test.
+
+Note that for sbt and leiningen, extra plugins were required to run JUnit tests written in Java. These buildsystems would specialize on tests written in Scala/Clojure, and the results here do not tell whether tests written in Scala or Clojure would have similar overheads.
+
+For ant, I cross-checked against running the original common-math tests using the original ant build.xml file. The results were similar.
 
 ## So which buildsystem is best?
 
@@ -228,7 +274,20 @@ Cheetah was not a perfect choice for templating of files, as it makes it hard to
 ## Why GNU make?
 
 I chose GNU make for this project because it is omnipresent in linux and very close to shell scripting.
-I chose to test against commons-math because it is reasonably large, well tested, and has no dependencies outside the JDK. Other libraries working okay are commons-text, commons-io, commons-imaging, guava. But those are too small to matter, or cause several problems with tests failing for stupid reasons.
+
+## Why commons-math?
+
+I chose to test against commons-math because it is reasonably large, well tested, and has no dependencies outside the JDK. Other libraries working okay are commons-text, commons-io, commons-imaging, guava.
+
+The main problems I had with commons-math was that the naming for the Testcases is not consistent. the commons-math ant file lists those rules:
+```
+<include name="**/*Test.java"/> 
+<include name="**/*TestBinary.java"/> 
+<include name="**/*TestPermutations.java"/> 
+<exclude name="**/*AbstractTest.java"/>
+```
+And even those do not cover all Testcases defined in the codebase.
+
 
 ## Contributions
 
@@ -246,3 +305,4 @@ In particular:
 - multi-module project setups
 - interesting scalable generated sources
 - Integrate other languages (groovy, scala, clojure) were possible
+- optionally run tests/tasks in parallel using n CPUs
