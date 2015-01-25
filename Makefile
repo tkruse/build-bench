@@ -6,7 +6,7 @@ RESULTS_DIR=$(BUILD_DIR)/results
 # Folder with structures for running buildsystems
 BUILD_DEFINITIONS=singleModule
 # folder containing source resources except for buildfiles
-DOWNLOAD_SOURCES_DIR=$(BUILD_DIR)/downloads
+DOWNLOAD_SOURCES_DIR=buildsrc
 
 TEMPLATES_DIR=templates
 FILE_NUM=5
@@ -15,10 +15,15 @@ JAVA_HOME=/usr/lib/jvm/java-7-oracle/
 .PHONY: default
 default: all
 
-.PHONY: clean
-clean:
+.PHONY: clean-all
+clean-all:
+	rm -rf build buildsrc
+
+.PHONY: clean-builds
+clean-builds:
 	rm -rf build
 
+# Delete buildsystems from list you do not wish to test
 .PHONY: all
 all: \
 gradle \
