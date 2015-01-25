@@ -182,7 +182,7 @@ DISCLAIMER: I am mostly a Maven / Gradle user, so having had least problems with
 
 ## What influences performance?
 
-### JVM startup, for tools written in JVM languages. This adds something like 3 seconds to the whole process on my machine. Several tools offer daemons to reduce this offset.
+JVM startup, for tools written in JVM languages. This adds something like 3 seconds to the whole process on my machine. Several tools offer daemons to reduce this offset.
 
 ### Caching results
 
