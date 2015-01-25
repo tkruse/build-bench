@@ -241,7 +241,6 @@ In particular:
 - templated configuration of builds (java version, dependencies)
 - Parsing the output of time and generating pretty reports / graphs
 - sbt using junit 4.12
-- other interesting buildsystems (Gant, GMaven, Graven, Rake, Raven, Scons, Make...)
 - Integrate other tools (checkstyle, Findbugs, PMD)
 - Integrate other test frameworks (Testng, spock)
 - multi-module project setups
