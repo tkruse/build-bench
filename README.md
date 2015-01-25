@@ -85,11 +85,11 @@ git clone, run ant. That yields a working binary that can be put onto PATH (soft
 
 # Samples
 
-The builds should work for any source tree that follows these conventions (Canonical Maven/Gradle/sbt/clojure):
+The builds should work for any source tree that follows these conventions:
 * Java 7 compliant code
 * Java sources in src/main/java
 * Test sources in src/test/java
-* Other resources in src/test/resources
+* Other test resources in src/test/resources
 * Tests written in JUnit4.11 compatible fashion, not requiring 4.12 (sbt issues)
 * Test classes named *Test.java
 * Abstract Test parent classes named *AbstractTest.java (to be excluded, some buildsystems fail else)
@@ -103,7 +103,7 @@ Sample output (manually cleaned up) for a clean build of apache commons.math (co
 ```
 $ make clean-builds all --silent
 java version "1.7.0_67"
-Apache Maven 3.0.5 (r01de14724cdef164cd33c7c8c2fe155faf9602da; 2013-02-19 14:51:28+0100)
+Apache Maven 3.2.5 (NON-CANONICAL_2015-01-25T12:08:31_kruset; 2015-01-25T12:08:31+01:00)
 Gradle 2.2.1
 sbt launcher version 0.12.4
 Buildr 1.4.21
@@ -113,8 +113,8 @@ Apache Ant(TM) version 1.8.2 compiled on December 3 2011
 
 ******* maven start
 cd build/maven; time mvn -q package -Dsurefire.printSummary=false
-189.12user 2.72system 2:44.49elapsed 116%CPU (0avgtext+0avgdata 5406704maxresident)k
-29504inputs+65144outputs (17major+708316minor)pagefaults 0swaps
+173.33user 2.36system 2:01.85elapsed 144%CPU (0avgtext+0avgdata 4760688maxresident)k
+3552inputs+51848outputs (10major+648628minor)pagefaults 0swaps
 ******* buck start
 cd build/buck; time buck test
 197.42user 2.67system 2:25.22elapsed 137%CPU (0avgtext+0avgdata 5406912maxresident)k
@@ -157,8 +157,8 @@ cd build/gradle; time gradle -q test jar
 0inputs+480outputs (0major+79520minor)pagefaults 0swaps
 ******* maven start
 cd build/maven; time mvn -q package -Dsurefire.printSummary=false
-170.42user 2.41system 2:00.56elapsed 143%CPU (0avgtext+0avgdata 5469680maxresident)k
-8inputs+31032outputs (0major+676916minor)pagefaults 0swaps
+169.15user 1.98system 2:00.18elapsed 142%CPU (0avgtext+0avgdata 5212272maxresident)k
+0inputs+30952outputs (0major+652705minor)pagefaults 0swaps
 ******* leiningen start
 cd build/leiningen; LEIN_SILENT=true time sh -c 'lein junit; lein jar'
 325.42user 21.27system 8:05.05elapsed 71%CPU (0avgtext+0avgdata 4382144maxresident)k
@@ -213,7 +213,7 @@ To choose, consider the following:
 - Community size
 - IDE support
 - Plugin archives, integration with static code analysis, metrics, reports, etc.
-
+- multi language support
 
 
 ## I get InstantiationExceptions with some buildsystem, what is going on?
@@ -241,6 +241,9 @@ In particular:
 - templated configuration of builds (java version, dependencies)
 - Parsing the output of time and generating pretty reports / graphs
 - sbt using junit 4.12
-- other interesting buildsystems
+- other interesting buildsystems (Gant, GMaven, Graven, Rake, Raven, Scons, Make...)
+- Integrate other tools (checkstyle, Findbugs, PMD)
+- Integrate other test frameworks (Testng, spock)
 - multi-module project setups
 - interesting scalable generated sources
+- Integrate other languages (groovy, scala, clojure) were possible
