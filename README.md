@@ -244,8 +244,6 @@ I do not know for sure. There must be some overhead not present in the other sys
 
 Note that for sbt and leiningen, extra plugins were required to run JUnit tests written in Java. These buildsystems would specialize on tests written in Scala/Clojure, and the results here do not tell whether tests written in Scala or Clojure would have similar overheads.
 
-For ant, I cross-checked against running the original common-math tests using the original ant build.xml file. The results were similar.
-
 ## So which buildsystem is best?
 
 It depends on what you need.
