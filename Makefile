@@ -1,5 +1,5 @@
 # only works when running make in root folder :-(
-ROOT_DIR = $(shell pwd)
+ROOT_DIR=$(shell pwd)
 BUILD_DIR=build
 RESULTS_DIR=$(BUILD_DIR)/results
 

@@ -5,7 +5,7 @@ Benchmark setup for Java buildsystems.
 While Maven and Gradle are used by most Java projects in the wild, there are many alternatives to choose from. Comparing those is difficult. This project is a setup to run a buildprocess for java projects using multiple buildsystems.
 It can serve to benchmark buildsystems, or just to compare features.
 
-The project works mostly well using Apache commons-math as sample source.
+The project works mostly well using Apache commons-math as sample source. However, benchmarking of special features like bucks caching would benefit more from a multi-module setup.
 
 Manual installation of the different buildsystems is required.
 
@@ -178,37 +178,20 @@ cd build/sbt; time sbt -java-home /usr/lib/jvm/java-7-oracle/ -q test package
 
 # Observations / FAQ
 
-DISCLAIMER: I am mostly a Maven / Gradle user, so having had least problems with those can also be due to my experiencewith those.
+DISCLAIMER: I am mostly a Maven / Gradle user, so having had least problems with those can also be due to my experience with those.
 
 ## What influences performance?
 
-JVM startup, for tools written in JVM languages. This adds something like 3 seconds to the whole process on my machine. Several tools offer daemons to reduce this offset.
+JVM startup adds something like 3 seconds to the whole process. Several tools offer daemons to reduce this offset. Tools not written in JVM languages do not have this offset.
 
-### Caching results
+Compiler speed may differ for different compilers. The scala compiler and clojure compiler seemed slower than javac for compiling java sources.
 
-Instead of running a task again, the results from last time may be reused if the inputs have not changed.
-The result of a build is produced by the following inputs:
-- Build system hardware / operating system
-- custom buildscripts
-- buildtool (versions and plugins)
-- environment during startup
-- input files (sources)
+Parallel task execution: On machines with multiple cores, it may be possible to reduce build time by utiliing more than one CPU. However the build-time rarely is reduced by the number of CPUs. The overhead of finding out how to split tasks over several CPUs can eliminate benefits, and often there will be many dependencies that lead to tasks necessarily being build in sequence. Most buildtool will thus mostly offer to only build completely independent sub-modules in parallel. For single-module projects, no additional CPU is used then.
+Some tasks may even only work when not run in parallel, so using parallel fatures also increases maintenance effort.
 
-Determining whether file contents have changed is more or less trivial. But is is tricky to determine that
+Caching influences incremental builds. Several buildsystems have a simple caching strategy in that they will not run a task if the output still exist. This will improve performance for repeated builds.
 
-- a source file has been deleted/moved, so it's class file must also be deleted
-- some buildtool plugin version or environment variable has changed that influences the generation of some file
-- an input file used by a testcase has changed, so the test must be run again
-
-For that reason often it is wise to not rely on cached results, so the benefts of caching are dubious, unless you know what you're doing very well.
-
-### buildfile parsing / evaluation
-
-This is not very complex for the cases included so far.
-
-### parallel execution, usage of multiple CPUs
-
-This was not used so far. The expectable benefits depend on the available number of CPUs of course, and how much tasks can be run in parallel at all.
+Buck was the only build system benchmarked here that offers advanced (true) caching of build results, in that the cache is an independent storage that maintains multiple versions of build results over time. This can dramatically reduce build times in many more situations than simple caching described before.
 
 ## Gradle
 
@@ -224,7 +207,11 @@ sbt occasionally failed apache commons-math tests, but not consistently so.
 
 ## buck
 
-Getting buck to do anything at all was a real pain, ```quickstart``` did not start quickly. There were many details to consider that are settled by convention inother build tools. Most failures had no helpful error messages. Making buck run existing tests was painful because buck will try to run any class it finds as a testcase, and fail if it is not (TestUtils, abstract test classes), and does not provide any help in filtering what shall be considered a TestCase. The official documentation is okay though, but in comparison the other systems were more self-explaining. What is missing from the documentation is an exaplanation of how to create a nice library jar, the focus seems to be on creating Android APK files. Getting buck to download files from Maven Central or so is possible, but not stratightforward. The best approach seems to add "bucklets" from a different git repository and use a specialized rule. It was difficult to adapt buck project files to the traditional folder structure that Maven suggests. This makes it unnecessarily hard to migrate projects from other buildsystems, and it can be expected that projects built with buck will run into problems that have long been solved in the larger community.
+Buck has the most sophisticated caching, that promises extraordinary performance in many common cases (but a bit more convoluted than the simple setup). Buck caches outputs of rules (equivalent to tasks) separate from the build output. It stores multiple versions of outputs, and thus can avoid re-building anything that it has built in the recent past (like over the last week). The cache is by default not removed using ```buck clean```. The cache-key includes several parameters, including the input filetree (filenames and timestamps, not content). Extended options allow sharing the caches between computers, such as the CI servers and developer machines. A single-module project may benefit least from this kind of caching in comparison to the simpler caching strategies of gradle or buildr, so benchmark results for commons-math do not show an large improvement over gradle.
+
+Getting buck to do anything at all was a real pain, ```quickstart``` did not start quickly. There were many details to consider that are settled by convention in other build tools. Most failures had no helpful error messages. Making buck run existing tests was painful because buck will try to run any class it finds as a testcase, and fail if it is not (TestUtils, abstract test classes), and does not provide any help in filtering what shall be considered a TestCase. The official documentation is okay though, but in comparison the other systems were more self-explaining. What is missing from the documentation is an explanation of how to create a nice library jar, the focus seems to be on creating Android APK files. Getting buck to download files from Maven Central or so is possible, but not straightforward. The best approach seems to add "bucklets" from a different git repository and use a specialized rule. It was difficult to adapt buck project files to the traditional folder structure that Maven suggests. This makes it unnecessarily hard to migrate projects from other buildsystems, and it can be expected that projects built with buck will run into problems that have long been solved in the larger community.
+
+buck very few high-level features and plugins compared to gradle and maven, in particular for non-Android projects.
 
 ## ant
 
