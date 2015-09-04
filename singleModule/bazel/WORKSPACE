@@ -1,0 +1,9 @@
+maven_jar(
+    name = "junit",
+    artifact = "junit:junit:4.11",
+)
+
+maven_jar(
+    name = "hamcrest-all",
+    artifact = "org.hamcrest:hamcrest-all:1.3",
+)

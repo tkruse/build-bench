@@ -34,6 +34,8 @@ buck \
 leiningen \
 sbt \
 
+# bazel \
+
 
 .PHONY: versions
 versions:
@@ -44,7 +46,21 @@ versions:
 	buildr --version
 	buck --version
 	ant -version
+#	bazel version
 
+## bazel
+
+.PHONY: bazel
+bazel: $(BUILD_DIR)/bazel/src $(BUILD_DIR)/bazel/BUILD
+	$(info ******* bazel start)
+	cd $(BUILD_DIR)/bazel; time bazel test --javacopt='-extra_checks:off' //:commons-math-tests
+
+$(BUILD_DIR)/bazel/src: $(BUILD_DIR)/src
+	@mkdir -p $(BUILD_DIR)/bazel
+	@cd $(BUILD_DIR)/bazel; ln -s ../src
+
+$(BUILD_DIR)/bazel/BUILD: $(BUILD_DIR)/src
+	@cp -r $(BUILD_DEFINITIONS)/bazel $(BUILD_DIR)
 
 ## maven
 
