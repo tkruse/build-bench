@@ -289,5 +289,5 @@ In particular:
 - Integrate other test frameworks (Testng, spock)
 - multi-module project setups
 - interesting scalable generated sources
-- Integrate other languages (groovy, scala, clojure) were possible
+- Integrate other languages (groovy, scala, clojure) where possible
 - optionally run tests/tasks in parallel using n CPUs
