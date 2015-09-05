@@ -80,11 +80,11 @@ Two repositories exist, seem to stay in sync:
 
 git clone, run ant. That yields a working binary that can be put onto PATH (softlinking failed for me).
 
-# bazel
+## bazel
 
 See http://bazel.io/
 
-Installers should be provided (but were not available for me). Installation from source seems easy enough: git clone, rn ./compile.sh. Put binary on PATH.
+Installers should be provided (but were not available for me). Installation from source seems easy enough: git clone, run ./compile.sh. Put binary on PATH.
 
 
 
