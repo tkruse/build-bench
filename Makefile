@@ -52,7 +52,7 @@ versions:
 .PHONY: bazel
 bazel: $(BUILD_DIR)/bazel/src $(BUILD_DIR)/bazel/BUILD
 	$(info ******* bazel start)
-	cd $(BUILD_DIR)/bazel; time bazel test --javacopt='-extra_checks:off' //:commons-math-tests
+	cd $(BUILD_DIR)/bazel; time bazel test --javacopt='-extra_checks:off' //:example-tests
 
 $(BUILD_DIR)/bazel/src: $(BUILD_DIR)/src
 	@mkdir -p $(BUILD_DIR)/bazel

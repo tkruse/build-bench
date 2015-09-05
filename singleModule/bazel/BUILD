@@ -1,6 +1,6 @@
 
 java_library(
-    name = "commons-math",
+    name = "example",
     srcs = glob(["src/main/java/**/*.java"]),
     resources = glob(["src/main/resources/**/*.*"]),
 )
@@ -12,19 +12,19 @@ java_library(
     ),
     resources = glob(["src/test/resources/**/*.*"]),
     deps = [
-        ':commons-math',
+        ':example',
         '@junit//jar',
         '@hamcrest-all//jar',
     ],
 )
 
 java_test(
-    name = "commons-math-tests",
+    name = "example-tests",
     srcs = glob(["src/test/java/**/*Test.java"],
         exclude = ["src/test/java/**/*Abstract*Test.java"]),
     size='medium',
     deps = [
-        ':commons-math',
+        ':example',
         ':test_helpers',
         '@junit//jar',
         '@hamcrest-all//jar',
