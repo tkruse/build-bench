@@ -33,8 +33,7 @@ ivy \
 buck \
 leiningen \
 sbt \
-
-# bazel \
+bazel \
 
 
 .PHONY: versions
@@ -46,7 +45,7 @@ versions:
 	buildr --version
 	buck --version
 	ant -version
-#	bazel version
+	bazel version
 
 ## bazel
 
