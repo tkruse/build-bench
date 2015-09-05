@@ -29,7 +29,7 @@ all: \
 gradle \
 maven \
 buildr \
-ivy \
+ant_ivy \
 buck \
 leiningen \
 sbt \
@@ -146,10 +146,10 @@ $(BUILD_DIR)/buck/src: $(BUILD_DIR)/src
 $(BUILD_DIR)/buck/BUCK: $(BUILD_DIR)/src
 	@cp -r $(BUILD_DEFINITIONS)/buck $(BUILD_DIR)
 
-## ivy
+## ant_ivy
 
-.PHONY: ivy
-ivy: $(BUILD_DIR)/ivy/src $(BUILD_DIR)/ivy/build.xml
+.PHONY: ant_ivy
+ant_ivy: $(BUILD_DIR)/ivy/src $(BUILD_DIR)/ivy/build.xml
 	$(info ******* ant-ivy start)
 	cd $(BUILD_DIR)/ivy; time ant jar -q
 
