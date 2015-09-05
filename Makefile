@@ -42,7 +42,7 @@ versions:
 	java -version
 	mvn --version
 	gradle --version
-	sbt --version
+	sbt sbtVersion
 	buildr --version
 	buck --version
 	ant -version
@@ -56,7 +56,7 @@ versions:
 .PHONY: pants
 pants: $(BUILD_DIR)/pants/src $(BUILD_DIR)/pants/BUILD
 	$(info ******* pants start)
-	cd $(BUILD_DIR)/pants; time pants test :test
+	cd $(BUILD_DIR)/pants; time pants test :test -q
 
 $(BUILD_DIR)/pants/src: $(BUILD_DIR)/src
 	@mkdir -p $(BUILD_DIR)/pants

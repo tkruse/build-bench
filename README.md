@@ -118,76 +118,97 @@ Sample output (manually cleaned up) for a clean build of apache commons.math (co
 Most of the time spend is on actually running tests.
 
 ```
-$ make clean-builds all --silent
-java version "1.7.0_67"
-Apache Maven 3.2.5 (NON-CANONICAL_2015-01-25T12:08:31_kruset; 2015-01-25T12:08:31+01:00)
-Gradle 2.2.1
-sbt launcher version 0.12.4
-Buildr 1.4.21
-buck version 5a6d5d00d7f3be1329bf501c710ffa409ecea3d8 (Jan 2015)
-Leiningen 2.5.1 on Java 1.7.0_76 Java HotSpot(TM) 64-Bit Server VM
-Apache Ant(TM) version 1.8.2 compiled on December 3 2011
+$ make versions
+java version "1.7.0_80"
+Apache Maven 3.3.3 (7994120775791599e205a5524ec3e0dfe41d4a06; 2015-04-22T13:57:37+02:00)
+Gradle 2.6
+sbt sbtVersion 0.13.9
+Buildr 1.4.23
+buck version 92f4a5486d453 (Sep 2015)
+Leiningen 2.5.2 on Java 1.7.0_80 Java HotSpot(TM) 64-Bit Server VM
+Apache Ant(TM) version 1.9.6 compiled on June 29 2015
+bazel version Sep 06, 2015
+pants --version: 0.0.46
 
-******* buildr start
-cd build/buildr; time buildr -q package
-170.12user 2.45system 2:03.98elapsed 139%CPU (0avgtext+0avgdata 5481728maxresident)k
-6664inputs+97928outputs (4major+675380minor)pagefaults 0swaps
-******* maven start
-cd build/maven; time mvn -q package -Dsurefire.printSummary=false
-173.33user 2.36system 2:01.85elapsed 144%CPU (0avgtext+0avgdata 4760688maxresident)k
-3552inputs+51848outputs (10major+648628minor)pagefaults 0swaps
-******* gradle start
-cd build/gradle; time gradle -q jar
-179.23user 2.93system 2:08.50elapsed 141%CPU (0avgtext+0avgdata 5312608maxresident)k
-1448inputs+54032outputs (0major+702907minor)pagefaults 0swaps
-******* buck start
-cd build/buck; time buck test
-186.03user 2.68system 2:08.45elapsed 146%CPU (0avgtext+0avgdata 5278768maxresident)k
-17032inputs+65088outputs (0major+741863minor)pagefaults 0swaps
-******* leiningen start
-cd build/leiningen; LEIN_SILENT=true time sh -c 'lein junit; lein jar'
-356.54user 21.34system 8:15.80elapsed 76%CPU (0avgtext+0avgdata 4501808maxresident)k
-1920inputs+161168outputs (0major+7177918minor)pagefaults 0swaps
-******* ant-ivy start
-cd build/ivy; time ant jar -q
-375.23user 19.38system 7:42.30elapsed 85%CPU (0avgtext+0avgdata 4842528maxresident)k
-912inputs+170776outputs (0major+7396810minor)pagefaults 0swaps
+$ make clean-builds all --silent
 ******* sbt start
 cd build/sbt; time sbt -java-home /usr/lib/jvm/java-7-oracle/ -q test package
-337.19user 2.20system 1:05.40elapsed 518%CPU (0avgtext+0avgdata 5660288maxresident)k
-52936inputs+45416outputs (38major+671075minor)pagefaults 0swaps
+368.03user 3.29system 1:16.01elapsed 488%CPU (0avgtext+0avgdata 1289052maxresident)k
+129320inputs+115696outputs (114major+496608minor)pagefaults 0swaps
+******* buildr start
+cd build/buildr; time buildr -q package
+234.25user 3.96system 2:27.34elapsed 161%CPU (0avgtext+0avgdata 1032168maxresident)k
+31848inputs+122104outputs (47major+798859minor)pagefaults 0swaps
+******* maven start
+cd build/maven; time mvn -q package -Dsurefire.printSummary=false
+221.38user 3.85system 2:30.19elapsed 149%CPU (0avgtext+0avgdata 993952maxresident)k
+127240inputs+67960outputs (102major+626805minor)pagefaults 0swaps
+******* gradle start
+cd build/gradle; time gradle -q jar
+238.31user 4.82system 2:28.01elapsed 164%CPU (0avgtext+0avgdata 1003468maxresident)k
+220784inputs+58840outputs (369major+661382minor)pagefaults 0swaps
+******* buck start
+cd build/buck; time buck test
+0.07user 0.14system 2:34.22elapsed 0%CPU (0avgtext+0avgdata 8508maxresident)k
+6128inputs+24outputs (36major+12564minor)pagefaults 0swaps
+******* pants start
+cd build/pants; time pants test :test -q
+223.78user 4.60system 2:45.22elapsed 138%CPU (0avgtext+0avgdata 835920maxresident)k
+117016inputs+62184outputs (196major+754749minor)pagefaults 0swaps
+******* bazel start
+cd build/bazel; time bazel test --javacopt='-extra_checks:off' //:example-tests
+0.27user 0.13system 2:50.71elapsed 0%CPU (0avgtext+0avgdata 52272maxresident)k
+86816inputs+138488outputs (70major+13539minor)pagefaults 0swaps
+******* ant-ivy start
+cd build/ivy; time ant jar -q
+437.16user 21.80system 5:05.07elapsed 150%CPU (0avgtext+0avgdata 875420maxresident)k
+224576inputs+186168outputs (371major+6421924minor)pagefaults 0swaps
+******* leiningen start
+cd build/leiningen; LEIN_SILENT=true time sh -c 'lein junit; lein jar'
+373.26user 28.06system 8:41.61elapsed 76%CPU (0avgtext+0avgdata 862632maxresident)k
+45552inputs+244352outputs (21major+7072416minor)pagefaults 0swaps
+
+
 
 # second build
 
 $ make all --silent
+******* bazel start
+cd build/bazel; time bazel test --javacopt='-extra_checks:off' //:example-tests
+0.00user 0.00system 0:00.80elapsed 1%CPU (0avgtext+0avgdata 2580maxresident)k
+17608inputs+8outputs (67major+772minor)pagefaults 0swaps
 ******* buildr start
 cd build/buildr; time buildr -q package
-1.18user 0.07system 0:01.26elapsed 99%CPU (0avgtext+0avgdata 146064maxresident)k
-0inputs+0outputs (0major+12438minor)pagefaults 0swaps
+0.90user 0.09system 0:01.13elapsed 88%CPU (0avgtext+0avgdata 27216maxresident)k
+41248inputs+0outputs (40major+10987minor)pagefaults 0swaps
 ******* buck start
 cd build/buck; time buck test
-5.31user 0.27system 0:03.26elapsed 171%CPU (0avgtext+0avgdata 448192maxresident)k
-160inputs+288outputs (0major+65587minor)pagefaults 0swaps
+0.06user 0.13system 0:02.21elapsed 8%CPU (0avgtext+0avgdata 8576maxresident)k
+64424inputs+24outputs (181major+12099minor)pagefaults 0swaps
 ******* gradle start
 cd build/gradle; time gradle -q test jar
-6.19user 0.27system 0:04.36elapsed 148%CPU (0avgtext+0avgdata 1080240maxresident)k
-0inputs+480outputs (0major+79520minor)pagefaults 0swaps
-******* maven start
-cd build/maven; time mvn -q package -Dsurefire.printSummary=false
-169.15user 1.98system 2:00.18elapsed 142%CPU (0avgtext+0avgdata 5212272maxresident)k
-0inputs+30952outputs (0major+652705minor)pagefaults 0swaps
-******* leiningen start
-cd build/leiningen; LEIN_SILENT=true time sh -c 'lein junit; lein jar'
-325.42user 21.27system 8:05.05elapsed 71%CPU (0avgtext+0avgdata 4382144maxresident)k
-624inputs+106976outputs (0major+6905466minor)pagefaults 0swaps
-******* ant-ivy start
-cd build/ivy; time ant jar -q
-347.52user 19.39system 7:32.92elapsed 81%CPU (0avgtext+0avgdata 4840432maxresident)k
-0inputs+131544outputs (0major+7203491minor)pagefaults 0swaps
+6.74user 0.27system 0:04.70elapsed 149%CPU (0avgtext+0avgdata 244752maxresident)k
+54840inputs+464outputs (122major+49538minor)pagefaults 0swaps
 ******* sbt start
 cd build/sbt; time sbt -java-home /usr/lib/jvm/java-7-oracle/ -q test package
-337.19user 2.20system 1:05.40elapsed 518%CPU (0avgtext+0avgdata 5660288maxresident)k
-52936inputs+45416outputs (38major+671075minor)pagefaults 0swaps
+364.05user 1.59system 0:59.35elapsed 616%CPU (0avgtext+0avgdata 1098980maxresident)k
+107488inputs+10504outputs (60major+374811minor)pagefaults 0swaps
+******* pants start
+cd build/pants; time pants test :test -q
+199.23user 3.09system 2:12.04elapsed 153%CPU (0avgtext+0avgdata 727832maxresident)k
+137808inputs+12744outputs (62major+378548minor)pagefaults 0swaps
+******* maven start
+cd build/maven; time mvn -q package -Dsurefire.printSummary=false
+218.67user 4.04system 2:18.44elapsed 160%CPU (0avgtext+0avgdata 987708maxresident)k
+64248inputs+39400outputs (76major+628412minor)pagefaults 0swaps
+******* ant-ivy start
+cd build/ivy; time ant jar -q
+404.38user 18.92system 4:40.69elapsed 150%CPU (0avgtext+0avgdata 878216maxresident)k
+57080inputs+132280outputs (28major+5336293minor)pagefaults 0swaps
+******* leiningen start
+cd build/leiningen; LEIN_SILENT=true time sh -c 'lein junit; lein jar'
+343.99user 26.14system 8:17.16elapsed 74%CPU (0avgtext+0avgdata 848440maxresident)k
+119080inputs+115680outputs (31major+6769056minor)pagefaults 0swaps
 
 ```
 
@@ -262,7 +283,7 @@ I only found pants by coincidence. It originates at Twitter, is written in Pytho
 
 One consequence of trying to optimize for monorepos in large organizations is to depend on other projects in their source form, not their (released) jar form.
 
-The output from making mistakes in BUILD files was sometimes confusing, sometimes ugly Python stacktraces, sometimes unhelpful Python type error messages: 
+The output from making mistakes in BUILD files was sometimes confusing, sometimes ugly Python stacktraces, sometimes unhelpful Python type error messages:
 ```
                FAILURE
 Exception message: 'str' object has no attribute 'value'
@@ -319,9 +340,9 @@ I chose to test against commons-math because it is reasonably large, well tested
 
 The main problems I had with commons-math was that the naming for the Testcases is not consistent. the commons-math ant file lists those rules:
 ```
-<include name="**/*Test.java"/> 
-<include name="**/*TestBinary.java"/> 
-<include name="**/*TestPermutations.java"/> 
+<include name="**/*Test.java"/>
+<include name="**/*TestBinary.java"/>
+<include name="**/*TestPermutations.java"/>
 <exclude name="**/*AbstractTest.java"/>
 ```
 And even those do not cover all Testcases defined in the codebase.
