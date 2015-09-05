@@ -34,6 +34,7 @@ buck \
 leiningen \
 sbt \
 bazel \
+pants \
 
 
 .PHONY: versions
@@ -46,6 +47,23 @@ versions:
 	buck --version
 	ant -version
 	bazel version
+	cd $(BUILD_DEFINITIONS)/pants; pants --version
+
+## pants
+# Assuming pants is globally installed, even though
+# typically pants may be a local executable
+
+.PHONY: pants
+pants: $(BUILD_DIR)/pants/src $(BUILD_DIR)/pants/BUILD
+	$(info ******* pants start)
+	cd $(BUILD_DIR)/pants; time pants test :test
+
+$(BUILD_DIR)/pants/src: $(BUILD_DIR)/src
+	@mkdir -p $(BUILD_DIR)/pants
+	@cd $(BUILD_DIR)/pants; cp -rf ../src .
+
+$(BUILD_DIR)/pants/BUILD: $(BUILD_DIR)/src
+	@cp -rf $(BUILD_DEFINITIONS)/pants $(BUILD_DIR)
 
 ## bazel
 
@@ -169,7 +187,7 @@ $(BUILD_DIR)/ivy/build.xml: $(BUILD_DIR)/src
 
 $(BUILD_DIR)/src: $(DOWNLOAD_SOURCES_DIR)/commons-math/src
 	@mkdir -p $(BUILD_DIR)
-	@cd $(BUILD_DIR); ln -s ../$(DOWNLOAD_SOURCES_DIR)/commons-math/src
+	@cd $(BUILD_DIR); cp -r ../$(DOWNLOAD_SOURCES_DIR)/commons-math/src .
 
 $(DOWNLOAD_SOURCES_DIR)/commons-math/src:
 	@mkdir -p $(DOWNLOAD_SOURCES_DIR)
@@ -186,7 +204,7 @@ $(DOWNLOAD_SOURCES_DIR)/commons-math/src:
 
 $(BUILD_DIR)/src3:
 	@mkdir -p $(BUILD_DIR)
-	@cd $(BUILD_DIR); ln -s ../$(DOWNLOAD_SOURCES_DIR)/src
+	@cd $(BUILD_DIR); cp -r ../$(DOWNLOAD_SOURCES_DIR)/src .
 
 $(BUILD_DIR)/src2:
 	$(info Generating $(FILE_NUM) java source files)

@@ -86,7 +86,17 @@ See http://bazel.io/
 
 Installers should be provided (but were not available for me). Installation from source seems easy enough: git clone, run ./compile.sh. Put binary on PATH.
 
+## pants
 
+See https://pantsbuild.github.io/
+
+pants get bonus points for a local, virtualenv based installation. In your project, run:
+```
+curl -O https://pantsbuild.github.io/setup/pants
+chmod +x pants
+touch pants.ini
+PANT_VERSION=`./pants --version`; echo -e "[DEFAULT]\npants_version: $PANT_VERSION" > pants.ini
+```
 
 # Samples
 
@@ -196,7 +206,9 @@ Some tasks may even only work when not run in parallel, so using parallel fature
 
 Caching influences incremental builds. Several buildsystems have a simple caching strategy in that they will not run a task if the output still exist. This will improve performance for repeated builds.
 
-Buck was the only build system benchmarked here that offers advanced (true) caching of build results, in that the cache is an independent storage that maintains multiple versions of build results over time. This can dramatically reduce build times in many more situations than simple caching described before.
+Buck, Bazel and Pants were the only build system benchmarked here that offers advanced (true) caching of build results, in that the cache is an independent storage that maintains multiple versions of build results over time. This can dramatically reduce build times in many more situations than simple caching described before.
+
+For large projects with plenty of subprojects and subtasks, performance can be gained by caching in a fine-grained way and reusing more previous artifacts. The example and setup used in this benchmark may not be optimal for any given buildsystem. In particular, Pants has some online examples defining plenty of smaller library targets for individual Java files, which might improve caching performance when rebuilding after a single java file changed (not sure what other advantage it could have).
 
 ## Gradle
 
@@ -243,6 +255,28 @@ Examples online also show some oddities like using java_binary rule with main cl
 I struggled to get the common-math classes and test classes compile and test even with the rule documentation. The documentation of the rules is insufficient, the tutorials do not cover tests.
 
 All of this is a mere matter of improving documentation and maybe a little polishing of the build rules for the general public outside Google.
+
+## pants
+
+I only found pants by coincidence. It originates at Twitter, is written in Python and targets monorepo setups (like bazel and buck).
+
+One consequence of trying to optimize for monorepos in large organizations is to depend on other projects in their source form, not their (released) jar form.
+
+The output from making mistakes in BUILD files was sometimes confusing, sometimes ugly Python stacktraces, sometimes unhelpful Python type error messages: 
+```
+               FAILURE
+Exception message: 'str' object has no attribute 'value'
+```
+
+The tutorials were nice and low-level, but missed e.g. explaining the role of file ```BUILD.tools```.
+
+The examples online feature a lot of BUILD files (one for each java package), and each contains several library definitions listing individual java classes. That's a lot more effort to write and check than the Maven/Gradle approach. Similarly pants does not seem to allow directoy globbing (src/main/**/*.java).
+
+Like Bazel, a lot of responsibility rests on the developer of finding suitable names for rules. A main help at the beginning is to list all rules recursively: ```pants list ::``` and show all files consdered: ```pants filedeps :<target>```
+
+Trying to get things to run, I noticed changing a java_library target by adding/removing resources did not invalidate the cache, those changes did not seem to affect the cache key, which is a big surprise to me. Sometimes the error messages suggest inconsistent things, like missing BUILD file when it exists, or missing target when it exists (something else was wrong).
+
+Pants path syntax has special semantics for task names which match the directory name of the file their defined in.
 
 ## Why are ant/sbt/leiningen so slow for clean testing of commons-math?
 
