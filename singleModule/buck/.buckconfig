@@ -10,3 +10,5 @@
   ignore = .git
 [project]
   temp_files = ^#.*#$, .*~$, .*\.swp$
+[download]
+  maven_repo=http://repo1.maven.org/maven2
