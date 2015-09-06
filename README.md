@@ -35,12 +35,16 @@ In case you want to run with other projects, modify the ```Makefile``` as requir
 
 # Buildsystems
 
-## ant + ivy
+## Apache ant + ivy
 
 ant is packaged for Ubuntu.
 For more recent version see: http://ant.apache.org/manual/install.html
 
-## Maven
+## Apache gant
+
+
+
+## Apache Maven
 
 Installing a 3.x version should be easy, it is packaged for Ubuntu.
 E.g.
@@ -50,6 +54,8 @@ $ sudo apt-get install maven3
 More recent versios can be found at: http://maven.apache.org/download.cgi
 
 ## Gradle
+
+See https://gradle.org/
 
 I recommend ```gvm``` for gradle: http://gvmtool.net/
 
@@ -220,16 +226,60 @@ DISCLAIMER: I am mostly a Maven / Gradle user, so having had least problems with
 
 JVM startup adds something like 3 seconds to the whole process. Several tools offer daemons to reduce this offset. Tools not written in JVM languages do not have this offset.
 
-Compiler speed may differ for different compilers. The scala compiler and clojure compiler seemed slower than javac for compiling java sources.
-
 Parallel task execution: On machines with multiple cores, it may be possible to reduce build time by utiliing more than one CPU. However the build-time rarely is reduced by the number of CPUs. The overhead of finding out how to split tasks over several CPUs can eliminate benefits, and often there will be many dependencies that lead to tasks necessarily being build in sequence. Most buildtool will thus mostly offer to only build completely independent sub-modules in parallel. For single-module projects, no additional CPU is used then.
 Some tasks may even only work when not run in parallel, so using parallel fatures also increases maintenance effort.
+
+Compiler speed may differ for different compilers. The scala compiler and clojure compiler seemed slower than javac for compiling java sources.
+
+Incremental re-compilation, meaning compiling only files that are affected by a change, can drastically reduce build times.
 
 Caching influences incremental builds. Several buildsystems have a simple caching strategy in that they will not run a task if the output still exist. This will improve performance for repeated builds.
 
 Buck, Bazel and Pants were the only build system benchmarked here that offers advanced (true) caching of build results, in that the cache is an independent storage that maintains multiple versions of build results over time. This can dramatically reduce build times in many more situations than simple caching described before.
 
 For large projects with plenty of subprojects and subtasks, performance can be gained by caching in a fine-grained way and reusing more previous artifacts. The example and setup used in this benchmark may not be optimal for any given buildsystem. In particular, Pants has some online examples defining plenty of smaller library targets for individual Java files, which might improve caching performance when rebuilding after a single java file changed (not sure what other advantage it could have).
+
+## So which buildsystem should I use for Java projects?
+
+It depends on what you need.
+
+To choose, consider the following:
+
+- Learning curve
+- Maturity
+- Performance
+- Documentation
+- Community size
+- IDE support
+- Plugin archives, integration with static code analysis, metrics, reports, etc.
+- multi language support
+
+## No really, which one should I use for Java projects?
+
+Maven or Gradle are the default choice for most open-source Java projects and many Businesses out there. Maven may still be more popular in the industry for stability, but Gradle has a stronger innovation drive. There is an experimental project called Graven wrapping Maven with a Groovy DSL. Both have hundreds of open-source plugins available, and both get special support from IDEs, Continuous integration servers, etc.
+Buildr seems to be mostly similar to Gradle but written in Ruby, which offers some advantages and disadvantages. It does not seem to gain the kind of market share Gradle and Maven have established.
+
+Ant is still being used, but it's unclear what advantages it offers. Maybe simplicity for creating many small unconventional tasks. Gant is built on top of ant and similar in purpose, but allowing to write in Groovy.
+
+Leiningen and sbt are optimized (in usability) for Clojure and Scala respectively. If you only use Java, it probably does not pay to use either of them.
+
+Bazel and Pants are derived from Googles Blaze system optimized for huge monorepo corporate ecosystems, where thousands of projects with interdependencies are continuously build and deployed. Buck is used at Facebook, Pants at Twitter.
+They shine in build speed and caching, but they require more developer attention and effort, because they are rule based, and have no high-level abstraction of a project object model like Gradle or Maven. And being still fairly new as open-source projects at this time, they do not have the mature support from other open-source tools. As an example, buck only lately got a feature to automatically download dependencies from central Maven repositories.
+Since they have been used in a corporate setting where strict standards could be enforced, they are prone to detection of new bugs when being used in the wild by projects following a huge variety of conventions.
+
+Buck is mainly targetted at building Java apps for Android, it is inspired by Blaze.
+
+Name | Target | language | Written in | Since | Support | Caching | Model 
+---- | ------ | -------- | ---------- | ----- | ------- | ------- | -----
+ant       | Java                       | XML        | Java         | 2000 | Apache | None | rules
+maven     | Java (Scala, Ruby, C#)     | XML        | Java         | 2002 | Apache | None | POM  
+gradle    | Java, Groovy (Scala, C++,) | Groovy     | Java, Groovy | 2007 | Gradleware | last build | POM
+buildr    | Java                       | Ruby       | Ruby         | 2010? | Apache | ? | POM
+sbt       | Scala, Java                | Scala      | Scala        | 2010? | ? | ? | POM 
+leiningen | Clojure, Java              | Clojure    | Clojure      | 2009? | ? | ? | POM 
+buck      | Java (Android)             | Python-ish | Java, Python | 2012        | Facebook | true cache | rules
+bazel     | C++, Java, Python, Go      | Python-ish | C++, Java    | 2015 (2005?)| Google | true cache | rules
+pants     | Java, Scala, Python, Go    | Python     | Python       | 2014 (2010) | Twitter | true cache | rules
 
 ## Gradle
 
@@ -304,21 +354,6 @@ Pants path syntax has special semantics for task names which match the directory
 I do not know for sure. There must be some overhead not present in the other systems, maybe a new JVM process is started for each test.
 
 Note that for sbt and leiningen, extra plugins were required to run JUnit tests written in Java. These buildsystems would specialize on tests written in Scala/Clojure, and the results here do not tell whether tests written in Scala or Clojure would have similar overheads.
-
-## So which buildsystem is best?
-
-It depends on what you need.
-
-To choose, consider the following:
-
-- Learning curve
-- Maturity
-- Performance
-- Documentation
-- Community size
-- IDE support
-- Plugin archives, integration with static code analysis, metrics, reports, etc.
-- multi language support
 
 
 ## I get InstantiationExceptions with some buildsystem, what is going on?
