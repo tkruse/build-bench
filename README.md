@@ -40,9 +40,6 @@ In case you want to run with other projects, modify the ```Makefile``` as requir
 ant is packaged for Ubuntu.
 For more recent version see: http://ant.apache.org/manual/install.html
 
-## Apache gant
-
-
 
 ## Apache Maven
 
@@ -51,7 +48,7 @@ E.g.
 
 $ sudo apt-get install maven3
 
-More recent versios can be found at: http://maven.apache.org/download.cgi
+More recent versions can be found at: http://maven.apache.org/download.cgi
 
 ## Gradle
 
@@ -247,7 +244,7 @@ To choose, consider the following:
 
 - Learning curve
 - Maturity
-- Performance
+- Performance (compiler, incremental builds, caching)
 - Documentation
 - Community size
 - IDE support
@@ -301,6 +298,8 @@ Getting buck to do anything at all was a real pain, ```quickstart``` did not sta
 
 buck very few high-level features and plugins compared to gradle and maven, in particular for non-Android projects.
 
+buckd left behind many process running in the background.
+
 ## ant
 
 ant was also difficult to debug (in particular what was missing for junit4).
@@ -315,7 +314,7 @@ buildr (and sbt I think) used the current CLASSPATH when running tests (instead 
 
 ## bazel
 
-Bazel (Sep 04, 2015) tutorials focus on android, iOS and Google appengine examples, and do not start with simple Framework agnostic examples. The Build file syntax itself is clean, but the way the different BUILD and WORKSPACE files interact with each other is not self-evident or explained in the tutorials. Also the path-like syntax for subprojects and dependencies with colons, double-slashes and '@' symbols ('@junit//jar') looks unusual and complex. Some examples place BUILD files at the project root and also next to the java source files, which is confusing at a glance. Running bazel spams my project root folder with symlinks to several bazel cache folders, which are kept in ```~/.cache/bazel```. My java_library does not just produce a jar, but also a jar_manifest_proto file. Many details of java builds have to be configured, there is none of the convention-over-configuration as provided by Maven or Gradle (canonical file structure like src/main/java/package/Example.class reconized by default). Oddly Bazels java_library rule does look for resource files in the Maven canonical structure. Bazel automatically runs the Google linter "error-prone" on the project and renames java-libraries to lib...jar.
+Bazel (Sep 04, 2015) tutorials focus on android, iOS and Google appengine examples, and do not start with simple Framework agnostic examples. The Build file syntax itself is clean, but the way the different BUILD and WORKSPACE files interact with each other is not self-evident or explained in the tutorials. Also the path-like syntax for subprojects and dependencies with colons, double-slashes and '@' symbols ('@junit//jar') looks unusual and complex. Some examples place BUILD files at the project root and also next to the java source files, which is confusing at a glance. Running bazel spams my project root folder with symlinks to several bazel cache folders, which are kept in ```~/.cache/bazel```. My java_library does not just produce a jar, but also a jar_manifest_proto file. Many details of java builds have to be configured, there is none of the convention-over-configuration as provided by Maven or Gradle (canonical file structure like src/main/java/package/Example.class recognized by default). Oddly Bazels java_library rule does look for resource files in the Maven canonical structure. Bazel automatically runs the Google linter "error-prone" on the project and renames java-libraries to lib...jar.
 
 So basically Bazel imposes the Google standards upon the Bazel users, which is a bit annoying for everyone outside of Google.
 
@@ -341,11 +340,13 @@ Exception message: 'str' object has no attribute 'value'
 
 The tutorials were nice and low-level, but missed e.g. explaining the role of file ```BUILD.tools```.
 
-The examples online feature a lot of BUILD files (one for each java package), and each contains several library definitions listing individual java classes. That's a lot more effort to write and check than the Maven/Gradle approach. Similarly pants does not seem to allow directoy globbing (src/main/**/*.java).
+The examples online feature a lot of BUILD files (one for each java package), and each contains several library definitions listing individual java classes. That's a lot more effort to write and check than the Maven/Gradle approach. Similarly pants does not seem to allow directory globbing (src/main/**/*.java).
 
-Like Bazel, a lot of responsibility rests on the developer of finding suitable names for rules. A main help at the beginning is to list all rules recursively: ```pants list ::``` and show all files consdered: ```pants filedeps :<target>```
+Like Bazel, a lot of responsibility rests on the developer of finding suitable names for rules. A main help at the beginning is to list all rules recursively: ```pants list ::``` and show all files considered: ```pants filedeps :<target>```
 
 Trying to get things to run, I noticed changing a java_library target by adding/removing resources did not invalidate the cache, those changes did not seem to affect the cache key, which is a big surprise to me. Sometimes the error messages suggest inconsistent things, like missing BUILD file when it exists, or missing target when it exists (something else was wrong).
+
+Pants does not cache test results, so building again will run tests again. Pants also left behind several zombie processes when killing with Ctrl-C.
 
 Pants path syntax has special semantics for task names which match the directory name of the file their defined in.
 
