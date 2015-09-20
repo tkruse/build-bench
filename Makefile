@@ -3,6 +3,9 @@ ROOT_DIR=$(shell pwd)
 BUILD_DIR=build
 RESULTS_DIR=$(BUILD_DIR)/results
 
+SOURCE_PROJECT=commons-math
+# SOURCE_PROJECT=simple
+
 # Folder with structures for running buildsystems
 BUILD_DEFINITIONS=singleModule
 # folder containing source resources except for buildfiles
@@ -187,9 +190,10 @@ $(BUILD_DIR)/ivy/build.xml: $(BUILD_DIR)/src
 #
 
 
-$(BUILD_DIR)/src: $(DOWNLOAD_SOURCES_DIR)/commons-math/src
+$(BUILD_DIR)/src: $(DOWNLOAD_SOURCES_DIR)/$(SOURCE_PROJECT)/src
 	@mkdir -p $(BUILD_DIR)
-	@cd $(BUILD_DIR); cp -r ../$(DOWNLOAD_SOURCES_DIR)/commons-math/src .
+# softlinking causes problems with some tools
+	@cd $(BUILD_DIR); cp -r ../$(DOWNLOAD_SOURCES_DIR)/$(SOURCE_PROJECT)/src .
 
 $(DOWNLOAD_SOURCES_DIR)/commons-math/src:
 	@mkdir -p $(DOWNLOAD_SOURCES_DIR)
@@ -204,18 +208,15 @@ $(DOWNLOAD_SOURCES_DIR)/commons-math/src:
 	rm -f $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/optimization/general/AbstractLeastSquaresOptimizerTestValidation.java
 	rm -f $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/util/FastMathTestPerformance.java
 
-$(BUILD_DIR)/src3:
-	@mkdir -p $(BUILD_DIR)
-	@cd $(BUILD_DIR); cp -r ../$(DOWNLOAD_SOURCES_DIR)/src .
 
-$(BUILD_DIR)/src2:
+$(DOWNLOAD_SOURCES_DIR)/simple/src:
 	$(info Generating $(FILE_NUM) java source files)
-	@mkdir -p $(BUILD_DIR)/src/main/java/com
+	@mkdir -p $(DOWNLOAD_SOURCES_DIR)/simple/src/main/java/com
 	@for number in `seq 0 $(FILE_NUM)` ; do \
-	  INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/simple/src/main --env --nobackup -p >> $(BUILD_DIR)/src/main/java/com/Simple$$number.java ; \
+	  INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/simple/src/main --env --nobackup -p >> $(DOWNLOAD_SOURCES_DIR)/simple/src/main/java/com/Simple$$number.java ; \
 	done
 	$(info Generating $(FILE_NUM) java test source files)
-	@mkdir -p $(BUILD_DIR)/src/test/java/com
+	@mkdir -p $(DOWNLOAD_SOURCES_DIR)/simple/src/test/java/com
 	@for number in `seq 0 $(FILE_NUM)` ; do \
-	  INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/simple/src/test --env --nobackup -p >> $(BUILD_DIR)/src/test/java/com/Simple"$$number"Test.java ; \
+	  INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/simple/src/test --env --nobackup -p >> $(DOWNLOAD_SOURCES_DIR)/simple/src/test/java/com/Simple"$$number"Test.java ; \
 	done
