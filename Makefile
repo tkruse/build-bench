@@ -112,7 +112,7 @@ $(BUILD_DIR)/gradle/build.gradle: $(BUILD_DIR)/src
 .PHONY: sbt
 sbt: $(BUILD_DIR)/sbt/src $(BUILD_DIR)/sbt/build.sbt
 	$(info ******* sbt start)
-	cd $(BUILD_DIR)/sbt; time sbt -java-home $(JAVA_HOME) -q test package
+	cd $(BUILD_DIR)/sbt; time sbt -java-home $(JAVA_HOME) test package
 
 $(BUILD_DIR)/sbt/src: $(BUILD_DIR)/src
 	@mkdir -p $(BUILD_DIR)/sbt
