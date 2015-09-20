@@ -209,18 +209,45 @@ $(DOWNLOAD_SOURCES_DIR)/commons-math/src:
 
 
 TEMPLATES_DIR=templates
-FILE_NUM=21
+FILE_NUM=2
 
 $(DOWNLOAD_SOURCES_DIR)/simple/src: $(DOWNLOAD_SOURCES_DIR)/simple/$(FILE_NUM)/src
 
 $(DOWNLOAD_SOURCES_DIR)/simple/$(FILE_NUM)/src:
 	$(info Generating $(FILE_NUM) java source files)
 	@mkdir -p $(DOWNLOAD_SOURCES_DIR)/simple/src/main/java/com
-	@for number in `seq 0 $(FILE_NUM)` ; do \
+	@for number in `seq 1 $(FILE_NUM)` ; do \
 	  INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/simple/src/main --env --nobackup -p >> $(DOWNLOAD_SOURCES_DIR)/simple/src/main/java/com/Simple$$number.java ; \
 	done
 	$(info Generating $(FILE_NUM) java test source files)
 	@mkdir -p $(DOWNLOAD_SOURCES_DIR)/simple/src/test/java/com
-	@for number in `seq 0 $(FILE_NUM)` ; do \
+	@for number in `seq 1 $(FILE_NUM)` ; do \
 	  INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/simple/src/test --env --nobackup -p >> $(DOWNLOAD_SOURCES_DIR)/simple/src/test/java/com/Simple"$$number"Test.java ; \
+	done
+
+
+SUBPROJECT_NUM=3
+
+$(DOWNLOAD_SOURCES_DIR)/multi/src: $(DOWNLOAD_SOURCES_DIR)/multi/$(SUBPROJECT_NUM)/$(FILE_NUM)/src
+
+$(DOWNLOAD_SOURCES_DIR)/multi/$(SUBPROJECT_NUM)/$(FILE_NUM)/src:
+	$(info Generating $(SUBPROJECT_NUM) java projects)
+	$(info Generating $(FILE_NUM) java source files in each subproject)
+
+	@for pnumber in `seq 1 $(SUBPROJECT_NUM)` ; do \
+		mkdir -p $(DOWNLOAD_SOURCES_DIR)/multi/subproject$$pnumber/src/main/java/com ; \
+		mkdir -p $(DOWNLOAD_SOURCES_DIR)/multi/subproject$$pnumber/src/test/java/com ; \
+	done
+
+	@for pnumber in `seq 1 $(SUBPROJECT_NUM)` ; do \
+		for number in `seq 1 $(FILE_NUM)` ; do \
+	  	INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/multi/src/main --env --nobackup -p >> $(DOWNLOAD_SOURCES_DIR)/multi/subproject$$pnumber/src/main/java/com/Simple$$number.java ; \
+		done ; \
+	done
+
+	$(info Generating $(FILE_NUM) java test source files in each subproject)
+	@for pnumber in `seq 1 $(SUBPROJECT_NUM)` ; do \
+		for number in `seq 1 $(FILE_NUM)` ; do \
+	  	INDEX=$$number cheetah fill -R --idir $(TEMPLATES_DIR)/multi/src/test --env --nobackup -p >> $(DOWNLOAD_SOURCES_DIR)/multi/subproject$$pnumber/src/test/java/com/Simple"$$number"Test.java ; \
+		done ; \
 	done
