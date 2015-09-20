@@ -11,8 +11,6 @@ BUILD_DEFINITIONS=singleModule
 # folder containing source resources except for buildfiles
 DOWNLOAD_SOURCES_DIR=buildsrc
 
-TEMPLATES_DIR=templates
-FILE_NUM=5
 JAVA_HOME=/usr/lib/jvm/java-7-oracle/
 
 .PHONY: default
@@ -209,7 +207,13 @@ $(DOWNLOAD_SOURCES_DIR)/commons-math/src:
 	rm -f $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/util/FastMathTestPerformance.java
 
 
-$(DOWNLOAD_SOURCES_DIR)/simple/src:
+
+TEMPLATES_DIR=templates
+FILE_NUM=21
+
+$(DOWNLOAD_SOURCES_DIR)/simple/src: $(DOWNLOAD_SOURCES_DIR)/simple/$(FILE_NUM)/src
+
+$(DOWNLOAD_SOURCES_DIR)/simple/$(FILE_NUM)/src:
 	$(info Generating $(FILE_NUM) java source files)
 	@mkdir -p $(DOWNLOAD_SOURCES_DIR)/simple/src/main/java/com
 	@for number in `seq 0 $(FILE_NUM)` ; do \
