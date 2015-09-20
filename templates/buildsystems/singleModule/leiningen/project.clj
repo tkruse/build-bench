@@ -3,7 +3,7 @@
   :url "http://example.org/sample-clojure-project"
   :min-lein-version "2.0.0"
   :profiles {:dev {:dependencies [[junit/junit "4.11"]]}}
-  :dependencies [[org.clojure/clojure "1.6.0"] [junit/junit "4.11"]]
+  :dependencies [[org.clojure/clojure "1.7.0"] [junit/junit "4.11"]]
   :pedantic? :abort
   :plugins [[lein-junit "1.1.8"]]
   :repositories [["java.net" "http://download.java.net/maven/2"]]
