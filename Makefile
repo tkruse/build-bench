@@ -138,7 +138,8 @@ $(BUILD_DIR)/sbt/src: $(BUILD_DIR)/project
 	@cd $(BUILD_DIR)/sbt; cp -rf ../project/* .
 
 $(BUILD_DIR)/sbt/build.sbt: $(BUILD_DIR)/project
-	@cp -rf templates/buildsystems/$(BUILD_DEFINITIONS)/sbt $(BUILD_DIR)
+	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/sbt $(BUILD_DIR)/sbt
+
 
 ## buildr
 
@@ -153,7 +154,7 @@ $(BUILD_DIR)/buildr/src: $(BUILD_DIR)/project
 	@cd $(BUILD_DIR)/buildr; cp -rf ../project/* .
 
 $(BUILD_DIR)/buildr/buildfile: $(BUILD_DIR)/project
-	@cp -rf templates/buildsystems/$(BUILD_DEFINITIONS)/buildr $(BUILD_DIR)
+	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/buildr $(BUILD_DIR)/buildr
 
 ## Leiningen
 
@@ -169,7 +170,7 @@ $(BUILD_DIR)/leiningen/src: $(BUILD_DIR)/project
 	@cd $(BUILD_DIR)/leiningen; cp -rf ../project/* .
 
 $(BUILD_DIR)/leiningen/project.clj: $(BUILD_DIR)/project
-	@cp -rf templates/buildsystems/$(BUILD_DEFINITIONS)/leiningen $(BUILD_DIR)
+	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/leiningen $(BUILD_DIR)/leiningen
 
 ## buck
 
@@ -186,7 +187,7 @@ $(BUILD_DIR)/buck/src: $(BUILD_DIR)/project
 	@cd $(BUILD_DIR)/buck; cp -rf ../project/* .
 
 $(BUILD_DIR)/buck/BUCK: $(BUILD_DIR)/project
-	@cp -rf templates/buildsystems/$(BUILD_DEFINITIONS)/buck $(BUILD_DIR)
+	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/buck $(BUILD_DIR)/buck
 
 ## ant_ivy
 
@@ -201,7 +202,7 @@ $(BUILD_DIR)/ivy/src: $(BUILD_DIR)/project
 	@cd $(BUILD_DIR)/ivy; cp -rf ../project/* .
 
 $(BUILD_DIR)/ivy/build.xml: $(BUILD_DIR)/project
-	@cp -rf templates/buildsystems/$(BUILD_DEFINITIONS)/ivy $(BUILD_DIR)
+	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/ivy $(BUILD_DIR)/ivy
 
 
 

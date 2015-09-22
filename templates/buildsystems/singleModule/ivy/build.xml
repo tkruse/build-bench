@@ -100,9 +100,9 @@ under the License.
       <formatter type="xml"/>
 
       <batchtest fork="yes" todir="${reports.test}">
-        <fileset dir="${src.test}/java">
-          <include name="**/*Test.java"/>
-          <exclude name="**/*AbstractTest.java"/>
+        <fileset dir="${build.test}">
+          <include name="**/*Test*"/>
+          <exclude name="**/*AbstractTest*"/>
         </fileset>
       </batchtest>
 
