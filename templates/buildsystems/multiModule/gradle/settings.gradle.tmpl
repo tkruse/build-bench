@@ -1,0 +1,5 @@
+rootProject.name = 'gradle-example'
+
+{% for var in range(0, 3) %}
+include 'subproject{{ var }}'{% endfor %}
+

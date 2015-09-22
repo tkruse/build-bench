@@ -29,9 +29,9 @@ In case you want to run with other projects, modify the ```Makefile``` as requir
 
 # Prerequisites
 
-* bash     (the standard Ubuntu shell)
+* bash        (the standard Ubuntu shell)
 * GNU make    (should be present on any *nix)
-* cheetah    (if using templated sources, install via pip or apt-get)
+* jinja2     (if using templated sources, install via pip or apt-get)
 
 # Buildsystems
 
@@ -361,14 +361,13 @@ Note that for sbt and leiningen, extra plugins were required to run JUnit tests 
 
 java.lang.InstantiationException during tests is usually a sign that a TestRunner is trying to run a non-Testcase class (like abstract or util classes). Not all Buildsystems can cope well with that by default.
 
-## cheetah
-
-Originally I wanted to generate Java sources for a benchmark. But generating interesting sources quickly became tedious, so I switched to using commons-math instead. However, I still use my simple classes to debug builds.
-Cheetah was not a perfect choice for templating of files, as it makes it hard to control generated filenames.
-
 ## Why GNU make?
 
 I chose GNU make for this project because it is omnipresent in linux and very close to shell scripting.
+
+## Why jinja2?
+
+I needed some templating engine, and scripting in Python seemed the least effort. Jinja2 is popular and een around for a while. Mako and Genshi also seemed nice at a glance.
 
 ## Why commons-math?
 

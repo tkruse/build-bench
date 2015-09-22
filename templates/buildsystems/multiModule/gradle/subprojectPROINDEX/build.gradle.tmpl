@@ -1,0 +1,16 @@
+apply plugin: 'java'
+
+dependencies {
+    testCompile("junit:junit-dep:4.11") { force = true }
+}
+
+repositories {
+  jcenter()
+  mavenCentral()
+}
+
+test {
+    testLogging {
+        exceptionFormat 'full'
+    }
+}
