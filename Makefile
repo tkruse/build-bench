@@ -93,7 +93,7 @@ $(BUILD_DIR)/bazel/src: $(BUILD_DIR)/project
 	@cd $(BUILD_DIR)/bazel; cp -rf ../project/* .
 
 $(BUILD_DIR)/bazel/BUILD: $(BUILD_DIR)/project
-	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/bazel $(BUILD_DIR)/bazel
+	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/bazel $(BUILD_DIR)/bazel --subprojectnum=$(SUBPROJECT_NUM) --filenum=$(FILE_NUM)
 
 ## maven
 
@@ -108,7 +108,7 @@ $(BUILD_DIR)/maven/src: $(BUILD_DIR)/project
 	@cd $(BUILD_DIR)/maven; cp -rf ../project/* .
 
 $(BUILD_DIR)/maven/pom.xml: $(BUILD_DIR)/project
-	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/maven $(BUILD_DIR)/maven
+	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/maven $(BUILD_DIR)/maven --subprojectnum=$(SUBPROJECT_NUM) --filenum=$(FILE_NUM)
 
 ## gradle
 
@@ -123,7 +123,7 @@ $(BUILD_DIR)/gradle/src: $(BUILD_DIR)/project
 	@cd $(BUILD_DIR)/gradle; cp -rf ../project/* .
 
 $(BUILD_DIR)/gradle/build.gradle: $(BUILD_DIR)/project
-	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/gradle $(BUILD_DIR)/gradle
+	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/gradle $(BUILD_DIR)/gradle --subprojectnum=$(SUBPROJECT_NUM) --filenum=$(FILE_NUM)
 
 ## sbt
 
@@ -138,7 +138,7 @@ $(BUILD_DIR)/sbt/src: $(BUILD_DIR)/project
 	@cd $(BUILD_DIR)/sbt; cp -rf ../project/* .
 
 $(BUILD_DIR)/sbt/build.sbt: $(BUILD_DIR)/project
-	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/sbt $(BUILD_DIR)/sbt
+	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/sbt $(BUILD_DIR)/sbt --subprojectnum=$(SUBPROJECT_NUM) --filenum=$(FILE_NUM)
 
 
 ## buildr
@@ -154,7 +154,7 @@ $(BUILD_DIR)/buildr/src: $(BUILD_DIR)/project
 	@cd $(BUILD_DIR)/buildr; cp -rf ../project/* .
 
 $(BUILD_DIR)/buildr/buildfile: $(BUILD_DIR)/project
-	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/buildr $(BUILD_DIR)/buildr
+	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/buildr $(BUILD_DIR)/buildr --subprojectnum=$(SUBPROJECT_NUM) --filenum=$(FILE_NUM)
 
 ## Leiningen
 
@@ -170,7 +170,7 @@ $(BUILD_DIR)/leiningen/src: $(BUILD_DIR)/project
 	@cd $(BUILD_DIR)/leiningen; cp -rf ../project/* .
 
 $(BUILD_DIR)/leiningen/project.clj: $(BUILD_DIR)/project
-	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/leiningen $(BUILD_DIR)/leiningen
+	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/leiningen $(BUILD_DIR)/leiningen --subprojectnum=$(SUBPROJECT_NUM) --filenum=$(FILE_NUM)
 
 ## buck
 
@@ -187,7 +187,7 @@ $(BUILD_DIR)/buck/src: $(BUILD_DIR)/project
 	@cd $(BUILD_DIR)/buck; cp -rf ../project/* .
 
 $(BUILD_DIR)/buck/BUCK: $(BUILD_DIR)/project
-	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/buck $(BUILD_DIR)/buck
+	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/buck $(BUILD_DIR)/buck --subprojectnum=$(SUBPROJECT_NUM) --filenum=$(FILE_NUM)
 
 ## ant_ivy
 
@@ -202,7 +202,7 @@ $(BUILD_DIR)/ivy/src: $(BUILD_DIR)/project
 	@cd $(BUILD_DIR)/ivy; cp -rf ../project/* .
 
 $(BUILD_DIR)/ivy/build.xml: $(BUILD_DIR)/project
-	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/ivy $(BUILD_DIR)/ivy
+	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/ivy $(BUILD_DIR)/ivy --subprojectnum=$(SUBPROJECT_NUM) --filenum=$(FILE_NUM)
 
 
 

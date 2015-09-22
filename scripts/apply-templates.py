@@ -48,19 +48,34 @@ def transformFile(file, sourceroot, targetroot, subprojectnum, filenum):
 def transformFileFixedDir(file, relpath, target_dir, subprojectnum, filenum):
     if target_dir and not os.path.exists(target_dir):
         os.makedirs(target_dir)
-    if file.endswith('tmpl'):
-        for index in range(0, filenum):
-            filename = os.path.basename(relpath)[:-5]
-            with open(file, 'r') as filehandle:
-                template = Template(filehandle.read())
-                content = template.render({'index': index})
-            target_file = os.path.join(target_dir, filename.replace('INDEX', "%s" % index))
-
-            with open(target_file, 'w') as filehandle:
-                filehandle.write(content)
+    params = {'subprojectnum': subprojectnum,
+              'filenum': filenum,
+              'index': ''
+          }
+    if file.endswith('.tmpl'):
+        applyTemplate(file, relpath, target_dir, params)
+    elif file.endswith('.looptmpl'):
+        repeatTemplate(file, relpath, target_dir, filenum, params)
     else:
         filename = os.path.basename(relpath)
         shutil.copyfile(file, os.path.join(target_dir, filename))
+
+def repeatTemplate(file, relpath, target_dir, filenum, params):
+    for index in range(0, filenum):
+        params['index'] = index
+        applyTemplate(file, relpath, target_dir,params)
+
+def applyTemplate(file, relpath, target_dir, params):
+    filename = os.path.basename(relpath)
+    # cut off extension
+    filename = filename[:filename.rfind('.')]
+    with open(file, 'r') as filehandle:
+        template = Template(filehandle.read())
+        content = template.render(params)
+    target_file = os.path.join(target_dir, filename.replace('INDEX', "%s" % params['index']))
+
+    with open(target_file, 'w') as filehandle:
+        filehandle.write(content)
 
 def all_files(directory):
     for path, dirs, files in os.walk(directory):
