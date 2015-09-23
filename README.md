@@ -136,7 +136,7 @@ bazel version Sep 06, 2015
 pants --version: 0.0.46
 
 $ make clean-builds all --silent
-******* sbt start
+******* sbt start (invalid, skipped tests for unknown reasons)
 cd build/sbt; time sbt -java-home /usr/lib/jvm/java-7-oracle/ -q test package
 368.03user 3.29system 1:16.01elapsed 488%CPU (0avgtext+0avgdata 1289052maxresident)k
 129320inputs+115696outputs (114major+496608minor)pagefaults 0swaps
