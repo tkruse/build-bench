@@ -243,3 +243,5 @@ $(DOWNLOAD_SOURCES_DIR)/commons-math:
 	rm -f $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/optim/nonlinear/vector/jacobian/AbstractLeastSquaresOptimizerTestValidation.java
 	rm -f $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/optimization/general/AbstractLeastSquaresOptimizerTestValidation.java
 	rm -f $(DOWNLOAD_SOURCES_DIR)/commons-math/src/test/java/org/apache/commons/math3/util/FastMathTestPerformance.java
+	mv $(DOWNLOAD_SOURCES_DIR)/commons-math/pom.xml $(DOWNLOAD_SOURCES_DIR)/commons-math/pom.xml.bak
+	mv $(DOWNLOAD_SOURCES_DIR)/commons-math/build.xml $(DOWNLOAD_SOURCES_DIR)/commons-math/build.xml.bak
