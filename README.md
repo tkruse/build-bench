@@ -202,7 +202,7 @@ cd build/sbt; time sbt -java-home /usr/lib/jvm/java-7-oracle/ -q test package
 cd build/pants; time pants test :test -q
 199.23user 3.09system 2:12.04elapsed 153%CPU (0avgtext+0avgdata 727832maxresident)k
 137808inputs+12744outputs (62major+378548minor)pagefaults 0swaps
-******* maven start
+******* maven start (problems with incremental build: MCOMPILER-209, MCOMPILER-205)
 cd build/maven; time mvn -q package -Dsurefire.printSummary=false
 218.67user 4.04system 2:18.44elapsed 160%CPU (0avgtext+0avgdata 987708maxresident)k
 64248inputs+39400outputs (76major+628412minor)pagefaults 0swaps
@@ -285,6 +285,10 @@ pants     | Java, Scala, Python, Go    | Python     | Python       | 2014 (2010)
 Gradle was most convenient at testing with junit, it detected itself what was a testcase and what not without relying on the name. The other buildsystems either relied on names (causing both false positives and false negatives), or simply failed with InstantiationException.
 
 To produce fair benchmark results, some test classes had to be removed because they would have punished Gradle for being smarter than the rest, running more tests.
+
+## Maven
+
+Maven surprised by recompiling everything on the second run. Some research revealed two long-standing bugs (since 2013) with incremental compilation (MCOMPILER-209, MCOMPILER-205). Even with a workaround, 80 of the 600 classes of commons-math were found stale and recompiled, and hence all tests were also run again. So the benchmark for the second run is not realistic for Maven projects who get lucky enough not to be affected by these bugs.
 
 ## Sbt
 
