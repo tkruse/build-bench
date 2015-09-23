@@ -32,26 +32,32 @@ def main():
             os.makedirs(args.targetroot)
 
     for file in all_files(args.sourceroot):
-        transformFile(file, args.sourceroot, args.targetroot, args.subprojectnum, args.filenum)
+        transformFile(file,
+                      args.sourceroot,
+                      args.targetroot,
+                      args.subprojectnum,
+                      args.filenum)
 
 
 def transformFile(file, sourceroot, targetroot, subprojectnum, filenum):
     relpath = os.path.relpath(file, sourceroot)
     target_dir = os.path.join(targetroot, os.path.dirname(relpath))
-    if (target_dir.find('PROINDEX') >= 0):
-        for proindex in range(0, subprojectnum):
-            loop_target_dir = target_dir.replace('PROINDEX', "%s" % proindex)
-            transformFileFixedDir(file, relpath, loop_target_dir, subprojectnum, filenum)
-    else:
-        transformFileFixedDir(file, relpath, target_dir, subprojectnum, filenum)
-
-def transformFileFixedDir(file, relpath, target_dir, subprojectnum, filenum):
-    if target_dir and not os.path.exists(target_dir):
-        os.makedirs(target_dir)
     params = {'subprojectnum': subprojectnum,
               'filenum': filenum,
-              'index': ''
+              'index': '',
+              'proindex': ''
           }
+    if (target_dir.find('PROINDEX') >= 0):
+        for proindex in range(0, subprojectnum):
+            params['proindex'] = proindex
+            loop_target_dir = target_dir.replace('PROINDEX', "%s" % proindex)
+            transformFileFixedDir(file, relpath, loop_target_dir, filenum, params)
+    else:
+        transformFileFixedDir(file, relpath, target_dir, filenum, params)
+
+def transformFileFixedDir(file, relpath, target_dir, filenum, params):
+    if target_dir and not os.path.exists(target_dir):
+        os.makedirs(target_dir)
     if file.endswith('.tmpl'):
         applyTemplate(file, relpath, target_dir, params)
     elif file.endswith('.looptmpl'):
@@ -79,6 +85,10 @@ def applyTemplate(file, relpath, target_dir, params):
 
 def all_files(directory):
     for path, dirs, files in os.walk(directory):
+        if '.svn' in dirs:
+            dirs.remove('.svn')
+        if '.git' in dirs:
+            dirs.remove('.git')
         for f in files:
             if not f.endswith('~'):
                 yield os.path.join(path, f)

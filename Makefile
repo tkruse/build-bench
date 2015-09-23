@@ -78,7 +78,7 @@ $(BUILD_DIR)/pants/src: $(BUILD_DIR)/project
 	@cd $(BUILD_DIR)/pants; cp -rf ../project/* .
 
 $(BUILD_DIR)/pants/BUILD: $(BUILD_DIR)/project
-	@cp -rf templates/buildsystems/$(BUILD_DEFINITIONS)/pants $(BUILD_DIR)
+	@python scripts/apply-templates.py templates/buildsystems/$(BUILD_DEFINITIONS)/pants $(BUILD_DIR)/pants --subprojectnum=$(SUBPROJECT_NUM) --filenum=$(FILE_NUM)
 
 ## bazel
 
