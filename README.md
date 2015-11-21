@@ -29,9 +29,10 @@ In case you want to run with other projects, modify the ```Makefile``` as requir
 
 # Prerequisites
 
+* Java        (7 or 8, configure JAVA_HOME in Makefile)
 * bash        (the standard Ubuntu shell)
 * GNU make    (should be present on any *nix)
-* jinja2     (if using templated sources, install via pip or apt-get)
+* jinja2      (if using templated sources, install via pip or apt-get)
 
 # Buildsystems
 
@@ -83,11 +84,12 @@ Two repositories exist, seem to stay in sync:
 
 git clone, run ant. That yields a working binary that can be put onto PATH (softlinking failed for me).
 
+
 ## bazel
 
 See http://bazel.io/
 
-Installers should be provided (but were not available for me). Installation from source seems easy enough: git clone, run ./compile.sh. Put binary on PATH.
+Use the downloadable installer with the ```--user option```. Then put the ~/.baze/bin folder onto your ```PATH```.
 
 ## pants
 
