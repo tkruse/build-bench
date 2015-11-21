@@ -23,7 +23,7 @@ SUBPROJECT_NUM=3
 # folder containing source resources except for buildfiles
 DOWNLOAD_SOURCES_DIR=buildsrc
 
-JAVA_HOME=/usr/lib/jvm/java-7-oracle/
+JAVA_HOME=/usr/lib/jvm/java-8-oracle/
 
 .PHONY: default
 default: all
