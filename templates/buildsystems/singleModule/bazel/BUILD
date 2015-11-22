@@ -22,7 +22,8 @@ java_test(
     name = "example-tests",
     srcs = glob(["src/test/java/**/*Test.java"],
         exclude = ["src/test/java/**/*Abstract*Test.java"]),
-    size='medium',
+    size='small',
+    timeout='eternal',
     deps = [
         ':example',
         ':test_helpers',
