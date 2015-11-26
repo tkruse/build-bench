@@ -178,8 +178,8 @@ $(BUILD_DIR)/leiningen/project.clj: $(BUILD_DIR)/project
 .PHONY: buck
 buck: $(BUILD_DIR)/buck/src $(BUILD_DIR)/buck/BUCK
 	$(info ******* buck start)
-	cd $(BUILD_DIR)/buck; time buck fetch //:junit
-	cd $(BUILD_DIR)/buck; time buck fetch //:hamcrest-core
+	cd $(BUILD_DIR)/buck; buck fetch //:junit
+	cd $(BUILD_DIR)/buck; buck fetch //:hamcrest-core
 	cd $(BUILD_DIR)/buck; time buck test
 
 .PHONY: $(BUILD_DIR)/buck/src
