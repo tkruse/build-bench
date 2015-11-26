@@ -11,14 +11,12 @@
 
 
 
-	<target name="delegate.all" depends="delegate.all.dependencies">
-	</target>
   <target name="delegate.all.dependencies"
-          depends="{% for var in range(0, index) %}delegate.subproject{{ var }}, {% endfor %}">
+          depends="{% for var in range(0, subprojectnum - 1) %}delegate.subproject{{ var }}, {% endfor %}delegate.subproject{{ subprojectnum - 1 }}">
   </target>
 
 
-{% for var in range(0, index) %}
+{% for var in range(0, subprojectnum) %}
 	<target name="delegate.subproject{{ var }}" depends="delegate.subproject{{ var }}.dependencies">
 		<ant dir="${dependencies.basedir}/subproject{{ var }}"
 			target="${delegate.target}"
