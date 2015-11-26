@@ -1,0 +1,17 @@
+
+target(name='lib',
+  dependencies = [
+{% for var in range(0, subprojectnum) %}
+    'subproject{{ var }}:lib{{ var }}',
+{% endfor %}
+  ],
+)
+
+target(name='test',
+  dependencies = [
+{% for var in range(0, subprojectnum) %}
+    'subproject{{ var }}:test{{ var }}',
+{% endfor %}
+  ],
+)
+
