@@ -1,4 +1,4 @@
-package com;
+package com{{ proindex }};
 
 
 public class Simple{{ index }} {
