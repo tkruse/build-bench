@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ant-project>
+<project name="sample" default="dist">
+        <import file="dependencies.xml"/>
+
+        <target name="clean" description="Deletes build files">
+                <antcall target="delegate.all">
+                        <param name="delegate.target" value="clean"/>
+                </antcall>
+        </target>
+
+        <target name="compile" description="Compiles source code">
+                <antcall target="delegate.all">
+                        <param name="delegate.target" value="compile"/>
+                </antcall>
+        </target>
+
+        <target name="test" description="Compiles source code">
+                <antcall target="delegate.all">
+                        <param name="delegate.target" value="test"/>
+                </antcall>
+        </target>
+
+        <target name="compile-tests" description="Compiles source code">
+                <antcall target="delegate.all">
+                        <param name="delegate.target" value="compile-tests"/>
+                </antcall>
+        </target>
+
+        <target name="dist" description="Creates distributable">
+                <antcall target="delegate.all.dependencies">
+                        <param name="delegate.target" value="dist"/>
+                </antcall>
+        </target>
+
+        <target name="jar" description="Creates jar">
+                <antcall target="delegate.all.dependencies">
+                        <param name="delegate.target" value="jar"/>
+                </antcall>
+        </target>
+</project>

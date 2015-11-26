@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="dependencies" default="delegate.all">
+	<dirname property="dependencies.basedir" file="${ant.file.dependencies}"/>
+
+
+	<!--
+		The 'delegate.*' targets proxy out some single task call ('${delegate.target}') to the subproject named, and all subprojects it depends upon.
+		A separate ant invocation handles each subproject, so they do not share any information.
+		(Dependencies are expressed by these target's depends relationships because keeping all of them in the driving ant instance means they don't repeat in case of a diamond.)
+	-->
+
+
+
+	<target name="delegate.all" depends="delegate.all.dependencies">
+	</target>
+  <target name="delegate.all.dependencies"
+          depends="{% for var in range(0, index) %}delegate.subproject{{ var }}, {% endfor %}">
+  </target>
+
+
+{% for var in range(0, index) %}
+	<target name="delegate.subproject{{ var }}" depends="delegate.subproject{{ var }}.dependencies">
+		<ant dir="${dependencies.basedir}/subproject{{ var }}"
+			target="${delegate.target}"
+			inheritAll="false"
+			>
+			<property name="norecurse" value="true"/>
+		 </ant>
+	</target>
+	<target name="delegate.subproject{{ var }}.dependencies"/>
+{% endfor %}
+
+</project>
+
