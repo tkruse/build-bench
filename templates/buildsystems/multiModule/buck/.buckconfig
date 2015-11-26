@@ -1,0 +1,16 @@
+[alias]
+    example = //:example
+[java]
+  src_roots = /src/main/java/, /src/main/resources, /src/test/java, /src/test/resources
+[cache]
+    # comma-separated, any of dir, cassandra, http
+    mode = dir
+    dir = buck-cache
+[project]
+  ignore = .git
+[project]
+  temp_files = ^#.*#$, .*~$, .*\.swp$
+[download]
+  maven_repo=http://repo1.maven.org/maven2
+
+

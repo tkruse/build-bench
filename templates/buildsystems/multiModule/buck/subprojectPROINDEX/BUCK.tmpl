@@ -1,0 +1,27 @@
+java_library(
+  name = 'example',
+  srcs = glob(['src/main/java/**/*.java']),
+  visibility = [
+    'PUBLIC',
+  ],
+)
+
+java_library(
+  name = 'example-tests',
+  srcs = glob(['src/test/java/**/*.java']),
+  deps = [':example', '//:junit', '//:hamcrest-core'],
+  visibility = [
+    'PUBLIC',
+  ],
+)
+
+java_test(
+  name = 'tests',
+  srcs = glob(['src/test/java/**/*Test.java'], excludes = ['src/test/java/**/*AbstractTest.java']),
+  resources = glob(['src/test/resources/**/*', 'src/main/resources/**/*']),
+  deps = [':example', ':example-tests', '//:junit', '//:hamcrest-core'],
+  source_under_test = [':example'],
+  visibility = [
+    'PUBLIC',
+  ],
+)
