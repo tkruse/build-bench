@@ -90,7 +90,7 @@ def all_files(directory):
         if '.git' in dirs:
             dirs.remove('.git')
         for f in files:
-            if not f.endswith('~'):
+            if not f.endswith('~') and not f.startswith('.#'):
                 yield os.path.join(path, f)
 
 
