@@ -1,0 +1,11 @@
+lazy val root =
+        project.in( file(".") )
+   .aggregate(
+   {% for var in range(0, subprojectnum - 1) %}
+   subproject{{ var }}, {% endfor %}subproject{{ subprojectnum - 1 }}
+
+   )
+
+   {% for var in range(0, subprojectnum) %}
+   lazy val subproject{{ var }} = project
+   {% endfor %}
