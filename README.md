@@ -41,6 +41,7 @@ In case you want to run with other projects, modify the ```Makefile``` as requir
 ant is packaged for Ubuntu.
 For more recent version see: http://ant.apache.org/manual/install.html
 
+Install ivy by placing ivy jar in ant lib dir. See http://ant.apache.org/ivy/history/latest-milestone/install.html
 
 ## Apache Maven
 
