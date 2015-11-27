@@ -3,7 +3,7 @@ package com;
 import org.junit.Test;
 import org.junit.Assert;
 
-public class SimpleTest{{ index }} {
+public class Simple{{ index }}Test {
 
      @Test
      public void testSimple{{ index }}() {
