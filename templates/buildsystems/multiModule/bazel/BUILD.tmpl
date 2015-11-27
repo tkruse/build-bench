@@ -1,0 +1,18 @@
+
+package_group(
+    name = "fooapp",
+    packages = [
+    {% for var in range(0, subprojectnum) %}
+    '//subproject{{ var }}',
+{% endfor %}
+    ],
+)
+
+test_suite(
+    name = "example-tests",
+    tests = [
+    {% for var in range(0, subprojectnum) %}
+    '//subproject{{ var }}:example-tests{{ var }}',
+{% endfor %}
+    ],
+)

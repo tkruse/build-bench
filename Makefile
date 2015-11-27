@@ -86,7 +86,7 @@ $(BUILD_DIR)/pants/BUILD: $(BUILD_DIR)/project
 bazel: $(BUILD_DIR)/bazel/src $(BUILD_DIR)/bazel/BUILD
 	$(info ******* bazel start)
 	cd $(BUILD_DIR)/bazel; bazel fetch -- :all
-	cd $(BUILD_DIR)/bazel; time bazel test --javacopt='-extra_checks:off' //:all
+	cd $(BUILD_DIR)/bazel; time bazel test --javacopt='-extra_checks:off' //:example-tests
 
 .PHONY: $(BUILD_DIR)/bazel/src
 $(BUILD_DIR)/bazel/src: $(BUILD_DIR)/project
