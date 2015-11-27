@@ -163,7 +163,10 @@ $(BUILD_DIR)/buildr/buildfile: $(BUILD_DIR)/project
 leiningen: $(BUILD_DIR)/leiningen/src $(BUILD_DIR)/leiningen/project.clj
 	$(info ******* leiningen start)
 # need hack to run both tests and jar? Using plugin to run junit tests
-	cd $(BUILD_DIR)/leiningen; LEIN_SILENT=true time sh -c 'lein junit; lein jar'
+## single project:
+#	cd $(BUILD_DIR)/leiningen; time sh -c 'lein junit; lein jar'
+## multi project:
+	cd $(BUILD_DIR)/leiningen; time sh -c 'lein sub junit; lein sub jar'
 
 .PHONY: $(BUILD_DIR)/leiningen/src
 $(BUILD_DIR)/leiningen/src: $(BUILD_DIR)/project

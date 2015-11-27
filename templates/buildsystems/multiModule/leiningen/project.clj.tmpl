@@ -1,0 +1,12 @@
+(defproject org.example/sample "1.0.0-SNAPSHOT" ; version "1.0.0-SNAPSHOT"
+  :profiles {:dev {:dependencies [[junit/junit "4.11"]]}}
+  :dependencies [[org.clojure/clojure "1.7.0"] [junit/junit "4.11"]]
+  :plugins [[lein-sub "0.3.0"]]
+  :repositories [["java.net" "http://download.java.net/maven/2"]]
+
+  :sub [
+  {% for var in range(0, subprojectnum) %}
+  "subproject{{ var }}"{% endfor %}
+
+  ]
+)
