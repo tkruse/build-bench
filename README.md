@@ -256,12 +256,13 @@ To choose, consider the following:
 
 ## No really, which one should I use for Java projects?
 
-Maven or Gradle are the default choice for most open-source Java projects and many Businesses out there. Maven may still be more popular in the industry for stability, but Gradle has a stronger innovation drive. There is an experimental project called Graven wrapping Maven with a Groovy DSL. Both have hundreds of open-source plugins available, and both get special support from IDEs, Continuous integration servers, etc.
+Maven or Gradle are the default choice for most open-source Java projects and many businesses out there. Maven may still be more popular in the industry for stability, but Gradle has a stronger innovation drive. Both have hundreds of open-source plugins available, and both get special support from IDEs, Continuous integration servers, etc. I personally favor Gradle and give some details about what I dislike about Maven below.
+
 Buildr seems to be mostly similar to Gradle but written in Ruby, which offers some advantages and disadvantages. It does not seem to gain the kind of market share Gradle and Maven have established.
 
 Ant is still being used, but it's unclear what advantages it offers. Maybe simplicity for creating many small unconventional tasks. Gant is built on top of ant and similar in purpose, but allowing to write in Groovy.
 
-Leiningen and sbt are optimized (in usability) for Clojure and Scala respectively. If you only use Java, it probably does not pay to use either of them.
+Leiningen and sbt are optimized (in usability) for Clojure and Scala respectively. If you only use Java, it probably does not pay off to use either of them, unless you wanted to learn / integrate those languages anyway.
 
 Bazel and Pants are derived from Googles Blaze system optimized for huge monorepo corporate ecosystems, where thousands of projects with interdependencies are continuously build and deployed. Buck is used at Facebook, Pants at Twitter.
 They shine in build speed and caching, but they require more developer attention and effort, because they are rule based, and have no high-level abstraction of a project object model like Gradle or Maven. And being still fairly new as open-source projects at this time, they do not have the mature support from other open-source tools. As an example, buck only lately got a feature to automatically download dependencies from central Maven repositories.
@@ -290,6 +291,14 @@ To produce fair benchmark results, some test classes had to be removed because t
 ## Maven
 
 Maven surprised by recompiling everything on the second run. Some research revealed two long-standing bugs (since 2013) with incremental compilation (MCOMPILER-209, MCOMPILER-205). Even with a workaround, 80 of the 600 classes of commons-math were found stale and recompiled, and hence all tests were also run again. So the benchmark for the second run is not realistic for Maven projects who get lucky enough not to be affected by these bugs.
+
+Other things about Maven I personally dislike: Lack of support for accessing root pom folder for shared build resources:
+http://stackoverflow.com/questions/3084629/finding-the-root-directory-of-a-multi-module-maven-reactor-project
+
+Transitive dependencies of dependencies with scope "compile" end up also having scope "compile", which causes a huge dependency mess, and there is no way of easily fixing this: http://stackoverflow.com/questions/11044243/limiting-a-transitive-dependency-to-runtime-scope-in-maven
+
+There is the so called maven enforcer plugin, however it seems that one does not cope with wildcard exclusions, so to use it you need to exclude every single transitive dependency by hand, then redeclare it as runtime dependency.
+
 
 ## Sbt
 
@@ -401,11 +410,11 @@ In particular:
 - Simple tweaks for individual buildsystems (they should remain realistic)
 - downloading of dependencies to location cached between builds (ant, buck)
 - templated configuration of builds (java version, dependencies)
-- Parsing the output of time and generating pretty reports / graphs
+- Parsing the output of time and generating pretty reports / graphs (use time -o -f, then collect results)
 - sbt using junit 4.12
 - Integrate other tools (checkstyle, Findbugs, PMD)
 - Integrate other test frameworks (Testng, spock)
-- multi-module project setups
 - interesting scalable generated sources
-- Integrate other languages (groovy, scala, clojure) where possible
 - optionally run tests/tasks in parallel using n CPUs
+- Add skeletton build files to arbitrary projects with flat parent/submodule structure 
+- Refactor Buildsystem knowledge in declarative way, allowing to easily benchmark multiple versions of same buildsystem, same buildsystem with different options, ...
