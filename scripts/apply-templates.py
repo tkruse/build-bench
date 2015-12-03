@@ -31,6 +31,8 @@ def main():
     if not os.path.exists(args.targetroot):
             os.makedirs(args.targetroot)
 
+    # print("instantiating template files from %s to %s" % (args.sourceroot, args.targetroot))
+
     for file in all_files(args.sourceroot):
         transformFile(file,
                       args.sourceroot,

@@ -76,7 +76,7 @@ See http://buildr.apache.org/
 
 ## buck
 
-See http://facebook.github.io/buck/
+See https://buckbuild.com/
 
 Two repositories exist, seem to stay in sync:
 
@@ -292,13 +292,18 @@ To produce fair benchmark results, some test classes had to be removed because t
 
 Maven surprised by recompiling everything on the second run. Some research revealed two long-standing bugs (since 2013) with incremental compilation (MCOMPILER-209, MCOMPILER-205). Even with a workaround, 80 of the 600 classes of commons-math were found stale and recompiled, and hence all tests were also run again. So the benchmark for the second run is not realistic for Maven projects who get lucky enough not to be affected by these bugs.
 
-Other things about Maven I personally dislike: Lack of support for accessing root pom folder for shared build resources:
+Other things about Maven I personally dislike:
+
+Lack of support for accessing root pom folder for shared build resources:
 http://stackoverflow.com/questions/3084629/finding-the-root-directory-of-a-multi-module-maven-reactor-project
 
 Transitive dependencies of dependencies with scope "compile" end up also having scope "compile", which causes a huge dependency mess, and there is no way of easily fixing this: http://stackoverflow.com/questions/11044243/limiting-a-transitive-dependency-to-runtime-scope-in-maven
 
 There is the so called maven enforcer plugin, however it seems that one does not cope with wildcard exclusions, so to use it you need to exclude every single transitive dependency by hand, then redeclare it as runtime dependency.
 
+Maven complains about cyclic dependencies when Probejct B depends on A at runtime scope, and A depends on B at test scope. That's because Maven cannot not separate subproject class compilation and testing.
+
+Reusing the test resources from one submodule in another submodule seems impossible.
 
 ## Sbt
 
@@ -416,5 +421,7 @@ In particular:
 - Integrate other test frameworks (Testng, spock)
 - interesting scalable generated sources
 - optionally run tests/tasks in parallel using n CPUs
-- Add skeletton build files to arbitrary projects with flat parent/submodule structure 
+- Add skeletton build files to arbitrary projects with flat parent/submodule structure. Possibly define meta-buildsystem with hooks.
 - Refactor Buildsystem knowledge in declarative way, allowing to easily benchmark multiple versions of same buildsystem, same buildsystem with different options, ...
+- use / preheat gradle daemon and similar
+- maven parallel builds
