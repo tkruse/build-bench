@@ -329,6 +329,8 @@ ant was also difficult to debug (in particular what was missing for junit4).
 
 Leiningen does not have convenient options to run junit tests, in particular filtering out abstract classes by name was difficult. Had to use 3rd party plugin. Also excluding the test files from a jar seemed not trivially possible.
 
+Leiningen had no bundled support for subprojects, 3 different plugins libs were available, it was not immediately clear which one is most recommendable.
+
 ## buildr
 
 buildr (and sbt I think) used the current CLASSPATH when running tests (instead of an isolated classpath). That caused surprising test failures, until I took care to have a clean system CLASSPATH.
