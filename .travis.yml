@@ -1,7 +1,10 @@
 language: java
-sudo: false
+sudo: true
 jdk:
   - oraclejdk8
+install:
+  - sudo apt-get install -qq time
+  - pip install --user jinja2
 script:
   - make gradle maven ant_ivy buildr
 notifications:
