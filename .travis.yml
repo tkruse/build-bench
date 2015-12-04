@@ -1,0 +1,12 @@
+language: java
+sudo: false
+jdk:
+  - oraclejdk8
+script:
+  - make gradle maven ant_ivy buildr
+notifications:
+  email: false
+branches:
+  only:
+    - master
+    - develop
