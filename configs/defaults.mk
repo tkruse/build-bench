@@ -23,6 +23,10 @@ export DEFAULT_CONFIG=configs/generated_single.mk
 export FILE_NUM=0
 export SUBPROJECT_NUM=0
 
+export ANT_VERSION=1.9.6
+export IVY_VERSION=2.4.0
+export MAVEN_VERSION=3.3.9
+export GRADLE_VERSION=2.9
 
 ## Build orchestration variables
 ## Should usually be left alone

@@ -8,6 +8,7 @@ $(CONFIGURED_BUILD_SOURCE): $(CACHE_DIR)/commons-math
 
 # Apache commons math sources
 # needed some cleaning up to prevent test failures in diverse buildsystems
+.PRECIOUS: $(CACHE_DIR)/commons-math
 $(CACHE_DIR)/commons-math:
 	@mkdir -p $(CACHE_DIR)
 	cd $(CACHE_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-math.git; cd commons-math; git checkout MATH_3_4
