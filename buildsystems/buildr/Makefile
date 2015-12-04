@@ -1,10 +1,23 @@
 .PHONY: default
 default: buildr
 
+export BUILDR_DIR=$(CACHE_DIR)/buildr
+
 .PHONY: buildr
-buildr: $(CONFIGURED_BUILD_ROOT)/buildr/buildfile
+buildr: buildr$(BUILDR_VERSION)
+
+.NOTPARALLEL: buildr%
+.PHONY: buildr%
+buildr%: $(CONFIGURED_BUILD_ROOT)/buildr/buildfile $(BUILDR_DIR)/gems/buildr-%/bin/buildr
 	$(info ******* buildr start)
-	cd $(CONFIGURED_BUILD_ROOT)/buildr; time buildr -q package
+	cd $(CONFIGURED_BUILD_ROOT)/buildr; time $(BUILDR_DIR)/gems/buildr-$*/bin/buildr -q package
+
+
+.PRECIOUS: $(BUILDR_DIR)/gems/buildr-%/bin/buildr
+$(BUILDR_DIR)/gems/buildr-%/bin/buildr:
+	@mkdir -p $(BUILDR_DIR)
+	@GEM_HOME=$(BUILDR_DIR) gem install buildr -v $*
+	@touch $(BUILDR_DIR)/gems/buildr-$*/bin/buildr
 
 
 $(CONFIGURED_BUILD_ROOT)/buildr/buildfile: $(CONFIGURED_BUILD_SOURCE)

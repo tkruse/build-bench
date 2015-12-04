@@ -27,6 +27,7 @@ export ANT_VERSION=1.9.6
 export IVY_VERSION=2.4.0
 export MAVEN_VERSION=3.3.9
 export GRADLE_VERSION=2.9
+export BUILDR_VERSION=1.4.23
 
 ## Build orchestration variables
 ## Should usually be left alone
