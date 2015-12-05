@@ -30,6 +30,7 @@ export GRADLE_VERSION=2.9
 export BUILDR_VERSION=1.4.23
 # git repository tag
 export BUCK_VERSION=v2015.11.30.01
+export LEININGEN_VERSION=2.5.3
 
 ## Build orchestration variables
 ## Should usually be left alone
