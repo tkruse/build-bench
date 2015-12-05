@@ -10,28 +10,39 @@ The project works mostly well using Apache commons-math as sample source. Howeve
 Manual installation of the different buildsystems is required.
 
 The project is driven using GNU make. The ```Makefile``` creates a ```build``` folder,
-containing a ```src``` folder, which is expected to contain sources in the canonical layout (```src/main/java``` etc.)
-Then it creates project setups for each buildsystem inside
-```build/<buildsystemname>``` with a softlink to ```src```.
-Then it invokes the build command to compile, unit-test and jar the sources.
+containing a folder structure for benchmarks. Subfolders follow the pattern ```<benchmarkname>/<buildsystemname>```. Into those folders, Java source files and buildsystem specific files will be copied / generated. Then t eh buildsystem is invoked inside that folder and the time until completion is measured.
 
 ## Running
 
 ```
 # to run all buildsystems
-$ make clean-builds all --silent
+$ make
+
+# to run all buildsystems freshly
+$ make clean all
 
 # to run for just selected buildsystems, e.g. maven vs. gradle:
-$ make clean-builds maven gradle
+$ make clean maven gradle
 ```
 
-In case you want to run with other projects, modify the ```Makefile``` as required.
+The process is configured using variables that can be changed, the configs folder has a ```defauls.mk``` file setting defaults, and some example files for different kinds of builds.
+
+It is possible to run a custom Benchmark configuration using:
+
+```
+# to run specific configuration
+$ make clean all CONFIG=configs/generated_multi.mk
+```
+
+Custom configurations are loaded after the ```defaults.mk``` providing some convention over configuration.
 
 # Prerequisites
 
-* Java        (7 or 8, configure JAVA_HOME in Makefile)
+* Java        (7 or 8, configure JAVA_HOME)
 * bash        (the standard Ubuntu shell)
 * GNU make    (should be present on any *nix)
+* Python      (2 or 3)
+* Ruby        (for Apache buildr, jruby should also work)
 * jinja2      (if using templated sources, install via pip or apt-get)
 
 # Buildsystems
@@ -107,7 +118,7 @@ PANT_VERSION=`./pants --version`; echo -e "[DEFAULT]\npants_version: $PANT_VERSI
 # Samples
 
 The builds should work for any source tree that follows these conventions:
-* Java 7 compliant code
+* Java 8 compliant code
 * Java sources in src/main/java
 * Test sources in src/test/java
 * Other test resources in src/test/resources
@@ -233,6 +244,8 @@ Compiler speed may differ for different compilers. The scala compiler and clojur
 
 Incremental re-compilation, meaning compiling only files that are affected by a change, can drastically reduce build times.
 
+Incremental build steps beond compilation help (e.g. Maven can compile incrementally, but not test incrementally).
+
 Caching influences incremental builds. Several buildsystems have a simple caching strategy in that they will not run a task if the output still exist. This will improve performance for repeated builds.
 
 Buck, Bazel and Pants were the only build system benchmarked here that offers advanced (true) caching of build results, in that the cache is an independent storage that maintains multiple versions of build results over time. This can dramatically reduce build times in many more situations than simple caching described before.
@@ -247,7 +260,7 @@ To choose, consider the following:
 
 - Learning curve
 - Maturity
-- Performance (compiler, incremental builds, caching)
+- Performance (startup, parallelism, compiler, incremental builds, caching)
 - Documentation
 - Community size
 - IDE support
@@ -256,11 +269,11 @@ To choose, consider the following:
 
 ## No really, which one should I use for Java projects?
 
-Maven or Gradle are the default choice for most open-source Java projects and many businesses out there. Maven may still be more popular in the industry for stability, but Gradle has a stronger innovation drive. Both have hundreds of open-source plugins available, and both get special support from IDEs, Continuous integration servers, etc. I personally favor Gradle and give some details about what I dislike about Maven below.
+Maven or Gradle are the default choice for most open-source Java projects and many businesses out there. Maven may still be more popular in the industry for stability, but Gradle has a stronger innovation drive. Both have hundreds of open-source plugins available, and both get special support from IDEs, Continuous integration servers, etc. I personally prefer Gradle and give some details about what I dislike about Maven below.
 
 Buildr seems to be mostly similar to Gradle but written in Ruby, which offers some advantages and disadvantages. It does not seem to gain the kind of market share Gradle and Maven have established.
 
-Ant is still being used, but it's unclear what advantages it offers. Maybe simplicity for creating many small unconventional tasks. Gant is built on top of ant and similar in purpose, but allowing to write in Groovy.
+Ant is still being used, but it's unclear what advantages it offers. Maybe simplicity for creating many small unconventional tasks. Gant is built on top of ant and similar in purpose, but allowing to write in Groovy. Other buildsystems like make, rake or scons might be similar enough to ant, but they do not get further consideration here because they have little tradition for Java projects.
 
 Leiningen and sbt are optimized (in usability) for Clojure and Scala respectively. If you only use Java, it probably does not pay off to use either of them, unless you wanted to learn / integrate those languages anyway.
 
@@ -294,7 +307,7 @@ Maven surprised by recompiling everything on the second run. Some research revea
 
 Other things about Maven I personally dislike:
 
-Lack of support for accessing root pom folder for shared build resources:
+Lack of support for accessing root pom folder for shared build configuration:
 http://stackoverflow.com/questions/3084629/finding-the-root-directory-of-a-multi-module-maven-reactor-project
 
 Transitive dependencies of dependencies with scope "compile" end up also having scope "compile", which causes a huge dependency mess, and there is no way of easily fixing this: http://stackoverflow.com/questions/11044243/limiting-a-transitive-dependency-to-runtime-scope-in-maven
@@ -304,6 +317,8 @@ There is the so called maven enforcer plugin, however it seems that one does not
 Maven complains about cyclic dependencies when Probejct B depends on A at runtime scope, and A depends on B at test scope. That's because Maven cannot not separate subproject class compilation and testing.
 
 Reusing the test resources from one submodule in another submodule seems impossible.
+
+Some more reasons against Maven: http://blog.ltgt.net/maven-is-broken-by-design/
 
 ## Sbt
 
