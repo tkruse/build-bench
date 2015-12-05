@@ -43,8 +43,8 @@ $(CONFIGURED_BUILD_SOURCE):
 
 # copy project sources into buildsystem subdir
 $(CONFIGURED_BUILD_ROOT)/%/src: $(CONFIGURED_BUILD_SOURCE)
-	@mkdir -p $@/..
-	@cd $@/..; cp -rf $(CONFIGURED_BUILD_SOURCE)/* .
+	@mkdir -p $(CONFIGURED_BUILD_ROOT)/$*
+	@cd $(CONFIGURED_BUILD_ROOT)/$*; cp -rf $(CONFIGURED_BUILD_SOURCE)/* .
 
 # invoke buildsystem makefile to generate buildsystem sources and run benchmark
 .PHONY: $(BUILDSYSTEMS)
