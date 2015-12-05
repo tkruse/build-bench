@@ -32,6 +32,8 @@ export BUILDR_VERSION=1.4.23
 export BUCK_VERSION=v2015.11.30.01
 export LEININGEN_VERSION=2.5.3
 export SBT_VERSION=0.13.9
+# pants is horrible at backwards compatibility, expect problems when upgrading
+export PANTS_VERSION=0.0.46
 
 ## Build orchestration variables
 ## Should usually be left alone
