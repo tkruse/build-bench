@@ -19,7 +19,7 @@ $(BUILDR_DIR)/gems/buildr-%/bin/buildr:
 	@GEM_HOME=$(BUILDR_DIR) gem install buildr -v $*
 	@touch $(BUILDR_DIR)/gems/buildr-$*/bin/buildr
 
-
+.PRECIOUS: $(CONFIGURED_BUILD_ROOT)/buildr/buildfile
 $(CONFIGURED_BUILD_ROOT)/buildr/buildfile: $(CONFIGURED_BUILD_SOURCE)
 	@python $(SCRIPTS_DIR)/apply-templates.py $(BUILDTEMPLATES_DIR)/$(BUILD_DEFINITIONS)/buildr $(CONFIGURED_BUILD_ROOT)/buildr --subprojectnum=$(SUBPROJECT_NUM) --filenum=$(FILE_NUM)
 

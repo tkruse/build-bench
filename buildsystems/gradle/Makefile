@@ -22,7 +22,8 @@ $(GRADLE_DIR)/gradle-%-bin.zip:
 .PRECIOUS: $(GRADLE_DIR)/gradle%/bin/gradle
 $(GRADLE_DIR)/gradle%/bin/gradle: $(GRADLE_DIR)/gradle-%-bin.zip
 	@mkdir -p $(GRADLE_DIR)
-	@cd $(GRADLE_DIR); unzip gradle-$*-bin.zip; mv gradle-$* gradle$*
+	@cd $(GRADLE_DIR); unzip -u gradle-$*-bin.zip; mv gradle-$* gradle$*
+	@touch $(GRADLE_DIR)/gradle%/bin/gradle
 
 .PRECIOUS: $(CONFIGURED_BUILD_ROOT)/gradle/build.gradle
 $(CONFIGURED_BUILD_ROOT)/gradle/build.gradle: $(CONFIGURED_BUILD_SOURCE)
