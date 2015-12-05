@@ -1,5 +1,11 @@
+# make magic not needed
+export MAKEFLAGS += --no-builtin-rules
+.SUFFIXES:
+
 .PHONY: default
 default: maven
+
+include ../../include/time.mk
 
 export MAVEN_DIR=$(CACHE_DIR)/maven
 
@@ -11,9 +17,10 @@ version: $(MAVEN_DIR)/maven$(MAVEN_DEFAULT_VERSION)/bin/mvn
 	$(MAVEN_DIR)/maven$(MAVEN_DEFAULT_VERSION)/bin/mvn --version
 
 .NOTPARALLEL: maven%
-maven%: $(CONFIGURED_BUILD_ROOT)/maven/pom.xml $(MAVEN_DIR)/maven%/bin/mvn
+.PHONY: maven%
+maven%: $(CONFIGURED_BUILD_ROOT)/maven/pom.xml $(MAVEN_DIR)/maven%/bin/mvn $(TIME)
 	$(info ******* maven start)
-	cd $(CONFIGURED_BUILD_ROOT)/maven; time $(MAVEN_DIR)/$@/bin/mvn -q -B -T 1C -gs $(BUILDSYSTEMS_DIR)/maven/settings.xml package -Dsurefire.printSummary=false
+	cd $(CONFIGURED_BUILD_ROOT)/maven; $(TIME) $(MAVEN_DIR)/$@/bin/mvn -q -B -T 1C -gs $(BUILDSYSTEMS_DIR)/maven/settings.xml package -Dsurefire.printSummary=false
 
 
 .PRECIOUS: $(MAVEN_DIR)/apache-maven-%-bin.tar.gz

@@ -1,5 +1,11 @@
+# make magic not needed
+export MAKEFLAGS += --no-builtin-rules
+.SUFFIXES:
+
 .PHONY: default
 default: pants
+
+include ../../include/time.mk
 
 export PANTS_DIR=$(CACHE_DIR)/pants
 # ant version could be independent for pants
@@ -15,10 +21,10 @@ version: $(PANTS_DIR)/pants
 
 .NOTPARALLEL: pants%
 .PHONY: pants%
-pants%: $(CONFIGURED_BUILD_ROOT)/pants/BUILD $(PANTS_DIR)/pants $(CONFIGURED_BUILD_ROOT)/pants/pants.ini%
+pants%: $(CONFIGURED_BUILD_ROOT)/pants/BUILD $(PANTS_DIR)/pants $(CONFIGURED_BUILD_ROOT)/pants/pants.ini% $(TIME)
 	$(info ******* pants start)
-	@cd $(CONFIGURED_BUILD_ROOT)/pants; time $(PANTS_DIR)/pants --version
-	cd $(CONFIGURED_BUILD_ROOT)/pants; time $(PANTS_DIR)/pants test :test
+	@cd $(CONFIGURED_BUILD_ROOT)/pants; $(PANTS_DIR)/pants --version
+	cd $(CONFIGURED_BUILD_ROOT)/pants; $(TIME) $(PANTS_DIR)/pants test :test
 
 
 # pants insists on being installed via virtualenv, version configured in project

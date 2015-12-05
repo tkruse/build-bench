@@ -1,5 +1,11 @@
+# make magic not needed
+export MAKEFLAGS += --no-builtin-rules
+.SUFFIXES:
+
 .PHONY: default
 default: bazel
+
+include ../../include/time.mk
 
 export BAZEL_DIR=$(CACHE_DIR)/bazel
 export BAZELRC_PATH=$(BAZEL_DIR)/bazel_home
@@ -13,11 +19,11 @@ version: $(BAZEL_DIR)/bazel$(BAZEL_DEFAULT_VERSION)/bin/bazel
 
 .NOTPARALLEL: bazel%
 .PHONY: bazel%
-bazel%: $(CONFIGURED_BUILD_ROOT)/bazel/BUILD $(BAZEL_DIR)/bazel%/bin/bazel
+bazel%: $(CONFIGURED_BUILD_ROOT)/bazel/BUILD $(BAZEL_DIR)/bazel%/bin/bazel $(TIME)
 	$(info ******* bazel start)
 	cd $(CONFIGURED_BUILD_ROOT)/bazel; $(BAZEL_DIR)/bazel$*/bin/bazel --blazerc $(BAZELRC_PATH)/bazel.bazelrc help startup_options
 	cd $(CONFIGURED_BUILD_ROOT)/bazel; $(BAZEL_DIR)/bazel$*/bin/bazel fetch -- :all
-	cd $(CONFIGURED_BUILD_ROOT)/bazel; time $(BAZEL_DIR)/bazel$*/bin/bazel test --javacopt='-extra_checks:off' //:example-tests
+	cd $(CONFIGURED_BUILD_ROOT)/bazel; $(TIME) $(BAZEL_DIR)/bazel$*/bin/bazel test --javacopt='-extra_checks:off' //:example-tests
 
 .PRECIOUS: $(BAZEL_DIR)/bazel-%-installer-linux-x86_64.sh
 $(BAZEL_DIR)/%.zip:

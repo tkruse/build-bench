@@ -1,5 +1,11 @@
+# make magic not needed
+export MAKEFLAGS += --no-builtin-rules
+.SUFFIXES:
+
 .PHONY: default
 default: gradle
+
+include ../../include/time.mk
 
 export GRADLE_DIR=$(CACHE_DIR)/gradle
 
@@ -12,11 +18,11 @@ version: $(GRADLE_DIR)/gradle$(GRADLE_DEFAULT_VERSION)/bin/gradle
 
 .NOTPARALLEL: gradle%
 .PHONY: gradle%
-gradle%: $(CONFIGURED_BUILD_ROOT)/gradle/build.gradle $(GRADLE_DIR)/gradle%/bin/gradle
+gradle%: $(CONFIGURED_BUILD_ROOT)/gradle/build.gradle $(GRADLE_DIR)/gradle%/bin/gradle $(TIME)
 	$(info ******* gradle start)
 	@cd $(CONFIGURED_BUILD_ROOT)/gradle; $(GRADLE_DIR)/$@/bin/gradle --stop
 	@cd $(CONFIGURED_BUILD_ROOT)/gradle; $(GRADLE_DIR)/$@/bin/gradle -v
-	cd $(CONFIGURED_BUILD_ROOT)/gradle; time $(GRADLE_DIR)/$@/bin/gradle -q test jar
+	cd $(CONFIGURED_BUILD_ROOT)/gradle; $(TIME) $(GRADLE_DIR)/$@/bin/gradle -q test jar
 
 .PRECIOUS: $(GRADLE_DIR)/gradle-%-bin.zip
 $(GRADLE_DIR)/gradle-%-bin.zip:

@@ -1,5 +1,11 @@
+# make magic not needed
+export MAKEFLAGS += --no-builtin-rules
+.SUFFIXES:
+
 .PHONY: default
 default: buildr
+
+include ../../include/time.mk
 
 export BUILDR_DIR=$(CACHE_DIR)/buildr
 
@@ -12,9 +18,9 @@ version: $(BUILDR_DIR)/gems/buildr-$(BUILDR_DEFAULT_VERSION)/bin/buildr
 
 .NOTPARALLEL: buildr%
 .PHONY: buildr%
-buildr%: $(CONFIGURED_BUILD_ROOT)/buildr/buildfile $(BUILDR_DIR)/gems/buildr-%/bin/buildr
+buildr%: $(CONFIGURED_BUILD_ROOT)/buildr/buildfile $(BUILDR_DIR)/gems/buildr-%/bin/buildr $(TIME)
 	$(info ******* buildr start)
-	cd $(CONFIGURED_BUILD_ROOT)/buildr; GEM_HOME=$(BUILDR_DIR) time $(BUILDR_DIR)/gems/buildr-$*/bin/buildr -q package
+	cd $(CONFIGURED_BUILD_ROOT)/buildr; GEM_HOME=$(BUILDR_DIR) $(TIME) $(BUILDR_DIR)/gems/buildr-$*/bin/buildr -q package
 
 
 .PRECIOUS: $(BUILDR_DIR)/gems/buildr-%/bin/buildr

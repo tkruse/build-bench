@@ -1,6 +1,11 @@
+# make magic not needed
+export MAKEFLAGS += --no-builtin-rules
+.SUFFIXES:
+
 .PHONY: default
 default: buck
 
+include ../../include/time.mk
 include ../../include/ant.mk
 
 export BUCK_DIR=$(CACHE_DIR)/buck
@@ -16,11 +21,11 @@ version: $(BUCK_DIR)/buck$(BUCK_DEFAULT_VERSION)/bin/buck
 
 .NOTPARALLEL: buck%
 .PHONY: buck%
-buck%: $(CONFIGURED_BUILD_ROOT)/buck/BUCK $(BUCK_DIR)/buck%/bin/buck $(ANT)
+buck%: $(CONFIGURED_BUILD_ROOT)/buck/BUCK $(BUCK_DIR)/buck%/bin/buck $(ANT) $(TIME)
 	$(info ******* buck start)
 	cd $(CONFIGURED_BUILD_ROOT)/buck; ANT_HOME=$(ANT_HOME) PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck fetch //:junit
 	@cd $(CONFIGURED_BUILD_ROOT)/buck; ANT_HOME=$(ANT_HOME) PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck fetch //:hamcrest-core
-	cd $(CONFIGURED_BUILD_ROOT)/buck; ANT_HOME=$(ANT_HOME) PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck test -v 0 --all
+	cd $(CONFIGURED_BUILD_ROOT)/buck; ANT_HOME=$(ANT_HOME) PATH=$(ANT_IVY_PATH):$(PATH) $(TIME) $(BUCK_DIR)/buck$*/bin/buck test -v 0 --all
 
 .PRECIOUS: $(BUCK_DIR)/%.zip
 $(BUCK_DIR)/%.zip:

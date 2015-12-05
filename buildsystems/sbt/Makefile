@@ -1,4 +1,3 @@
-
 # make magic not needed
 export MAKEFLAGS += --no-builtin-rules
 .SUFFIXES:
@@ -6,6 +5,7 @@ export MAKEFLAGS += --no-builtin-rules
 .PHONY: default
 default: sbt
 
+include ../../include/time.mk
 
 export SBT_DIR=$(CACHE_DIR)/sbt
 
@@ -19,9 +19,10 @@ version: $(SBT_DIR)/sbt$(SBT_DEFAULT_VERSION)/bin/sbt
 
 
 .NOTPARALLEL: sbt%
-sbt%: $(CONFIGURED_BUILD_ROOT)/sbt/build.sbt $(SBT_DIR)/sbt%/bin/sbt
+.PHONY: sbt%
+sbt%: $(CONFIGURED_BUILD_ROOT)/sbt/build.sbt $(SBT_DIR)/sbt%/bin/sbt $(TIME)
 	$(info ******* sbt start)
-	cd $(CONFIGURED_BUILD_ROOT)/sbt; time $(SBT_DIR)/$@/bin/sbt -java-home $(JAVA_HOME) test package
+	cd $(CONFIGURED_BUILD_ROOT)/sbt; $(TIME) $(SBT_DIR)/$@/bin/sbt -java-home $(JAVA_HOME) test package
 
 
 .PRECIOUS: $(SBT_DIR)/sbt-%.tgz
