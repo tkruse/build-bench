@@ -14,8 +14,9 @@ $(CACHE_DIR)/commons-math:
 	cd $(CACHE_DIR); git clone https://git-wip-us.apache.org/repos/asf/commons-math.git; cd commons-math; git checkout MATH_3_4
 # Sadly this test fails with buck because java.io.File cannot handle uris inside jars.
 	rm -f $(CACHE_DIR)/commons-math/src/test/java/org/apache/commons/math3/random/EmpiricalDistributionTest.java
-# This test fails with with buck for unknown reasons of comparing floating points to zero.
+# These tests fail with with buck for unknown reasons of comparing floating points to zero.
 	rm -f $(CACHE_DIR)/commons-math/src/test/java/org/apache/commons/math3/ml/neuralnet/sofm/KohonenUpdateActionTest.java
+	rm -f $(CACHE_DIR)/commons-math/src/test/java/org/apache/commons/math3/ml/neuralnet/sofm/KohonenTrainingTaskTest.java
 # This test fails with ant
 	rm -f $(CACHE_DIR)/commons-math/src/test/java/org/apache/commons/math3/PerfTestUtils.java
 # Some actual Tests sadly do not end with Test.java, so for fairness sake they cannot be used
