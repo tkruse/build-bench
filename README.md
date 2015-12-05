@@ -42,8 +42,8 @@ Custom configurations are loaded after the ```defaults.mk``` providing some conv
 * bash        (the standard Ubuntu shell)
 * GNU make    (should be present on any *nix)
 * Python      (2 or 3)
-* Ruby        (for Apache buildr, jruby should also work)
 * jinja2      (if using templated sources, install via pip or apt-get)
+* Ruby        (for Apache buildr, jruby should also work)
 
 # Buildsystems
 
