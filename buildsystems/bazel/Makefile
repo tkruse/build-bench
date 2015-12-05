@@ -21,7 +21,6 @@ version: $(BAZEL_DIR)/bazel$(BAZEL_DEFAULT_VERSION)/bin/bazel
 .PHONY: bazel%
 bazel%: $(CONFIGURED_BUILD_ROOT)/bazel/BUILD $(BAZEL_DIR)/bazel%/bin/bazel $(TIME)
 	$(info ******* bazel start)
-	cd $(CONFIGURED_BUILD_ROOT)/bazel; $(BAZEL_DIR)/bazel$*/bin/bazel --blazerc $(BAZELRC_PATH)/bazel.bazelrc help startup_options
 	cd $(CONFIGURED_BUILD_ROOT)/bazel; $(BAZEL_DIR)/bazel$*/bin/bazel fetch -- :all
 	cd $(CONFIGURED_BUILD_ROOT)/bazel; $(TIME) $(BAZEL_DIR)/bazel$*/bin/bazel test --javacopt='-extra_checks:off' //:example-tests
 
