@@ -14,7 +14,11 @@ script:
   - TERM=dumb make CONFIG=configs/generated_multi.mk
 cache:
   directories:
-  - caches
+  - $HOME/caches
+  - $HOME/.cache/pip
+  - $HOME/.m2
+  - $HOME/.buildr
+  - $HOME/.gradle
 notifications:
   email: false
 branches:
