@@ -14,7 +14,7 @@ buck%: $(CONFIGURED_BUILD_ROOT)/buck/BUCK $(BUCK_DIR)/buck%/bin/buck
 	$(info ******* buck start)
 	@cd $(CONFIGURED_BUILD_ROOT)/buck; PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck fetch //:junit
 	@cd $(CONFIGURED_BUILD_ROOT)/buck; PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck fetch //:hamcrest-core
-	cd $(CONFIGURED_BUILD_ROOT)/buck; PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck test --all
+	cd $(CONFIGURED_BUILD_ROOT)/buck; PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck test -v 0 --all
 
 .PRECIOUS: $(BUCK_DIR)/%.zip
 $(BUCK_DIR)/%.zip:

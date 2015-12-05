@@ -6,7 +6,7 @@ install:
   - sudo apt-get install -qq time
   - pip install --user jinja2
 script:
-  - make gradle maven ant_ivy buildr buck leiningen sbt
+  - TERM=dumb make gradle maven ant_ivy buildr buck leiningen sbt
 notifications:
   email: false
 branches:
