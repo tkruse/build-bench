@@ -1,15 +1,32 @@
 .PHONY: default
 default: buck
 
+export BUCK_DIR=$(CACHE_DIR)/buck
+# ant version could be independent for buck
+export ANT_IVY_PATH=$(CACHE_DIR)/ant_ivy/ant_ivy$(ANT_VERSION)/bin
 
 .PHONY: buck
-buck: $(CONFIGURED_BUILD_ROOT)/buck/BUCK
+buck: buck$(BUCK_VERSION)
+
+.NOTPARALLEL: buck%
+.PHONY: buck%
+buck%: $(CONFIGURED_BUILD_ROOT)/buck/BUCK $(BUCK_DIR)/buck%/bin/buck
 	$(info ******* buck start)
-	cd $(CONFIGURED_BUILD_ROOT)/buck; buck fetch //:junit
-	cd $(CONFIGURED_BUILD_ROOT)/buck; buck fetch //:hamcrest-core
-	cd $(CONFIGURED_BUILD_ROOT)/buck; time buck test --all
+	@cd $(CONFIGURED_BUILD_ROOT)/buck; PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck fetch //:junit
+	@cd $(CONFIGURED_BUILD_ROOT)/buck; PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck fetch //:hamcrest-core
+	cd $(CONFIGURED_BUILD_ROOT)/buck; PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck test --all
 
+.PRECIOUS: $(BUCK_DIR)/%.zip
+$(BUCK_DIR)/%.zip:
+	@mkdir -p $(BUCK_DIR)
+	@cd $(BUCK_DIR); wget https://github.com/facebook/buck/archive/$*.zip
 
+.PRECIOUS: $(BUCK_DIR)/buck%/bin/buck
+$(BUCK_DIR)/buck%/bin/buck: $(BUCK_DIR)/%.zip $(ANT_IVY_PATH)/ant
+	@mkdir -p $(BUCK_DIR)
+	@cd $(BUCK_DIR); unzip -u $*.zip; mv buck-$(subst v,,$*) buck$*
+	@cd $(BUCK_DIR);touch buck$*/bin/buck
+
+.PRECIOUS: $(CONFIGURED_BUILD_ROOT)/buck/build.buck
 $(CONFIGURED_BUILD_ROOT)/buck/BUCK: $(CONFIGURED_BUILD_SOURCE)
 	@python $(SCRIPTS_DIR)/apply-templates.py $(BUILDTEMPLATES_DIR)/$(BUILD_DEFINITIONS)/buck $(CONFIGURED_BUILD_ROOT)/buck --subprojectnum=$(SUBPROJECT_NUM) --filenum=$(FILE_NUM)
-
