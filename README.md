@@ -41,6 +41,7 @@ Custom configurations are loaded after the ```defaults.mk``` providing some conv
 * Java        (7 or 8, configure JAVA_HOME)
 * bash        (the standard Ubuntu shell)
 * GNU make    (should be present on any *nix)
+* GNU time    (should be present on any *nix)
 * Python      (2 or 3)
 * jinja2      (if using templated sources, install via pip or apt-get)
 * Ruby        (1 or 2, for Apache buildr, jruby should also work)
@@ -368,7 +369,7 @@ All of this is a mere matter of improving documentation and maybe a little polis
 
 ## pants
 
-I only found pants by coincidence. It originates at Twitter, is written in Python and targets monorepo setups (like bazel and buck).
+I only found pants by coincidence. It originates at Twitter, is written in Python and targets monorepo setups (like bazel and buck). It seems to be used at Twitter and Foursquare, and pretty much nowhere else. As a consequence, new versions of pants regularly require changes to the build files, backwards compatibility is not a priority it seems.
 
 One consequence of trying to optimize for monorepos in large organizations is to depend on other projects in their source form, not their (released) jar form.
 
@@ -377,6 +378,14 @@ The output from making mistakes in BUILD files was sometimes confusing, sometime
                FAILURE
 Exception message: 'str' object has no attribute 'value'
 ```
+or
+```
+IllegalArgumentException: No enum constant org.pantsbuild.tools.jar.JarBuilder.DuplicateAction.CONCAT_TEXT
+```
+
+This is a symptom of having not very many active users to report such issues and complain about bad error messages.
+
+Upgrading to a new version of pants suddenly required me to specify a scala compiler version: (https://github.com/pantsbuild/pants/issues/2534).
 
 The tutorials were nice and low-level, but missed e.g. explaining the role of file ```BUILD.tools```.
 
@@ -389,6 +398,8 @@ Trying to get things to run, I noticed changing a java_library target by adding/
 Pants does not cache test results, so building again will run tests again. Pants also left behind several zombie processes when killing with Ctrl-C.
 
 Pants path syntax has special semantics for task names which match the directory name of the file their defined in.
+
+Pants uses an ```.INI``` file for some configuration (Do you live in the past?). The pants documentation version may lag far behind the latest version.
 
 ## Why are ant/sbt/leiningen so slow for clean testing of commons-math?
 
@@ -445,7 +456,9 @@ In particular:
 - custom-defaults
 - download jinja2
 - download JRE
-- sanitized envs (PATH, CLASSPATH, PYTHONPATH, RUBY, *_HOME)
+- sanitized contained envs (PATH, CLASSPATH, PYTHONPATH, RUBY, *_HOME, virtualenv, .cache)
 - draw sequence diagram of Makefilebuild
 - allow local installs
 - provide cached files?
+- install GNU time on travis without sudo (http://codingsnippets.com/linux-simple-benchmark-with-gnu-time/)
+- configure apache download mirror centrally
