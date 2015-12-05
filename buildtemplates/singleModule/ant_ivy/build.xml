@@ -84,7 +84,7 @@ under the License.
   </target>
 
   <target name="test" depends="compile-tests" >
-    
+
     <mkdir dir="${reports.test}"/>
 
     <junit

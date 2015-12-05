@@ -6,12 +6,19 @@
   <parent>
     <groupId>com.example</groupId>
     <artifactId>maven-example</artifactId>
-    <version>1.0</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>subproject{{ proindex }}</artifactId>
   <packaging>jar</packaging>
+  <version>1.0.0-SNAPSHOT</version>
 
   <name>Subproject {{ proindex }}</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+
 
   <build>
     <directory>target</directory>
