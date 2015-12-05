@@ -33,7 +33,7 @@ export BUCK_DEFAULT_VERSION=v2015.11.30.01
 export LEININGEN_DEFAULT_VERSION=2.5.3
 export SBT_DEFAULT_VERSION=0.13.9
 # pants is horrible at backwards compatibility, expect problems when upgrading
-export PANTS_DEFAULT_VERSION=0.0.46
+export PANTS_DEFAULT_VERSION=0.0.63
 export BAZEL_DEFAULT_VERSION=0.1.2
 
 ## Build orchestration variables
