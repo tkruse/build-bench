@@ -1,9 +1,11 @@
 .PHONY: default
 default: buck
 
+include ../../include/ant.mk
+
 export BUCK_DIR=$(CACHE_DIR)/buck
 # ant version could be independent for buck
-export ANT_IVY_PATH=$(CACHE_DIR)/ant_ivy/ant_ivy$(ANT_VERSION)/bin
+export ANT_IVY_PATH=$(ANT_IVY_DIR)/ant_ivy$(ANT_DEFAULT_VERSION)/bin
 
 .PHONY: buck
 buck: buck$(BUCK_DEFAULT_VERSION)
@@ -14,11 +16,11 @@ version: $(BUCK_DIR)/buck$(BUCK_DEFAULT_VERSION)/bin/buck
 
 .NOTPARALLEL: buck%
 .PHONY: buck%
-buck%: $(CONFIGURED_BUILD_ROOT)/buck/BUCK $(BUCK_DIR)/buck%/bin/buck
+buck%: $(CONFIGURED_BUILD_ROOT)/buck/BUCK $(BUCK_DIR)/buck%/bin/buck $(ANT)
 	$(info ******* buck start)
-	@cd $(CONFIGURED_BUILD_ROOT)/buck; PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck fetch //:junit
-	@cd $(CONFIGURED_BUILD_ROOT)/buck; PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck fetch //:hamcrest-core
-	cd $(CONFIGURED_BUILD_ROOT)/buck; PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck test -v 0 --all
+	cd $(CONFIGURED_BUILD_ROOT)/buck; ANT_HOME=$(ANT_HOME) PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck fetch //:junit
+	@cd $(CONFIGURED_BUILD_ROOT)/buck; ANT_HOME=$(ANT_HOME) PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck fetch //:hamcrest-core
+	cd $(CONFIGURED_BUILD_ROOT)/buck; ANT_HOME=$(ANT_HOME) PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck test -v 0 --all
 
 .PRECIOUS: $(BUCK_DIR)/%.zip
 $(BUCK_DIR)/%.zip:
