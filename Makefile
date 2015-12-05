@@ -56,9 +56,9 @@ $(BUILDSYSTEMS): % : $(CONFIGURED_BUILD_ROOT)/%/src
 gradle%: $(CONFIGURED_BUILD_ROOT)/gradle/src
 	$(MAKE) -C $(BUILDSYSTEMS_DIR)/gradle $@
 
-.PHONY: ant%
-ant%: $(CONFIGURED_BUILD_ROOT)/ant/src
-	$(MAKE) -C $(BUILDSYSTEMS_DIR)/ant $@
+.PHONY: ant_ivy%
+ant%: $(CONFIGURED_BUILD_ROOT)/ant_ivy/src
+	$(MAKE) -C $(BUILDSYSTEMS_DIR)/ant_ivy $@
 
 .PHONY: maven%
 maven%: $(CONFIGURED_BUILD_ROOT)/maven/src
