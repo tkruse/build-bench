@@ -35,6 +35,8 @@ $(BAZEL_DIR)/bazel%/bin/bazel: $(BAZEL_DIR)/bazel-%-installer-linux-x86_64.sh
 	@mkdir -p $(BAZEL_DIR)
 	@mkdir -p $(BAZELRC_PATH)
 	cd $(BAZEL_DIR); ./bazel-$*-installer-linux-x86_64.sh --prefix=$(BAZEL_DIR)/bazel$* --bazelrc=$(BAZELRC_PATH)/bazel.bazelrc
+# touch so that make remebers next time
+	@touch $(BAZEL_DIR)/bazel$*/bin/bazel
 
 
 .PRECIOUS: $(CONFIGURED_BUILD_ROOT)/bazel%/BUILD
