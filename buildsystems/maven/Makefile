@@ -20,7 +20,7 @@ $(MAVEN_DIR)/apache-maven-%-bin.tar.gz:
 .PRECIOUS: $(MAVEN_DIR)/maven%/bin/mvn
 $(MAVEN_DIR)/maven%/bin/mvn: $(MAVEN_DIR)/apache-maven-%-bin.tar.gz
 	@mkdir -p $(MAVEN_DIR)/maven$*
-	@cd $(MAVEN_DIR);tar -xzvf apache-maven-$*-bin.tar.gz -C maven$* --strip-components 1
+	@cd $(MAVEN_DIR);tar -xzf apache-maven-$*-bin.tar.gz -C maven$* --strip-components 1
 
 .PRECIOUS: $(CONFIGURED_BUILD_ROOT)/maven/pom.xml
 $(CONFIGURED_BUILD_ROOT)/maven/pom.xml: $(CONFIGURED_BUILD_SOURCE)

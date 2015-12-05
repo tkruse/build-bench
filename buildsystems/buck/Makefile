@@ -24,7 +24,7 @@ $(BUCK_DIR)/%.zip:
 .PRECIOUS: $(BUCK_DIR)/buck%/bin/buck
 $(BUCK_DIR)/buck%/bin/buck: $(BUCK_DIR)/%.zip $(ANT_IVY_PATH)/ant
 	@mkdir -p $(BUCK_DIR)
-	@cd $(BUCK_DIR); unzip -u $*.zip; mv buck-$(subst v,,$*) buck$*
+	@cd $(BUCK_DIR); unzip -u -q $*.zip; mv buck-$(subst v,,$*) buck$*
 	@cd $(BUCK_DIR);touch buck$*/bin/buck
 
 .PRECIOUS: $(CONFIGURED_BUILD_ROOT)/buck/build.buck

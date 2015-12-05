@@ -16,7 +16,7 @@ buildr%: $(CONFIGURED_BUILD_ROOT)/buildr/buildfile $(BUILDR_DIR)/gems/buildr-%/b
 .PRECIOUS: $(BUILDR_DIR)/gems/buildr-%/bin/buildr
 $(BUILDR_DIR)/gems/buildr-%/bin/buildr:
 	@mkdir -p $(BUILDR_DIR)
-	@GEM_HOME=$(BUILDR_DIR) gem install buildr -v $*
+	@GEM_HOME=$(BUILDR_DIR) gem install buildr -q -v $*
 	@touch $(BUILDR_DIR)/gems/buildr-$*/bin/buildr
 
 .PRECIOUS: $(CONFIGURED_BUILD_ROOT)/buildr/buildfile
