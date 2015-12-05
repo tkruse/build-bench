@@ -445,4 +445,7 @@ In particular:
 - custom-defaults
 - download jinja2
 - download JRE
-- sanitized envs (PATH, CLASSPATH, PYTHONPATH, RUBY)
+- sanitized envs (PATH, CLASSPATH, PYTHONPATH, RUBY, *_HOME)
+- draw sequence diagram of Makefilebuild
+- allow local installs
+- provide cached files?
