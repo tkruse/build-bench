@@ -4,6 +4,8 @@ export MAKEFLAGS += --no-builtin-rules
 
 
 include configs/defaults.mk
+# file gets loded if present, else no error
+-include custom.mk
 
 .PHONY: default
 default: all
