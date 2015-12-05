@@ -20,9 +20,9 @@ version: $(SBT_DIR)/sbt$(SBT_DEFAULT_VERSION)/bin/sbt
 
 .NOTPARALLEL: sbt%
 .PHONY: sbt%
-sbt%: $(CONFIGURED_BUILD_ROOT)/sbt/build.sbt $(SBT_DIR)/sbt%/bin/sbt $(TIME)
+sbt%: $(CONFIGURED_BUILD_ROOT)/sbt%/build.sbt $(SBT_DIR)/sbt%/bin/sbt $(TIME)
 	$(info ******* sbt start)
-	cd $(CONFIGURED_BUILD_ROOT)/sbt; $(TIME) $(SBT_DIR)/$@/bin/sbt -java-home $(JAVA_HOME) test package
+	cd $(CONFIGURED_BUILD_ROOT)/sbt$*; $(TIME) $(SBT_DIR)/$@/bin/sbt -java-home $(JAVA_HOME) test package
 
 
 .PRECIOUS: $(SBT_DIR)/sbt-%.tgz
@@ -35,7 +35,7 @@ $(SBT_DIR)/sbt%/bin/sbt: $(SBT_DIR)/sbt-%.tgz
 	@mkdir -p $(SBT_DIR)/sbt$*
 	@cd $(SBT_DIR);tar -xzf sbt-$*.tgz -C sbt$* --strip-components 1
 
-
-$(CONFIGURED_BUILD_ROOT)/sbt/build.sbt: $(CONFIGURED_BUILD_SOURCE)
-	@python $(SCRIPTS_DIR)/apply-templates.py $(BUILDTEMPLATES_DIR)/$(BUILD_DEFINITIONS)/sbt $(CONFIGURED_BUILD_ROOT)/sbt --subprojectnum=$(SUBPROJECT_NUM) --filenum=$(FILE_NUM)
+.PRECIOUS: $(CONFIGURED_BUILD_ROOT)/sbt%/build.sbt
+$(CONFIGURED_BUILD_ROOT)/sbt%/build.sbt: $(CONFIGURED_BUILD_SOURCE)
+	@python $(SCRIPTS_DIR)/apply-templates.py $(BUILDTEMPLATES_DIR)/$(BUILD_DEFINITIONS)/sbt $(CONFIGURED_BUILD_ROOT)/sbt$* --subprojectnum=$(SUBPROJECT_NUM) --filenum=$(FILE_NUM)
 

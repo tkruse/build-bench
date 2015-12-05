@@ -39,8 +39,6 @@ export BAZEL_DEFAULT_VERSION=0.1.2
 ## Build orchestration variables
 ## Should usually be left alone
 
-# only works when running make in root folder :-(
-export ROOT_DIR=$(shell pwd)
 
 # where generated sources go and buildsystems are invoked
 export BUILD_DIR=$(ROOT_DIR)/build
