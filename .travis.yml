@@ -5,7 +5,7 @@ jdk:
 install:
   - pip install --user jinja2
 # refresh caches, travis uploads after install
-  - TERM=dumb make versions
+  - TERM=dumb make CONFIG=configs/generated_minimal.mk
 script:
   - TERM=dumb make
   - TERM=dumb make -j2 clean

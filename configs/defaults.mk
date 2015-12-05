@@ -17,7 +17,7 @@ sbt \
 bazel \
 pants
 
-export DEFAULT_CONFIG=configs/generated_single.mk
+export DEFAULT_CONFIG=configs/generated_minimal.mk
 
 # for jinja2 templates
 export FILE_NUM=0
