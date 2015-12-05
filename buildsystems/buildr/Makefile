@@ -10,7 +10,7 @@ buildr: buildr$(BUILDR_VERSION)
 .PHONY: buildr%
 buildr%: $(CONFIGURED_BUILD_ROOT)/buildr/buildfile $(BUILDR_DIR)/gems/buildr-%/bin/buildr
 	$(info ******* buildr start)
-	cd $(CONFIGURED_BUILD_ROOT)/buildr; time $(BUILDR_DIR)/gems/buildr-$*/bin/buildr -q package
+	cd $(CONFIGURED_BUILD_ROOT)/buildr; GEM_HOME=$(BUILDR_DIR) time $(BUILDR_DIR)/gems/buildr-$*/bin/buildr -q package
 
 
 .PRECIOUS: $(BUILDR_DIR)/gems/buildr-%/bin/buildr
