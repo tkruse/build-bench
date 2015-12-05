@@ -6,11 +6,14 @@ install:
   - sudo apt-get install -qq time
   - pip install --user jinja2
 script:
-  - TERM=dumb make
-  - TERM=dumb make clean
-  - TERM=dumb make gradle2.8 maven3.3.3 ant_ivy1.9.5 buildr1.4.22 buckv2015.12.23.01 leiningen2.5.2 sbt0.13.8 pants0.0.45
-  - TERM=dumb make CONFIG=configs/commons-math.mk
-  - TERM=dumb make versions
+  - TERM=dumb make -j2
+  - TERM=dumb make -j2 clean
+  - TERM=dumb make -j2 gradle2.8 maven3.3.3 ant_ivy1.9.5 buildr1.4.22 buckv2015.12.23.01 leiningen2.5.2 sbt0.13.8 pants0.0.45
+  - TERM=dumb make -j2 CONFIG=configs/commons-math.mk
+  - TERM=dumb make -j2 versions
+cache:
+  directories:
+  - caches
 notifications:
   email: false
 branches:
