@@ -6,6 +6,10 @@ export GRADLE_DIR=$(CACHE_DIR)/gradle
 .PHONY: gradle
 gradle: gradle$(GRADLE_DEFAULT_VERSION)
 
+.PHONY: version
+version: $(GRADLE_DIR)/gradle$(GRADLE_DEFAULT_VERSION)/bin/gradle
+	$(GRADLE_DIR)/gradle$(GRADLE_DEFAULT_VERSION)/bin/gradle --version
+
 .NOTPARALLEL: gradle%
 .PHONY: gradle%
 gradle%: $(CONFIGURED_BUILD_ROOT)/gradle/build.gradle $(GRADLE_DIR)/gradle%/bin/gradle

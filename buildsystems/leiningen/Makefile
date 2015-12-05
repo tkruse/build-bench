@@ -6,6 +6,10 @@ export LEININGEN_DIR=$(CACHE_DIR)/leiningen
 .PHONY: leiningen
 leiningen: leiningen$(LEININGEN_DEFAULT_VERSION)
 
+.PHONY: version
+version: $(LEININGEN_DIR)/leiningen$(LEININGEN_DEFAULT_VERSION)/lein
+	$(LEININGEN_DIR)/leiningen$(LEININGEN_DEFAULT_VERSION)/lein --version
+
 .NOTPARALLEL: leiningen%
 .PHONY: leiningen%
 leiningen%: $(CONFIGURED_BUILD_ROOT)/leiningen/project.clj $(LEININGEN_DIR)/leiningen%/lein

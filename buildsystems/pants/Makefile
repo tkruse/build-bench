@@ -8,6 +8,11 @@ export ANT_IVY_PATH=$(CACHE_DIR)/ant_ivy/ant_ivy$(ANT_VERSION)/bin
 .PHONY: pants
 pants: pants$(PANTS_DEFAULT_VERSION)
 
+.PHONY: version
+version: $(PANTS_DIR)/pants
+	@cd $(PANTS_DIR); touch pants.ini
+	@cd $(PANTS_DIR); $(PANTS_DIR)/pants --version
+
 .NOTPARALLEL: pants%
 .PHONY: pants%
 pants%: $(CONFIGURED_BUILD_ROOT)/pants/BUILD $(PANTS_DIR)/pants $(CONFIGURED_BUILD_ROOT)/pants/pants.ini%

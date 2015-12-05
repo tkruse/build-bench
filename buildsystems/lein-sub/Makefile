@@ -1,12 +1,16 @@
 .PHONY: default
 default: leiningen
 
+export LEININGEN_DIR=$(CACHE_DIR)/leiningen
+
 # special leiningen build for multi-module projects with lein-sub (lein invocation is different)
 
 .PHONY: default
 default: leiningen
 
-export LEININGEN_DIR=$(CACHE_DIR)/leiningen
+.PHONY: version
+version: $(LEININGEN_DIR)/leiningen$(LEININGEN_DEFAULT_VERSION)/lein
+	$(LEININGEN_DIR)/leiningen$(LEININGEN_DEFAULT_VERSION)/lein --version
 
 .PHONY: leiningen
 leiningen: leiningen$(LEININGEN_DEFAULT_VERSION)

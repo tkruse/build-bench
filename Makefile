@@ -27,6 +27,7 @@ clean-all: clean-builds clean-caches
 ifdef CONFIG
 include $(CONFIG)
 else
+# simple sample project to check everything is fine
 include $(DEFAULT_CONFIG)
 endif
 
@@ -93,11 +94,4 @@ pants%: $(CONFIGURED_BUILD_ROOT)/pants/src
 .PHONY: versions
 versions:
 	java -version
-	mvn --version
-	gradle --version
-	sbt sbtVersion
-	buildr --version
-	buck --version
-	ant -version
-	bazel version
-	cd $(BUILDTEMPLATES_DIR)/$(BUILD_DEFINITIONS)/pants; pants --version
+	$(foreach LOOP_SYSTEM,$(BUILDSYSTEMS),$(MAKE) -C $(BUILDSYSTEMS_DIR)/$(LOOP_SYSTEM) version;)

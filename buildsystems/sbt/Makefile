@@ -1,3 +1,8 @@
+
+# make magic not needed
+export MAKEFLAGS += --no-builtin-rules
+.SUFFIXES:
+
 .PHONY: default
 default: sbt
 
@@ -7,6 +12,10 @@ export SBT_DIR=$(CACHE_DIR)/sbt
 .PHONY: sbt
 sbt: sbt$(SBT_DEFAULT_VERSION)
 
+
+.PHONY: version
+version: $(SBT_DIR)/sbt$(SBT_DEFAULT_VERSION)/bin/sbt
+	$(SBT_DIR)/sbt$(SBT_DEFAULT_VERSION)/bin/sbt about
 
 
 .NOTPARALLEL: sbt%

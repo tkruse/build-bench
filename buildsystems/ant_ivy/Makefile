@@ -6,6 +6,10 @@ export ANT_IVY_DIR=$(CACHE_DIR)/ant_ivy
 .PHONY: ant_ivy
 ant_ivy: ant_ivy$(ANT_DEFAULT_VERSION)
 
+.PHONY: version
+version: $(ANT_IVY_DIR)/ant_ivy$(ANT_DEFAULT_VERSION)/bin/ant
+	$(ANT_IVY_DIR)/ant_ivy$(ANT_DEFAULT_VERSION)/bin/ant -version
+
 .NOTPARALLEL: ant_ivy%
 .PHONY: ant_ivy%
 ant_ivy%: $(CONFIGURED_BUILD_ROOT)/ant_ivy/build.xml $(ANT_IVY_DIR)/ant_ivy%/bin/ant $(ANT_IVY_DIR)/ant_home/lib/ivy-$(IVY_DEFAULT_VERSION).jar

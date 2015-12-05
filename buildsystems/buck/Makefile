@@ -8,6 +8,10 @@ export ANT_IVY_PATH=$(CACHE_DIR)/ant_ivy/ant_ivy$(ANT_VERSION)/bin
 .PHONY: buck
 buck: buck$(BUCK_DEFAULT_VERSION)
 
+.PHONY: version
+version: $(BUCK_DIR)/buck$(BUCK_DEFAULT_VERSION)/bin/buck
+	@cd $(BUCK_DIR); $(BUCK_DIR)/buck$(BUCK_DEFAULT_VERSION)/bin/buck --version
+
 .NOTPARALLEL: buck%
 .PHONY: buck%
 buck%: $(CONFIGURED_BUILD_ROOT)/buck/BUCK $(BUCK_DIR)/buck%/bin/buck

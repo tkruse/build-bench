@@ -7,6 +7,10 @@ export BAZELRC_PATH=$(BAZEL_DIR)/bazel_home
 .PHONY: bazel
 bazel: bazel$(BAZEL_DEFAULT_VERSION)
 
+.PHONY: version
+version: $(BAZEL_DIR)/bazel$(BAZEL_DEFAULT_VERSION)/bin/bazel
+	$(BAZEL_DIR)/bazel$(BAZEL_DEFAULT_VERSION)/bin/bazel version
+
 .NOTPARALLEL: bazel%
 .PHONY: bazel%
 bazel%: $(CONFIGURED_BUILD_ROOT)/bazel/BUILD $(BAZEL_DIR)/bazel%/bin/bazel

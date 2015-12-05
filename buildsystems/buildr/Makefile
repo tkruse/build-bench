@@ -6,6 +6,10 @@ export BUILDR_DIR=$(CACHE_DIR)/buildr
 .PHONY: buildr
 buildr: buildr$(BUILDR_DEFAULT_VERSION)
 
+.PHONY: version
+version: $(BUILDR_DIR)/gems/buildr-$(BUILDR_DEFAULT_VERSION)/bin/buildr
+	GEM_HOME=$(BUILDR_DIR) $(BUILDR_DIR)/gems/buildr-$(BUILDR_DEFAULT_VERSION)/bin/buildr --version
+
 .NOTPARALLEL: buildr%
 .PHONY: buildr%
 buildr%: $(CONFIGURED_BUILD_ROOT)/buildr/buildfile $(BUILDR_DIR)/gems/buildr-%/bin/buildr
