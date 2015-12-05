@@ -6,7 +6,7 @@ export BUCK_DIR=$(CACHE_DIR)/buck
 export ANT_IVY_PATH=$(CACHE_DIR)/ant_ivy/ant_ivy$(ANT_VERSION)/bin
 
 .PHONY: buck
-buck: buck$(BUCK_VERSION)
+buck: buck$(BUCK_DEFAULT_VERSION)
 
 .NOTPARALLEL: buck%
 .PHONY: buck%

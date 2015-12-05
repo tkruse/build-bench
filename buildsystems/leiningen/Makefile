@@ -4,7 +4,7 @@ default: leiningen
 export LEININGEN_DIR=$(CACHE_DIR)/leiningen
 
 .PHONY: leiningen
-leiningen: leiningen$(LEININGEN_VERSION)
+leiningen: leiningen$(LEININGEN_DEFAULT_VERSION)
 
 .NOTPARALLEL: leiningen%
 .PHONY: leiningen%

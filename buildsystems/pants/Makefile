@@ -6,7 +6,7 @@ export PANTS_DIR=$(CACHE_DIR)/pants
 export ANT_IVY_PATH=$(CACHE_DIR)/ant_ivy/ant_ivy$(ANT_VERSION)/bin
 
 .PHONY: pants
-pants: pants$(PANTS_VERSION)
+pants: pants$(PANTS_DEFAULT_VERSION)
 
 .NOTPARALLEL: pants%
 .PHONY: pants%

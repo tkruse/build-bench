@@ -4,7 +4,7 @@ default: buildr
 export BUILDR_DIR=$(CACHE_DIR)/buildr
 
 .PHONY: buildr
-buildr: buildr$(BUILDR_VERSION)
+buildr: buildr$(BUILDR_DEFAULT_VERSION)
 
 .NOTPARALLEL: buildr%
 .PHONY: buildr%

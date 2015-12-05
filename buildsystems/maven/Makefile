@@ -4,7 +4,7 @@ default: maven
 export MAVEN_DIR=$(CACHE_DIR)/maven
 
 .PHONY: maven
-maven: maven$(MAVEN_VERSION)
+maven: maven$(MAVEN_DEFAULT_VERSION)
 
 .NOTPARALLEL: maven%
 maven%: $(CONFIGURED_BUILD_ROOT)/maven/pom.xml $(MAVEN_DIR)/maven%/bin/mvn

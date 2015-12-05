@@ -5,7 +5,7 @@ default: sbt
 export SBT_DIR=$(CACHE_DIR)/sbt
 
 .PHONY: sbt
-sbt: sbt$(SBT_VERSION)
+sbt: sbt$(SBT_DEFAULT_VERSION)
 
 
 

@@ -4,7 +4,7 @@ default: gradle
 export GRADLE_DIR=$(CACHE_DIR)/gradle
 
 .PHONY: gradle
-gradle: gradle$(GRADLE_VERSION)
+gradle: gradle$(GRADLE_DEFAULT_VERSION)
 
 .NOTPARALLEL: gradle%
 .PHONY: gradle%
