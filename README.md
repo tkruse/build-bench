@@ -43,7 +43,7 @@ Custom configurations are loaded after the ```defaults.mk``` providing some conv
 * GNU make    (should be present on any *nix)
 * Python      (2 or 3)
 * jinja2      (if using templated sources, install via pip or apt-get)
-* Ruby        (for Apache buildr, jruby should also work)
+* Ruby        (1 or 2, for Apache buildr, jruby should also work)
 
 # Buildsystems
 
@@ -442,3 +442,7 @@ In particular:
 - Refactor Buildsystem knowledge in declarative way, allowing to easily benchmark multiple versions of same buildsystem, same buildsystem with different options, ...
 - use / preheat gradle daemon and similar
 - maven parallel builds
+- custom-defaults
+- download jinja2
+- download JRE
+- sanitized envs (PATH, CLASSPATH, PYTHONPATH, RUBY)
