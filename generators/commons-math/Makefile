@@ -16,6 +16,8 @@ $(CACHE_DIR)/commons-math:
 	rm -f $(CACHE_DIR)/commons-math/src/test/java/org/apache/commons/math3/random/EmpiricalDistributionTest.java
 # This test fails with with buck for unknown reasons of comparing floating points to zero.
 	rm -f $(CACHE_DIR)/commons-math/src/test/java/org/apache/commons/math3/ml/neuralnet/sofm/KohonenUpdateActionTest.java
+# This test fails with ant
+	rm -f $(CACHE_DIR)/commons-math/src/test/java/org/apache/commons/math3/PerfTestUtils.java
 # Some actual Tests sadly do not end with Test.java, so for fairness sake they cannot be used
 	rm -f $(CACHE_DIR)/commons-math/src/test/java/org/apache/commons/math3/fitting/leastsquares/EvaluationTestValidation.java
 	rm -f $(CACHE_DIR)/commons-math/src/test/java/org/apache/commons/math3/genetics/GeneticAlgorithmTestBinary.java
