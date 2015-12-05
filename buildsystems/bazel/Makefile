@@ -26,7 +26,7 @@ bazel%: $(CONFIGURED_BUILD_ROOT)/bazel/BUILD $(BAZEL_DIR)/bazel%/bin/bazel $(TIM
 	cd $(CONFIGURED_BUILD_ROOT)/bazel; $(TIME) $(BAZEL_DIR)/bazel$*/bin/bazel test --javacopt='-extra_checks:off' //:example-tests
 
 .PRECIOUS: $(BAZEL_DIR)/bazel-%-installer-linux-x86_64.sh
-$(BAZEL_DIR)/%.zip:
+$(BAZEL_DIR)/bazel-%-installer-linux-x86_64.sh:
 	@mkdir -p $(BAZEL_DIR)
 	@cd $(BAZEL_DIR); wget https://github.com/bazelbuild/bazel/releases/download/$*/bazel-$*-installer-linux-x86_64.sh
 	@cd $(BAZEL_DIR); chmod u+x bazel-$*-installer-linux-x86_64.sh
