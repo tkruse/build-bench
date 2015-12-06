@@ -8,7 +8,7 @@ export REPORTS_FORMAT:=%e, %U, %S, %I, %K, %O, %W, %r, %C
 export REPORTS_DIR=$(BUILD_DIR)/reports
 
 define TIME_CMD
-$(TIME) -o $(REPORTS_DIR)/$(TARGET_NAME).csv -f'$1, $(REPORTS_FORMAT)'
+$(TIME) -o $(REPORTS_DIR)/$(TARGET_NAME).csv -a -f'$1, $(REPORTS_FORMAT)'
 endef
 
 .PRECIOUS: $(REPORTS_DIR)/%
