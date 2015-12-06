@@ -4,7 +4,8 @@ jdk:
   - oraclejdk8
 install:
   - pip install --user jinja2
-  - echo -e "export BAZEL_COMMAND_OPTIONS:=--spawn_strategy=standalone --genrule_strategy=standalone\nexport BAZEL_NO_PREFETCH:=true" > custom.mk
+  # bazel extra option for travis
+  - echo -e "export BAZEL_COMMAND_OPTIONS:=--spawn_strategy=standalone --genrule_strategy=standalone" > custom.mk
 # refresh caches, travis uploads after install
   - TERM=dumb make CONFIG=configs/generated_minimal.mk
 script:
