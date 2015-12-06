@@ -23,6 +23,7 @@ java_test(
     srcs = glob(["src/test/java/**/*Test.java"],
         exclude = ["src/test/java/**/*Abstract*Test.java"]),
     size='small',
+    # this may cause warnings for short tests
     timeout='eternal',
     deps = [
         ':example{{ proindex }}',
