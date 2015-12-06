@@ -30,11 +30,11 @@ version: $(BAZEL_DIR)/bazel$(BAZEL_DEFAULT_VERSION)/bin/bazel
 
 .NOTPARALLEL: bazel%
 .PHONY: bazel%
-bazel%: $(CONFIGURED_BUILD_ROOT)/bazel%/BUILD $(BAZEL_DIR)/bazel%/bin/bazel $(TIME)
+bazel%: $(CONFIGURED_BUILD_ROOT)/bazel%/BUILD $(BAZEL_DIR)/bazel%/bin/bazel $(TIME) $(REPORTS_DIR)/$(TARGET_NAME)
 	$(info ******* bazel start)
 # fetch command has no spawn_strategy option, required on Travis CI
 	cd $(CONFIGURED_BUILD_ROOT)/bazel$*; $(BAZEL_DIR)/bazel$*/bin/bazel --bazelrc=$(BAZEL_DIR)/bazel$*/bazel.bazelrc fetch -- :all
-	cd $(CONFIGURED_BUILD_ROOT)/bazel$*; $(TIME) $(BAZEL_DIR)/bazel$*/bin/bazel --bazelrc=$(BAZEL_DIR)/bazel$*/bazel.bazelrc test $(BAZEL_COMMAND_OPTIONS) $(BAZEL_OPTIONS) //:example-tests
+	cd $(CONFIGURED_BUILD_ROOT)/bazel$*; $(call TIME_CMD,$@) $(BAZEL_DIR)/bazel$*/bin/bazel --bazelrc=$(BAZEL_DIR)/bazel$*/bazel.bazelrc test $(BAZEL_COMMAND_OPTIONS) $(BAZEL_OPTIONS) //:example-tests
 
 .PRECIOUS: $(BAZEL_DIR)/bazel-%-installer-linux-x86_64.sh
 $(BAZEL_DIR)/bazel-%-installer-linux-x86_64.sh:

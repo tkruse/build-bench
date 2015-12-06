@@ -33,11 +33,11 @@ lein-sub: lein-sub$(LEININGEN_DEFAULT_VERSION)
 
 .NOTPARALLEL: lein-sub%
 .PHONY: lein-sub%
-lein-sub%: $(CONFIGURED_BUILD_ROOT)/lein-sub%/project.clj $(LEININGEN_DIR)/leiningen%/lein $(TIME)
+lein-sub%: $(CONFIGURED_BUILD_ROOT)/lein-sub%/project.clj $(LEININGEN_DIR)/leiningen%/lein $(TIME) $(REPORTS_DIR)/$(TARGET_NAME)
 	$(info ******* leiningen start)
 ## multi project:
 	@cd $(CONFIGURED_BUILD_ROOT)/lein-sub$*; $(LEININGEN_DIR)/leiningen$*/lein --version
-	cd $(CONFIGURED_BUILD_ROOT)/lein-sub$*; $(TIME) sh -c '$(LEININGEN_DIR)/leiningen$*/lein sub junit; $(LEININGEN_DIR)/leiningen$*/lein sub jar'
+	cd $(CONFIGURED_BUILD_ROOT)/lein-sub$*; $(call TIME_CMD,$@) sh -c '$(LEININGEN_DIR)/leiningen$*/lein sub junit && $(LEININGEN_DIR)/leiningen$*/lein sub jar'
 
 .PRECIOUS: $(CONFIGURED_BUILD_ROOT)/lein-sub%/project.clj
 $(CONFIGURED_BUILD_ROOT)/lein-sub%/project.clj: $(CONFIGURED_BUILD_SOURCE)

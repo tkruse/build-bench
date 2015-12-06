@@ -28,11 +28,11 @@ version: $(GRADLE_DIR)/gradle$(GRADLE_DEFAULT_VERSION)/bin/gradle
 
 .NOTPARALLEL: gradle%
 .PHONY: gradle%
-gradle%: $(CONFIGURED_BUILD_ROOT)/gradle%/build.gradle $(GRADLE_DIR)/gradle%/bin/gradle $(TIME)
+gradle%: $(CONFIGURED_BUILD_ROOT)/gradle%/build.gradle $(GRADLE_DIR)/gradle%/bin/gradle $(TIME) $(REPORTS_DIR)/$(TARGET_NAME) $(REPORTS_DIR)/$(TARGET_NAME)
 	$(info ******* gradle start)
 	@cd $(CONFIGURED_BUILD_ROOT)/gradle$*; $(GRADLE_DIR)/$@/bin/gradle --stop
 	@cd $(CONFIGURED_BUILD_ROOT)/gradle$*; $(GRADLE_DIR)/$@/bin/gradle -v
-	cd $(CONFIGURED_BUILD_ROOT)/gradle$*; $(TIME) $(GRADLE_DIR)/$@/bin/gradle -q --stacktrace test jar
+	cd $(CONFIGURED_BUILD_ROOT)/gradle$*; $(call TIME_CMD,$@) $(GRADLE_DIR)/$@/bin/gradle -q --stacktrace test jar
 
 .PRECIOUS: $(GRADLE_DIR)/gradle-%-bin.zip
 $(GRADLE_DIR)/gradle-%-bin.zip:

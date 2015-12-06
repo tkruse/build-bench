@@ -15,6 +15,8 @@ include $(ROOT_DIR)/include/generators.mk
 .PHONY: default
 default: sbt
 
+include $(ROOT_DIR)/include/time.mk
+
 export SBT_DIR=$(CACHE_DIR)/sbt
 
 .PHONY: sbt
@@ -28,9 +30,9 @@ version: $(SBT_DIR)/sbt$(SBT_DEFAULT_VERSION)/bin/sbt
 
 .NOTPARALLEL: sbt%
 .PHONY: sbt%
-sbt%: $(CONFIGURED_BUILD_ROOT)/sbt%/build.sbt $(SBT_DIR)/sbt%/bin/sbt $(TIME)
+sbt%: $(CONFIGURED_BUILD_ROOT)/sbt%/build.sbt $(SBT_DIR)/sbt%/bin/sbt $(TIME) $(REPORTS_DIR)/$(TARGET_NAME)
 	$(info ******* sbt start)
-	cd $(CONFIGURED_BUILD_ROOT)/sbt$*; $(TIME) $(SBT_DIR)/$@/bin/sbt -java-home $(JAVA_HOME) test package
+	cd $(CONFIGURED_BUILD_ROOT)/sbt$*; $(call TIME_CMD,$@) $(SBT_DIR)/$@/bin/sbt -java-home $(JAVA_HOME) test package
 
 
 .PRECIOUS: $(SBT_DIR)/sbt-%.tgz
