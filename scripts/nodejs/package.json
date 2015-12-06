@@ -1,0 +1,12 @@
+{
+  "name": "markdowncheck",
+  "version": "0.0.0",
+  "description": "markdown checks using mdast",
+  "private": true,
+  "comment": "untildify dependency of npm-prefix@1.1.0 has bug",
+  "dependencies": {
+    "mdast": "^2.1.0",
+    "mdast-lint": "^1.1.1",
+    "npm-prefix": "1.0.1"
+  }
+}
