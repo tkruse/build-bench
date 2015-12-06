@@ -5,12 +5,12 @@ export MAKEFLAGS += --no-builtin-rules
 # only works when running make in root folder :-(
 export ROOT_DIR=$(shell pwd)
 
+.PHONY: default
+default: all
+
 
 # load config files to set variables
 include $(ROOT_DIR)/include/includes.mk
-
-.PHONY: default
-default: all
 
 
 .PHONY: all
