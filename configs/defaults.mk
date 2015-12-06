@@ -3,6 +3,10 @@
 ## Customization variables
 ## Change these as you need in your config
 
+ifndef ROOT_DIR
+$(error ROOT_DIR is not set)
+endif
+
 export JAVA_HOME=/usr/lib/jvm/java-8-oracle/
 
 # delete undesired buildsystems in custom config
@@ -17,7 +21,7 @@ sbt \
 bazel \
 pants
 
-export DEFAULT_CONFIG=configs/generated_minimal.mk
+export DEFAULT_CONFIG=$(ROOT_DIR)/configs/generated_minimal.mk
 
 # for jinja2 templates
 export FILE_NUM=0
@@ -51,8 +55,6 @@ export TEMPLATES_DIR=$(ROOT_DIR)/generators
 export BUILDSYSTEMS_DIR=$(ROOT_DIR)/buildsystems
 export BUILDTEMPLATES_DIR=$(ROOT_DIR)/buildtemplates
 
-# Makefile snippets
-export INCLUDE_DIR=$(ROOT_DIR)/include
 
 # Python helpers
 export SCRIPTS_DIR=$(ROOT_DIR)/scripts

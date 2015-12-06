@@ -2,11 +2,21 @@
 export MAKEFLAGS += --no-builtin-rules
 .SUFFIXES:
 
+ifndef ROOT_DIR
+export ROOT_DIR=$(shell readlink -m $(shell pwd)/../..)
+endif
+
+ifndef BUILD_DIR
+include $(ROOT_DIR)/include/includes.mk
+endif
+
+include $(ROOT_DIR)/include/generators.mk
+
 .PHONY: default
 default: ant_ivy
 
-include ../../include/time.mk
-include ../../include/ant.mk
+include $(ROOT_DIR)/include/time.mk
+include $(ROOT_DIR)/include/ant.mk
 
 .PHONY: ant_ivy
 ant_ivy: ant_ivy$(ANT_DEFAULT_VERSION)

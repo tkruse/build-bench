@@ -7,42 +7,22 @@ export ROOT_DIR=$(shell pwd)
 
 
 # load config files to set variables
-include include/includes.mk
+include $(ROOT_DIR)/include/includes.mk
 
 .PHONY: default
 default: all
-
-.PHONY: clean-caches
-clean-sources:
-	rm -rf $(CACHE_DIR)
-
-.PHONY: clean-builds
-clean-builds:
-	rm -rf $(BUILD_DIR)
-
-# clean is synonym to clean-builds
-.PHONY: clean
-clean: clean-builds
-
-.PHONY: clean-all
-clean-all: clean-builds clean-caches
 
 
 .PHONY: all
 all: $(BUILDSYSTEMS)
 
-# Run Makefile in generator subdir
-.PRECIOUS: $(CONFIGURED_BUILD_SOURCE)
-$(CONFIGURED_BUILD_SOURCE):
-	$(MAKE) -C $(TEMPLATES_DIR)/$(SOURCE_PROJECT)
+include $(ROOT_DIR)/include/generators.mk
 
 # copy project sources into buildsystem subdir
 .PRECIOUS: $(CONFIGURED_BUILD_ROOT)/%/src
 $(CONFIGURED_BUILD_ROOT)/%/src: $(CONFIGURED_BUILD_SOURCE)
 	@mkdir -p $(CONFIGURED_BUILD_ROOT)/$*
 	@cd $(CONFIGURED_BUILD_ROOT)/$*; cp -rf $(CONFIGURED_BUILD_SOURCE)/* .
-
-
 
 # invoke specific buildsystem version. TODO: Find out how to generify this with makefile
 

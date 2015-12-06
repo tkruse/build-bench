@@ -2,10 +2,20 @@
 export MAKEFLAGS += --no-builtin-rules
 .SUFFIXES:
 
+ifndef ROOT_DIR
+export ROOT_DIR=$(shell readlink -m $(shell pwd)/../..)
+endif
+
+ifndef BUILD_DIR
+include $(ROOT_DIR)/include/includes.mk
+endif
+
+include $(ROOT_DIR)/include/generators.mk
+
 .PHONY: default
 default: maven
 
-include ../../include/time.mk
+include $(ROOT_DIR)/include/time.mk
 
 export MAVEN_DIR=$(CACHE_DIR)/maven
 
