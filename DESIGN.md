@@ -29,6 +29,30 @@ Ideally all setting should be provided as defaults, but changeable in the custom
    5. Execute Buildsystem {buildsystem} within `build/{benchmark}/{buildsystem}`
    6. Harvest Benchmark results into `build/{benchmark}/repots/{buildsystem}.yaml`
 
+## Makefile
+
+### Variables
+
+Most important variables are assigned in `configs/defaults.mk`, with some comments.
+
+* `$(ROOT_DIR)` Absolute path to root folder
+* `$(BUILDSYSTEMS)` Space-separated list of buildsystem identifiers
+* `$(CONFIG)`  Which benchmark to run
+* `$(TARGET_NAME)`  How to name the benchmark target folder
+* `$(SOURCE_PROJECT)` Which java sources to use
+* `$(BUILD_DEFINITIONS) Which buildsystem files to use
+
+Needless to say, `SOURCE_PROJECT` and `BUILD_DEFINITIONS` must point to compatible filesets.
+
+### Rules
+
+* `make clean` deletes the build folder
+* `make gradle` runs the benchmark using gradle
+* `make gradle maven` runs the benchmark using gradle and maven
+* `make gradle2.6 maven3.3.3` runs the benchmark using gradle 2.6 and maven 3.3.3
+
+Internally, a gradle* rules will trigger a make inside `buildtemplates/$(BUILD_DEFINITIONS)/gradle` to produce the build files, and a make inside `buildsystems/gradle` to install the gven version if necessary and launch the benchmark.
+
 ## Files and Folders
 
 In order to allow configuring different combinations of Java-sources, buildsystem-sources, and buildsystem versions, several independent subfolder trees exist for each purpose.

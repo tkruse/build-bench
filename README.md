@@ -31,6 +31,9 @@ Also see [my notes](Buildsystems.md)
     # to run for just selected buildsystems, e.g. maven vs. gradle:
     $ make clean maven gradle
 
+    # to run for just selected buildsystems in particular versions
+    $ make clean maven3.3.3 gradle2.7
+
 The process is configured using variables that can be changed, the configs folder has a `defauls.mk` file setting defaults, and some example files for different kinds of builds.
 
 It is possible to run a custom Benchmark configuration using:
@@ -47,6 +50,8 @@ It is possible to run a custom Benchmark configuration using:
 * Python      (2 or 3)
 * jinja2      (if using templated sources, install via pip or apt-get)
 * Ruby        (1 or 2, for Apache buildr, jruby should also work)
+
+The whole setup is described [here](Design.md)
 
 ## Configuring Benchmarks
 
@@ -236,7 +241,7 @@ Buck is mainly targetted at building Java apps for Android, it is inspired by Bl
 | leiningen | Clojure, Java              | Clojure    | Clojure      | 2009?        | ?          | ?          | POM   |
 | buck      | Java (Android)             | Python-ish | Java, Python | 2012         | Facebook   | true cache | rules |
 | bazel     | C++, Java, Python, Go      | Python-ish | C++, Java    | 2015 (2005?) | Google     | true cache | rules |
-| pants     | Java, Scala, Python, Go    | Python     | Python       | 2014 (2010)  | Twitter    | true cache | rules |
+| pants     | Java, Scala, Python        | Python     | Python       | 2014 (2010)  | Twitter    | true cache | rules |
 
 ### Why are ant/sbt/leiningen so slow for clean testing of commons-math?
 
