@@ -50,7 +50,7 @@ export BUILD_DIR=$(ROOT_DIR)/build
 export RESULTS_DIR=$(BUILD_DIR)/results
 
 # folder containing source resources except for buildfiles
-export DOWNLOAD_SOURCES_DIR=$(BUILD_DIR)/buildsrc
+export GENERATED_SOURCES_DIR=$(BUILD_DIR)/buildsrc
 export TEMPLATES_DIR=$(ROOT_DIR)/generators
 export BUILDSYSTEMS_DIR=$(ROOT_DIR)/buildsystems
 export BUILDTEMPLATES_DIR=$(ROOT_DIR)/buildtemplates
