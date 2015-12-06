@@ -21,6 +21,9 @@ include $(ROOT_DIR)/include/generators.mk
 # copy project sources into buildsystem subdir
 .PRECIOUS: $(CONFIGURED_BUILD_ROOT)/%/src
 $(CONFIGURED_BUILD_ROOT)/%/src: $(CONFIGURED_BUILD_SOURCE)
+ifndef TARGET_NAME
+	$(error TARGET_NAME is not set, defines where files are to be generated to)
+endif
 	@mkdir -p $(CONFIGURED_BUILD_ROOT)/$*
 	@cd $(CONFIGURED_BUILD_ROOT)/$*; cp -rf $(CONFIGURED_BUILD_SOURCE)/* .
 

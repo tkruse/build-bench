@@ -61,5 +61,6 @@ export SCRIPTS_DIR=$(ROOT_DIR)/scripts
 # location to drop anything not to be cleaned by "make clean"
 export CACHE_DIR=$(ROOT_DIR)/caches
 
-export CONFIGURED_BUILD_ROOT=$(BUILD_DIR)/$(SOURCE_PROJECT)
+# TARGET_NAME will be defined later...
+export CONFIGURED_BUILD_ROOT=$(BUILD_DIR)/$(TARGET_NAME)
 export CONFIGURED_BUILD_SOURCE=$(CONFIGURED_BUILD_ROOT)/source

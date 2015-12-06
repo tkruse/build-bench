@@ -1,3 +1,5 @@
 export BUILD_DEFINITIONS=singleModule
 export SOURCE_PROJECT=commons-math
-export JAVA_HOME=/usr/lib/jvm/java-8-oracle/
+
+# Name of the benchmark, used for folder and report
+export TARGET_NAME=$(SOURCE_PROJECT)
