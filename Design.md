@@ -26,7 +26,7 @@ Ideally all setting should be provided as defaults, but changeable in the custom
    2. Copy/Generate Java sources to `build/{benchmark}/{buildsystem}` (symlinking caused issues)
    3. Generate Buildsystem sources (e.g. pom.xml) to `build/{benchmark}/{buildsystem}`
    4. Download the Buildsystem {buildsystem} to `caches`
-   5. Execute Buildsystem {buildsystem} within `build/{benchmark}/{buildsystem}`
+   5. Execute Buildsystem {buildsystem} within `build/{benchmark}/{buildsystem}`, measure time
    6. Harvest Benchmark results into `build/{benchmark}/repots/{buildsystem}.yaml`
 
 ## Makefile
