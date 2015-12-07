@@ -31,6 +31,7 @@ version: $(SBT_DIR)/sbt$(SBT_DEFAULT_VERSION)/bin/sbt
 .NOTPARALLEL: sbt%
 .PHONY: sbt%
 sbt%: $(CONFIGURED_BUILD_ROOT)/sbt%/build.sbt $(SBT_DIR)/sbt%/bin/sbt $(TIME) $(REPORTS_DIR)/$(TARGET_NAME)
+	cd $(CONFIGURED_BUILD_ROOT)/sbt$*; $(SBT_DIR)/$@/bin/sbt -java-home $(JAVA_HOME) about
 	$(info ******* sbt start)
 	cd $(CONFIGURED_BUILD_ROOT)/sbt$*; $(call TIME_CMD,$@) $(SBT_DIR)/$@/bin/sbt -java-home $(JAVA_HOME) test package
 
