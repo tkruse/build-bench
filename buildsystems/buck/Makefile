@@ -40,13 +40,13 @@ buck%: $(CONFIGURED_BUILD_ROOT)/buck%/BUCK $(BUCK_DIR)/buck%/bin/buck $(ANT) $(T
 .PRECIOUS: $(BUCK_DIR)/%.zip
 $(BUCK_DIR)/%.zip:
 	@mkdir -p $(BUCK_DIR)
-	@cd $(BUCK_DIR); wget https://github.com/facebook/buck/archive/$*.zip
+	@cd $(BUCK_DIR); wget --quiet https://github.com/facebook/buck/archive/$*.zip
 
 .PRECIOUS: $(BUCK_DIR)/buck%/bin/buck
 $(BUCK_DIR)/buck%/bin/buck: $(BUCK_DIR)/%.zip $(ANT_IVY_PATH)/ant
 	@mkdir -p $(BUCK_DIR)
 	@cd $(BUCK_DIR); unzip -u -q $*.zip; mv buck-$(subst v,,$*) buck$*
-	@cd $(BUCK_DIR);touch buck$*/bin/buck
+	@cd $(BUCK_DIR); touch buck$*/bin/buck
 
 .PRECIOUS: $(CONFIGURED_BUILD_ROOT)/buck%/build.buck
 $(CONFIGURED_BUILD_ROOT)/buck%/BUCK: $(CONFIGURED_BUILD_SOURCE)

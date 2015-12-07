@@ -37,7 +37,7 @@ gradle%: $(CONFIGURED_BUILD_ROOT)/gradle%/build.gradle $(GRADLE_DIR)/gradle%/bin
 .PRECIOUS: $(GRADLE_DIR)/gradle-%-bin.zip
 $(GRADLE_DIR)/gradle-%-bin.zip:
 	@mkdir -p $(GRADLE_DIR)
-	@cd $(GRADLE_DIR); wget https://services.gradle.org/distributions/gradle-$*-bin.zip
+	@cd $(GRADLE_DIR); wget --quiet https://services.gradle.org/distributions/gradle-$*-bin.zip
 
 .PRECIOUS: $(GRADLE_DIR)/gradle%/bin/gradle
 $(GRADLE_DIR)/gradle%/bin/gradle: $(GRADLE_DIR)/gradle-%-bin.zip

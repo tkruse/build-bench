@@ -7,14 +7,14 @@ export ANT=$(ANT_IVY_DIR)/ant_ivy$(ANT_DEFAULT_VERSION)/bin/ant
 .PRECIOUS: $(ANT_IVY_DIR)/apache-ant-%-bin.tar.gz
 $(ANT_IVY_DIR)/apache-ant-%-bin.tar.gz:
 	@mkdir -p $(ANT_IVY_DIR)
-	@cd $(ANT_IVY_DIR); wget http://archive.apache.org/dist/ant/binaries/apache-ant-$*-bin.tar.gz
+	@cd $(ANT_IVY_DIR); wget --quiet http://archive.apache.org/dist/ant/binaries/apache-ant-$*-bin.tar.gz
 
 
 
 .PRECIOUS: $(ANT_IVY_DIR)/ant_home/lib/ivy-$(IVY_DEFAULT_VERSION).jar
 $(ANT_IVY_DIR)/ant_home/lib/ivy-$(IVY_DEFAULT_VERSION).jar:
 	@mkdir -p $(ANT_IVY_DIR)/ant_home/lib
-	@cd $(ANT_IVY_DIR); wget http://ftp-stud.hs-esslingen.de/pub/Mirrors/ftp.apache.org/dist//ant/ivy/$(IVY_DEFAULT_VERSION)/apache-ivy-$(IVY_DEFAULT_VERSION)-bin.tar.gz
+	@cd $(ANT_IVY_DIR); wget --quiet http://ftp-stud.hs-esslingen.de/pub/Mirrors/ftp.apache.org/dist//ant/ivy/$(IVY_DEFAULT_VERSION)/apache-ivy-$(IVY_DEFAULT_VERSION)-bin.tar.gz
 	@cd $(ANT_IVY_DIR); tar -xzf apache-ivy-$(IVY_DEFAULT_VERSION)-bin.tar.gz
 	@cd $(ANT_IVY_DIR); cp apache-ivy-$(IVY_DEFAULT_VERSION)/ivy-$(IVY_DEFAULT_VERSION).jar ant_home/lib/
 

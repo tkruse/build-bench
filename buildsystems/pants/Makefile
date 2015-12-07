@@ -41,7 +41,7 @@ pants%: $(CONFIGURED_BUILD_ROOT)/pants%/BUILD $(PANTS_DIR)/pants $(CONFIGURED_BU
 .PRECIOUS: $(PANTS_DIR)/pants
 $(PANTS_DIR)/pants:
 	@mkdir -p $(PANTS_DIR)
-	@cd $(PANTS_DIR); curl -O https://pantsbuild.github.io/setup/pants
+	@cd $(PANTS_DIR); curl -s -O https://pantsbuild.github.io/setup/pants
 	@chmod u+x $(PANTS_DIR)/pants
 
 # make sure correct pants_version configured in project workspace

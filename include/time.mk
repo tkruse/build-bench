@@ -23,6 +23,6 @@ $(TIME_CACHE_DIR)/time-$(TIME_VERSION).tar.gz:
 .PRECIOUS: $(TIME)
 $(TIME): $(TIME_CACHE_DIR)/time-$(TIME_VERSION).tar.gz
 	cd $(TIME_CACHE_DIR);tar -xzf time-1.7.tar.gz
-	cd $(TIME_CACHE_DIR)/time-1.7; ./configure --prefix=$(TIME_DIR)
+	cd $(TIME_CACHE_DIR)/time-1.7; ./configure --quiet --prefix=$(TIME_DIR)
 	cd $(TIME_CACHE_DIR)/time-1.7; make install -j2
 #	ln -s `pwd`/time /usr/local/bin/time

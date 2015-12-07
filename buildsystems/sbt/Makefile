@@ -38,7 +38,7 @@ sbt%: $(CONFIGURED_BUILD_ROOT)/sbt%/build.sbt $(SBT_DIR)/sbt%/bin/sbt $(TIME) $(
 .PRECIOUS: $(SBT_DIR)/sbt-%.tgz
 $(SBT_DIR)/sbt-%.tgz:
 	@mkdir -p $(SBT_DIR)
-	@cd $(SBT_DIR); wget https://dl.bintray.com/sbt/native-packages/sbt/$*/sbt-$*.tgz
+	@cd $(SBT_DIR); wget --quiet https://dl.bintray.com/sbt/native-packages/sbt/$*/sbt-$*.tgz
 
 .PRECIOUS: $(SBT_DIR)/sbt%/bin/sbt
 $(SBT_DIR)/sbt%/bin/sbt: $(SBT_DIR)/sbt-%.tgz

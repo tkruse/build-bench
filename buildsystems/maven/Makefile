@@ -36,7 +36,7 @@ maven%: $(CONFIGURED_BUILD_ROOT)/maven%/pom.xml $(MAVEN_DIR)/maven%/bin/mvn $(TI
 .PRECIOUS: $(MAVEN_DIR)/apache-maven-%-bin.tar.gz
 $(MAVEN_DIR)/apache-maven-%-bin.tar.gz:
 	@mkdir -p $(MAVEN_DIR)
-	@cd $(MAVEN_DIR); wget http://mirror.serversupportforum.de/apache/maven/maven-3/$*/binaries/apache-maven-$*-bin.tar.gz
+	@cd $(MAVEN_DIR); wget --quiet http://mirror.serversupportforum.de/apache/maven/maven-3/$*/binaries/apache-maven-$*-bin.tar.gz
 
 .PRECIOUS: $(MAVEN_DIR)/maven%/bin/mvn
 $(MAVEN_DIR)/maven%/bin/mvn: $(MAVEN_DIR)/apache-maven-%-bin.tar.gz
