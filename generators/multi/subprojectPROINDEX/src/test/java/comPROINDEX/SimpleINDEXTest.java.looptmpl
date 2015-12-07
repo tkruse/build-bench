@@ -13,6 +13,6 @@ public class Simple{{ index }}Test {
 
      @Test
      public void testAcker{{ index }}() {
-          Assert.assertEquals(2045, Simple{{ index }}.ackermann(3, 8));
+          Assert.assertEquals(16381, Simple{{ index }}.ackermann(3, 11));
      }
 }
