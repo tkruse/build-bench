@@ -32,7 +32,7 @@ gradle%: $(CONFIGURED_BUILD_ROOT)/gradle%/build.gradle $(GRADLE_DIR)/gradle%/bin
 	$(info ******* gradle start)
 	@cd $(CONFIGURED_BUILD_ROOT)/gradle$*; $(GRADLE_DIR)/$@/bin/gradle --stop
 	@cd $(CONFIGURED_BUILD_ROOT)/gradle$*; $(GRADLE_DIR)/$@/bin/gradle -v
-	cd $(CONFIGURED_BUILD_ROOT)/gradle$*; $(call TIME_CMD,$@) $(GRADLE_DIR)/$@/bin/gradle -q --stacktrace test jar
+	cd $(CONFIGURED_BUILD_ROOT)/gradle$*; $(call TIME_CMD,$@) $(GRADLE_DIR)/$@/bin/gradle -q --info --stacktrace test jar
 
 .PRECIOUS: $(GRADLE_DIR)/gradle-%-bin.zip
 $(GRADLE_DIR)/gradle-%-bin.zip:
