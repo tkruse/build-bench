@@ -12,9 +12,13 @@ repositories {
 }
 
 test {
-     // This restriction is unnecessary in general, required just for the benchmark so that gradle
-     // is not punished for running more tests excluded in other buildsystems
-     include('**/**/*Test.class')
+  // This restriction is unnecessary in general, required just for the benchmark so that gradle
+  // is not punished for running more tests excluded in other buildsystems
+  include('**/**/*Test.class')
+
+  testLogging {
+    exceptionFormat = 'full'
+  }
 }
 
 dependencies {
