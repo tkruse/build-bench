@@ -17,13 +17,11 @@ install:
   - echo -e "export BAZEL_COMMAND_OPTIONS:=--spawn_strategy=standalone --genrule_strategy=standalone" > custom.mk
 # refresh caches, travis uploads after install
   - TERM=dumb make CONFIG=configs/generated_minimal.mk
-  - TERM=dumb make gradle CONFIG=configs/commons-math.mk
 script:
   - cd scripts/nodejs; ./node_modules/.bin/mdast ../../*.md --frail --no-color -q --config-path ./mdast/mdastrc; cd $TRAVIS_BUILD_DIR
   - TERM=dumb make
   - TERM=dumb make -j2 clean
   - TERM=dumb make gradle2.9 maven3.3.9 ant_ivy1.9.6 buildr1.4.23 buckv2015.11.30.01 leiningen2.5.3 sbt0.13.9 pants0.0.63
-  - TERM=dumb make CONFIG=configs/commons-math.mk
   - TERM=dumb make CONFIG=configs/generated_multi.mk
 notifications:
   email: false
