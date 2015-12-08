@@ -61,72 +61,74 @@ The `caches` and `build` folders are never checked in, their content can be dele
 
 Showing the tree structure for example Apache Ant.
 
-    build-bench
-    ├── Makefile               // Drives the whole build, main entry point
-    ├── build                  // not checked in, all output during benchmark run should go here
-    │   ├── multi-2-3
-    │   │   ├── ant_ivy1.9.6   // copied Java sources and build files
-    │   │   │   ├── build.xml
-    │   │   │   ├── src
-    │   │   │   ├── ...
-    ├── buildsystems
-    │   ├── ant_ivy
-    │   │   └── Makefile    // downloads ant+ivy and runs benchmark
-    │   ├── ...
-    ├── buildtemplates
-    │   ├── multiModule     // ant-specific buildfiles (any version of ant)
-    │   │   ├── ant_ivy
-    │   │   │   ├── build.xml
-    │   │   │   ├── dependencies.xml.tmpl
-    │   │   │   └── subprojectPROINDEX
-    │   │   │       ├── build.xml.tmpl
-    │   │   │       └── ivy.xml
-    │   │   ├── ...
-    │   └── singleModule
-    │       ├── ant_ivy
-    │       │   ├── build.xml
-    │       │   └── ivy.xml
-    │       ├── ...
-    ├── caches                  // not checked in, downloaded buildsystems and sources
-    │   ├── ant_ivy
-    │   │   ├── ant_ivy1.9.6    // cached ant + ivy version 1.9.6
-    │   │   ├── ...
-    │   ├── commons-math        // cached downloaded sources
-    │   │   ├── ...
-    │   ├── ...
-    ├── configs // Variables driving the benchmarks
-    │   ├── commons-math.mk          // specific benchmark project definition
-    │   ├── defaults.mk              // global persistent defaults
-    │   ├── generated_minimal.mk
-    │   ├── generated_multi.mk
-    │   └── generated_single.mk
-    ├── generators
-    │   ├── commons-math
-    │   │   └── Makefile             // download common-maths source from Apache
-    │   ├── multi
-    │   │   ├── Makefile             // install source tree to build
-    │   │   └── subprojectPROINDEX
-    │   │       └── src
-    │   │           ├── main
-    │   │           │   └── java
-    │   │           │       └── comPROINDEX
-    │   │           │           └── SimpleINDEX.java.looptmpl
-    │   │           └── test
-    │   │               └── java
-    │   │                   └── comPROINDEX
-    │   │                       └── SimpleINDEXTest.java.looptmpl
-    │   └── simple
-    │       ├── Makefile              // install source tree to build
-    │       └── src
-    │           ├── ...
-    ├── include                       // reusable Makefile snippets
-    │   ├── ant.mk
-    │   ├── includes.mk
-    │   ├── jinja2_generate.mk
-    │   ├── leiningen.mk
-    │   └── time.mk
-    └── scripts
-        └── apply-templates.py        // instantiates templates recursively
+```
+build-bench
+├── Makefile               // Drives the whole build, main entry point
+├── build                  // not checked in, all output during benchmark run should go here
+│   ├── multi-2-3
+│   │   ├── ant_ivy1.9.6   // copied Java sources and build files
+│   │   │   ├── build.xml
+│   │   │   ├── src
+│   │   │   ├── ...
+├── buildsystems
+│   ├── ant_ivy
+│   │   └── Makefile    // downloads ant+ivy and runs benchmark
+│   ├── ...
+├── buildtemplates
+│   ├── multiModule     // ant-specific buildfiles (any version of ant)
+│   │   ├── ant_ivy
+│   │   │   ├── build.xml
+│   │   │   ├── dependencies.xml.tmpl
+│   │   │   └── subprojectPROINDEX
+│   │   │       ├── build.xml.tmpl
+│   │   │       └── ivy.xml
+│   │   ├── ...
+│   └── singleModule
+│       ├── ant_ivy
+│       │   ├── build.xml
+│       │   └── ivy.xml
+│       ├── ...
+├── caches                  // not checked in, downloaded buildsystems and sources
+│   ├── ant_ivy
+│   │   ├── ant_ivy1.9.6    // cached ant + ivy version 1.9.6
+│   │   ├── ...
+│   ├── commons-math        // cached downloaded sources
+│   │   ├── ...
+│   ├── ...
+├── configs // Variables driving the benchmarks
+│   ├── commons-math.mk          // specific benchmark project definition
+│   ├── defaults.mk              // global persistent defaults
+│   ├── generated_minimal.mk
+│   ├── generated_multi.mk
+│   └── generated_single.mk
+├── generators
+│   ├── commons-math
+│   │   └── Makefile             // download common-maths source from Apache
+│   ├── multi
+│   │   ├── Makefile             // install source tree to build
+│   │   └── subprojectPROINDEX
+│   │       └── src
+│   │           ├── main
+│   │           │   └── java
+│   │           │       └── comPROINDEX
+│   │           │           └── SimpleINDEX.java.looptmpl
+│   │           └── test
+│   │               └── java
+│   │                   └── comPROINDEX
+│   │                       └── SimpleINDEXTest.java.looptmpl
+│   └── simple
+│       ├── Makefile              // install source tree to build
+│       └── src
+│           ├── ...
+├── include                       // reusable Makefile snippets
+│   ├── ant.mk
+│   ├── includes.mk
+│   ├── jinja2_generate.mk
+│   ├── leiningen.mk
+│   └── time.mk
+└── scripts
+    └── apply-templates.py        // instantiates templates recursively
+```
 
 ## Jinja2 file generation
 

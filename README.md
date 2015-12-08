@@ -22,24 +22,28 @@ Also see [my notes](Buildsystems.md)
 
 ## Running
 
-    # to run all buildsystems
-    $ make
+```bash
+# to run all buildsystems
+$ make
 
-    # to run all buildsystems freshly
-    $ make clean all
+# to run all buildsystems freshly
+$ make clean all
 
-    # to run for just selected buildsystems, e.g. maven vs. gradle:
-    $ make clean maven gradle
+# to run for just selected buildsystems, e.g. maven vs. gradle:
+$ make clean maven gradle
 
-    # to run for just selected buildsystems in particular versions
-    $ make clean maven3.3.3 gradle2.7
+# to run for just selected buildsystems in particular versions
+$ make clean maven3.3.3 gradle2.7
+```
 
 The process is configured using variables that can be changed, the configs folder has a `defauls.mk` file setting defaults, and some example files for different kinds of builds.
 
 It is possible to run a custom Benchmark configuration using:
 
-    # to run specific configuration
-    $ make clean all CONFIG=configs/generated_multi.mk
+```bash
+# to run specific configuration
+$ make clean all CONFIG=configs/generated_multi.mk
+```
 
 ## Prerequisites
 
@@ -84,96 +88,98 @@ The builds should work for any source tree that follows these conventions:
 Sample output (manually cleaned up) for a clean build of apache commons.math (compile + test).
 Most of the time spend is on actually running tests.
 
-    $ make versions
-    java version "1.7.0_80"
-    Apache Maven 3.3.3 (7994120775791599e205a5524ec3e0dfe41d4a06; 2015-04-22T13:57:37+02:00)
-    Gradle 2.6
-    sbt sbtVersion 0.13.9
-    Buildr 1.4.23
-    buck version 92f4a5486d453 (Sep 2015)
-    Leiningen 2.5.2 on Java 1.7.0_80 Java HotSpot(TM) 64-Bit Server VM
-    Apache Ant(TM) version 1.9.6 compiled on June 29 2015
-    bazel version Sep 06, 2015
-    pants --version: 0.0.46
+```bash
+$ make versions
+java version "1.7.0_80"
+Apache Maven 3.3.3 (7994120775791599e205a5524ec3e0dfe41d4a06; 2015-04-22T13:57:37+02:00)
+Gradle 2.6
+sbt sbtVersion 0.13.9
+Buildr 1.4.23
+buck version 92f4a5486d453 (Sep 2015)
+Leiningen 2.5.2 on Java 1.7.0_80 Java HotSpot(TM) 64-Bit Server VM
+Apache Ant(TM) version 1.9.6 compiled on June 29 2015
+bazel version Sep 06, 2015
+pants --version: 0.0.46
 
-    $ make clean-builds all --silent
-    ******* sbt start (invalid, skipped tests for unknown reasons)
-    cd build/sbt; time sbt -java-home /usr/lib/jvm/java-7-oracle/ -q test package
-    368.03user 3.29system 1:16.01elapsed 488%CPU (0avgtext+0avgdata 1289052maxresident)k
-    129320inputs+115696outputs (114major+496608minor)pagefaults 0swaps
-    ******* buildr start
-    cd build/buildr; time buildr -q package
-    234.25user 3.96system 2:27.34elapsed 161%CPU (0avgtext+0avgdata 1032168maxresident)k
-    31848inputs+122104outputs (47major+798859minor)pagefaults 0swaps
-    ******* maven start
-    cd build/maven; time mvn -q package -Dsurefire.printSummary=false
-    221.38user 3.85system 2:30.19elapsed 149%CPU (0avgtext+0avgdata 993952maxresident)k
-    127240inputs+67960outputs (102major+626805minor)pagefaults 0swaps
-    ******* gradle start
-    cd build/gradle; time gradle -q jar
-    238.31user 4.82system 2:28.01elapsed 164%CPU (0avgtext+0avgdata 1003468maxresident)k
-    220784inputs+58840outputs (369major+661382minor)pagefaults 0swaps
-    ******* buck start
-    cd build/buck; time buck test
-    0.07user 0.14system 2:34.22elapsed 0%CPU (0avgtext+0avgdata 8508maxresident)k
-    6128inputs+24outputs (36major+12564minor)pagefaults 0swaps
-    ******* pants start
-    cd build/pants; time pants test :test -q
-    223.78user 4.60system 2:45.22elapsed 138%CPU (0avgtext+0avgdata 835920maxresident)k
-    117016inputs+62184outputs (196major+754749minor)pagefaults 0swaps
-    ******* bazel start
-    cd build/bazel; time bazel test --javacopt='-extra_checks:off' //:example-tests
-    0.27user 0.13system 2:50.71elapsed 0%CPU (0avgtext+0avgdata 52272maxresident)k
-    86816inputs+138488outputs (70major+13539minor)pagefaults 0swaps
-    ******* ant-ivy start
-    cd build/ivy; time ant jar -q
-    437.16user 21.80system 5:05.07elapsed 150%CPU (0avgtext+0avgdata 875420maxresident)k
-    224576inputs+186168outputs (371major+6421924minor)pagefaults 0swaps
-    ******* leiningen start
-    cd build/leiningen; LEIN_SILENT=true time sh -c 'lein junit; lein jar'
-    373.26user 28.06system 8:41.61elapsed 76%CPU (0avgtext+0avgdata 862632maxresident)k
-    45552inputs+244352outputs (21major+7072416minor)pagefaults 0swaps
+$ make clean-builds all --silent
+******* sbt start (invalid, skipped tests for unknown reasons)
+cd build/sbt; time sbt -java-home /usr/lib/jvm/java-7-oracle/ -q test package
+368.03user 3.29system 1:16.01elapsed 488%CPU (0avgtext+0avgdata 1289052maxresident)k
+129320inputs+115696outputs (114major+496608minor)pagefaults 0swaps
+******* buildr start
+cd build/buildr; time buildr -q package
+234.25user 3.96system 2:27.34elapsed 161%CPU (0avgtext+0avgdata 1032168maxresident)k
+31848inputs+122104outputs (47major+798859minor)pagefaults 0swaps
+******* maven start
+cd build/maven; time mvn -q package -Dsurefire.printSummary=false
+221.38user 3.85system 2:30.19elapsed 149%CPU (0avgtext+0avgdata 993952maxresident)k
+127240inputs+67960outputs (102major+626805minor)pagefaults 0swaps
+******* gradle start
+cd build/gradle; time gradle -q jar
+238.31user 4.82system 2:28.01elapsed 164%CPU (0avgtext+0avgdata 1003468maxresident)k
+220784inputs+58840outputs (369major+661382minor)pagefaults 0swaps
+******* buck start
+cd build/buck; time buck test
+0.07user 0.14system 2:34.22elapsed 0%CPU (0avgtext+0avgdata 8508maxresident)k
+6128inputs+24outputs (36major+12564minor)pagefaults 0swaps
+******* pants start
+cd build/pants; time pants test :test -q
+223.78user 4.60system 2:45.22elapsed 138%CPU (0avgtext+0avgdata 835920maxresident)k
+117016inputs+62184outputs (196major+754749minor)pagefaults 0swaps
+******* bazel start
+cd build/bazel; time bazel test --javacopt='-extra_checks:off' //:example-tests
+0.27user 0.13system 2:50.71elapsed 0%CPU (0avgtext+0avgdata 52272maxresident)k
+86816inputs+138488outputs (70major+13539minor)pagefaults 0swaps
+******* ant-ivy start
+cd build/ivy; time ant jar -q
+437.16user 21.80system 5:05.07elapsed 150%CPU (0avgtext+0avgdata 875420maxresident)k
+224576inputs+186168outputs (371major+6421924minor)pagefaults 0swaps
+******* leiningen start
+cd build/leiningen; LEIN_SILENT=true time sh -c 'lein junit; lein jar'
+373.26user 28.06system 8:41.61elapsed 76%CPU (0avgtext+0avgdata 862632maxresident)k
+45552inputs+244352outputs (21major+7072416minor)pagefaults 0swaps
 
 
-    ### second build
+### second build
 
-    $ make all --silent
-    ******* bazel start
-    cd build/bazel; time bazel test --javacopt='-extra_checks:off' //:example-tests
-    0.00user 0.00system 0:00.80elapsed 1%CPU (0avgtext+0avgdata 2580maxresident)k
-    17608inputs+8outputs (67major+772minor)pagefaults 0swaps
-    ******* buildr start
-    cd build/buildr; time buildr -q package
-    0.90user 0.09system 0:01.13elapsed 88%CPU (0avgtext+0avgdata 27216maxresident)k
-    41248inputs+0outputs (40major+10987minor)pagefaults 0swaps
-    ******* buck start
-    cd build/buck; time buck test
-    0.06user 0.13system 0:02.21elapsed 8%CPU (0avgtext+0avgdata 8576maxresident)k
-    64424inputs+24outputs (181major+12099minor)pagefaults 0swaps
-    ******* gradle start
-    cd build/gradle; time gradle -q test jar
-    6.74user 0.27system 0:04.70elapsed 149%CPU (0avgtext+0avgdata 244752maxresident)k
-    54840inputs+464outputs (122major+49538minor)pagefaults 0swaps
-    ******* sbt start
-    cd build/sbt; time sbt -java-home /usr/lib/jvm/java-7-oracle/ -q test package
-    364.05user 1.59system 0:59.35elapsed 616%CPU (0avgtext+0avgdata 1098980maxresident)k
-    107488inputs+10504outputs (60major+374811minor)pagefaults 0swaps
-    ******* pants start
-    cd build/pants; time pants test :test -q
-    199.23user 3.09system 2:12.04elapsed 153%CPU (0avgtext+0avgdata 727832maxresident)k
-    137808inputs+12744outputs (62major+378548minor)pagefaults 0swaps
-    ******* maven start (problems with incremental build: MCOMPILER-209, MCOMPILER-205)
-    cd build/maven; time mvn -q package -Dsurefire.printSummary=false
-    218.67user 4.04system 2:18.44elapsed 160%CPU (0avgtext+0avgdata 987708maxresident)k
-    64248inputs+39400outputs (76major+628412minor)pagefaults 0swaps
-    ******* ant-ivy start
-    cd build/ivy; time ant jar -q
-    404.38user 18.92system 4:40.69elapsed 150%CPU (0avgtext+0avgdata 878216maxresident)k
-    57080inputs+132280outputs (28major+5336293minor)pagefaults 0swaps
-    ******* leiningen start
-    cd build/leiningen; LEIN_SILENT=true time sh -c 'lein junit; lein jar'
-    343.99user 26.14system 8:17.16elapsed 74%CPU (0avgtext+0avgdata 848440maxresident)k
-    119080inputs+115680outputs (31major+6769056minor)pagefaults 0swaps
+$ make all --silent
+******* bazel start
+cd build/bazel; time bazel test --javacopt='-extra_checks:off' //:example-tests
+0.00user 0.00system 0:00.80elapsed 1%CPU (0avgtext+0avgdata 2580maxresident)k
+17608inputs+8outputs (67major+772minor)pagefaults 0swaps
+******* buildr start
+cd build/buildr; time buildr -q package
+0.90user 0.09system 0:01.13elapsed 88%CPU (0avgtext+0avgdata 27216maxresident)k
+41248inputs+0outputs (40major+10987minor)pagefaults 0swaps
+******* buck start
+cd build/buck; time buck test
+0.06user 0.13system 0:02.21elapsed 8%CPU (0avgtext+0avgdata 8576maxresident)k
+64424inputs+24outputs (181major+12099minor)pagefaults 0swaps
+******* gradle start
+cd build/gradle; time gradle -q test jar
+6.74user 0.27system 0:04.70elapsed 149%CPU (0avgtext+0avgdata 244752maxresident)k
+54840inputs+464outputs (122major+49538minor)pagefaults 0swaps
+******* sbt start
+cd build/sbt; time sbt -java-home /usr/lib/jvm/java-7-oracle/ -q test package
+364.05user 1.59system 0:59.35elapsed 616%CPU (0avgtext+0avgdata 1098980maxresident)k
+107488inputs+10504outputs (60major+374811minor)pagefaults 0swaps
+******* pants start
+cd build/pants; time pants test :test -q
+199.23user 3.09system 2:12.04elapsed 153%CPU (0avgtext+0avgdata 727832maxresident)k
+137808inputs+12744outputs (62major+378548minor)pagefaults 0swaps
+******* maven start (problems with incremental build: MCOMPILER-209, MCOMPILER-205)
+cd build/maven; time mvn -q package -Dsurefire.printSummary=false
+218.67user 4.04system 2:18.44elapsed 160%CPU (0avgtext+0avgdata 987708maxresident)k
+64248inputs+39400outputs (76major+628412minor)pagefaults 0swaps
+******* ant-ivy start
+cd build/ivy; time ant jar -q
+404.38user 18.92system 4:40.69elapsed 150%CPU (0avgtext+0avgdata 878216maxresident)k
+57080inputs+132280outputs (28major+5336293minor)pagefaults 0swaps
+******* leiningen start
+cd build/leiningen; LEIN_SILENT=true time sh -c 'lein junit; lein jar'
+343.99user 26.14system 8:17.16elapsed 74%CPU (0avgtext+0avgdata 848440maxresident)k
+119080inputs+115680outputs (31major+6769056minor)pagefaults 0swaps
+```
 
 ## Contributing
 
@@ -265,11 +271,13 @@ I needed some templating engine, and scripting in Python seemed the least effort
 
 I chose to test against commons-math because it is reasonably large, well tested, and has no dependencies outside the JDK. Other libraries working okay are commons-text, commons-io, commons-imaging, guava.
 
-The main problems I had with commons-math was that the naming for the Testcases is not consistent. the commons-math ant file lists those rules:
+The main problems I had with commons-math was that the naming for the Testcases is not consistent. The commons-math ant file lists those rules:
 
+```xml
     <include name="**/*Test.java"/>
     <include name="**/*TestBinary.java"/>
     <include name="**/*TestPermutations.java"/>
     <exclude name="**/*AbstractTest.java"/>
+```
 
 And even those do not cover all Testcases defined in the codebase.

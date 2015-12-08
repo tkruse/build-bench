@@ -85,6 +85,8 @@ The buildr process was quite fast for small projects, with apparently very littl
 
 See <http://bazel.io/>
 
+Bazel caches build results by default in `~/.cache/bazel`, which means that you can delete your local repository, check it out again, and bazel will still find the cached results.
+
 Bazel (Sep 04, 2015) tutorials focus on android, iOS and Google appengine examples, and do not start with simple Framework agnostic examples. The Build file syntax itself is clean, but the way the different BUILD and WORKSPACE files interact with each other is not self-evident or explained in the tutorials. Also the path-like syntax for subprojects and dependencies with colons, double-slashes and '@' symbols ('@junit//jar') looks unusual and complex. Some examples place BUILD files at the project root and also next to the java source files, which is confusing at a glance. Running bazel spams my project root folder with symlinks to several bazel cache folders, which are kept in `~/.cache/bazel`. My java_library does not just produce a jar, but also a jar_manifest_proto file. Many details of java builds have to be configured, there is none of the convention-over-configuration as provided by Maven or Gradle (canonical file structure like src/main/java/package/Example.class recognized by default). Oddly Bazels java_library rule does look for resource files in the Maven canonical structure. Bazel automatically runs the Google linter "error-prone" on the project and renames java-libraries to lib...jar.
 
 So basically Bazel imposes the Google standards upon the Bazel users, which is a bit annoying for everyone outside of Google.
@@ -107,12 +109,16 @@ One consequence of trying to optimize for monorepos in large organizations is to
 
 The output from making mistakes in BUILD files was sometimes confusing, sometimes ugly Python stacktraces, sometimes unhelpful Python type error messages:
 
-                   FAILURE
+```bash
+    FAILURE
     Exception message: 'str' object has no attribute 'value'
+```
 
 or
 
-    IllegalArgumentException: No enum constant org.pantsbuild.tools.jar.JarBuilder.DuplicateAction.CONCAT_TEXT
+```bash
+IllegalArgumentException: No enum constant org.pantsbuild.tools.jar.JarBuilder.DuplicateAction.CONCAT_TEXT
+```
 
 This is a symptom of having not very many active users to report such issues and complain about bad error messages.
 
