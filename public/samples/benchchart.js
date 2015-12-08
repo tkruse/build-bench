@@ -1,37 +1,30 @@
-function benchChart(filename, selector) {
-
+function benchChart(filename, selector, columns) {
 d3.csv(filename, function(error, csvdata){
-		// console.log(csvdata)
 
     csvdata = csvdata.sort(function(a, b) {
-        return d3.ascending(+a.real, +b.real);
+        return d3.ascending(+a[columns[0]], +b[columns[0]]);
     });
 
 
 		// create an empty object that nv is expecting
     var test_data = [
-    	{
-    		key: "real",
-    		values: []
-    	},
-      {
-    		key: "user",
-    		values: []
-    	}
     ];
+    columns.forEach(function(col) {
+			 test_data.push({
+			key: col,
+			values: []
+			});
+		});
 
-    var i = 0;
     // populate the empty object with your data
-    csvdata.forEach(function (d) {
-
-        d.real = +d.real
-        d.user = +d.user
-        d.system = +d.system
-  	    test_data[0].values.push({'x': d.name, 'y': d.real})
-        test_data[1].values.push({'x': d.name, 'y': d.user})
-        i += 1;
-    })
-    console.log('td', test_data);
+    csvdata.forEach(function(d) {
+				i = 0;
+				columns.forEach(function(col) {
+						d[col] = +d[col];
+						test_data[i].values.push({'x': d.name, 'y': d[col]});
+						i += 1;
+				});
+		});
 
     var chart;
     nv.addGraph(function() {
@@ -49,7 +42,7 @@ d3.csv(filename, function(error, csvdata){
             .showMaxMin(false)
         ;
         chart.yAxis
-            .axisLabel("Seconds")
+            .axisLabel("value")
             .axisLabelDistance(-5)
             .tickFormat(d3.format(',.01f'))
         ;
@@ -71,5 +64,41 @@ d3.csv(filename, function(error, csvdata){
 				 });
     });
     return chart;
+});
+};
+
+function benchTable(filename, selector, columns) {
+d3.csv(filename, function(error, csvdata) {
+    csvdata = csvdata.sort(function(a, b) {
+        return d3.ascending(+a[columns[0]], +b[columns[0]]);
+    });
+
+    table = d3.select(selector)
+        .append('table');
+    thead = table.append('thead')
+	  tbody = table.append('tbody')
+
+	  thead.append('tr')
+	  .selectAll('th')
+	    .data(columns)
+	    .enter()
+	  .append('th')
+	    .text(function (d) { return d })
+
+	var rows = tbody.selectAll('tr')
+	    .data(csvdata)
+	    .enter()
+	  .append('tr')
+
+	var cells = rows.selectAll('td')
+	    .data(function(row) {
+	    	  return columns.map(function (column) {
+	    		    return { column: column, value: row[column] }
+	        })
+      })
+      .enter()
+      .append('td')
+      .html(function (d) { return d.value} )
+    return table;
 });
 };
