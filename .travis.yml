@@ -4,7 +4,9 @@ jdk:
   - oraclejdk8
 cache:
   directories:
+  - mkdir -p $BUILD_DIR/scripts/nodejs
   - $BUILD_DIR/scripts/nodejs
+  - mkdir -p $BUILD_DIR/caches
   - $BUILD_DIR/caches
   - $HOME/.cache/pip
   - $HOME/.m2
