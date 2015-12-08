@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # build-bench
 
 A Benchmark setup for Java buildsystems.

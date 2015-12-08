@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Buildsystems overview
 
 I present some observations I made and my opinions here.

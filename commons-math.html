@@ -1,0 +1,40 @@
+---
+layout: default
+---
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
+    <script src="public/samples/benchchart.js"></script>
+
+  <h1>Sample Results for Commons-Math</h1>
+    <p>Compile and Tests, single-module project, 4 CPU laptop, as measured by GNU time. The value shown is the real (wall clock) time spend on the process, and the user-space CPU time (sum over all CPUs). The system-space CPU time was negligeable.</p>
+
+  <h2>Clean build from scratch</h2>
+
+  <div id="chart1" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+  </div>
+
+    <p>
+    Sbt is quickest, but cheating, it does not run all tests. Overall the other buildsystems doing parallelization show that on this hardware you cannot get below 140 seconds. Surprisingly pants took more time. This might be related to the great number of file operations.
+    </p>
+    <p>
+    Some buildsystems do not show any user CPU time, I assume this to be due to using separate daemon threads to do some work like nailgun.
+    </p>
+
+
+  <h2>Rebuild without changes</h2>
+
+<div id="chart2" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+</div>
+
+<p>Several buildsystems recognize there is nothing to do, surprisingly pants is not among them.<p>
+
+  
+<script>
+benchChart("public/samples/commons-math/sample1.csv", '#chart1 svg');
+benchChart("public/samples/commons-math/sample2.csv", '#chart2 svg');
+</script>

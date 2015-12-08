@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Contributions
 
 I welcome anyone who wants to add something.

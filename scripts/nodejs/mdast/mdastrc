@@ -25,6 +25,8 @@
     }
   },
   "settings": {
+    "fences": true,
+    "fence": "`",
     "bullet": "*",
     "listItemIndent": "1",
     "strong": "*",

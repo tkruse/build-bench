@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Project Design
 
 The build is based on Makefile and Python, and only intended to support Linux.

@@ -1,0 +1,6 @@
+include: [README.md, Buildsystems.md, Design.md, CONTRIBUTING.md, LICENSE.txt, Makefile, index.html]
+exclude: [include, scripts, build, caches, generators, buildsystems, buildtemplates, Gemfile*, .gitignore]
+markdown: redcarpet
+
+redcarpet:
+  extensions: [tables, no_intra_emphasis, autolink]
