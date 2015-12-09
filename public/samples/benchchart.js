@@ -37,8 +37,6 @@ d3.csv(filename, function(error, csvdata){
     nv.addGraph(function() {
         chart = nv.models.multiBarChart()
             .barColor(function(d) {
-                console.log(d.x);
-                console.log(chart_names.indexOf(d.x));
                 return d3.scale.category10().range()[chart_names.indexOf(d.x)]
             })
             .duration(300)
