@@ -1,5 +1,12 @@
+
 function benchChart(filename, selector, columns) {
 d3.csv(filename, function(error, csvdata){
+
+    var chart_names = [];
+    csvdata.forEach(function(d) {
+        chart_names.push(d.name);
+    });
+
 
     csvdata = csvdata.sort(function(a, b) {
         return d3.ascending(+a[columns[0]], +b[columns[0]]);
@@ -10,26 +17,30 @@ d3.csv(filename, function(error, csvdata){
     var test_data = [
     ];
     columns.forEach(function(col) {
-			 test_data.push({
-			key: col,
-			values: []
-			});
+			  test_data.push({
+			      key: col,
+			      values: []
+			  });
 		});
 
     // populate the empty object with your data
     csvdata.forEach(function(d) {
-				i = 0;
-				columns.forEach(function(col) {
-						d[col] = +d[col];
-						test_data[i].values.push({'x': d.name, 'y': d[col]});
-						i += 1;
-				});
-		});
+        i = 0;
+        columns.forEach(function(col) {
+            d[col] = +d[col];
+            test_data[i].values.push({'x': d.name, 'y': d[col]});
+            i += 1;
+        });
+    });
 
     var chart;
     nv.addGraph(function() {
         chart = nv.models.multiBarChart()
-            .barColor(d3.scale.category20().range())
+            .barColor(function(d) {
+                console.log(d.x);
+                console.log(chart_names.indexOf(d.x));
+                return d3.scale.category10().range()[chart_names.indexOf(d.x)]
+            })
             .duration(300)
             .margin({bottom: 100, left: 70})
             .rotateLabels(45)
