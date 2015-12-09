@@ -42,8 +42,8 @@ layout: default
 As a possible explanation for pants build times, here are the numbers of file system input and outputs as reported by GNU time for the clean builds. Again, some buildsystems show zero because of the limitations of GNU time. Still you can see that pants does a lot of file IO compared to the other systems.
 
 <script>
-benchChart("public/samples/commons-math/sample1.csv", '#chart1 svg', ['real', 'user']);
-benchChart("public/samples/commons-math/sample2.csv", '#chart2 svg', ['real', 'user']);
+benchChart("public/samples/commons-math/sample1.csv", '#chart1 svg', ['real']);
+benchChart("public/samples/commons-math/sample2.csv", '#chart2 svg', ['real']);
 benchChart("public/samples/commons-math/sample1.csv", '#chart3 svg', ['real', 'filein', 'fileout']);
 
 </script>
