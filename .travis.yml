@@ -11,16 +11,9 @@ addons:
       - wget
       - pkg-config
 install:
-  - pip install -q --user jinja2
-  - strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
-  # bazel extra option for travis
-  - echo -e "export BAZEL_COMMAND_OPTIONS:=--spawn_strategy=standalone --genrule_strategy=standalone" > custom.mk
-# refresh caches, travis uploads after install
-  - TERM=dumb make maven3.3.9 bazel0.2.3 CONFIG=configs/generated_minimal.mk
-script:
-  - TERM=dumb rm -rf build
-  - TERM=dumb make maven3.3.9 bazel0.2.3 CONFIG=configs/generated_multi.mk
-  - cat build/reports/multi-16-10.csv
+  - cd scripts/nodejs; npm install; cd ../..
+  - cd scripts/nodejs; ./node_modules/.bin/mdast ../../*.md --frail --no-color -q --config-path ./mdast/mdastrc; cd $TRAVIS_BUILD_DIR
+
 cache:
   directories:
   - $TRAVIS_BUILD_DIR/scripts/nodejs
@@ -33,5 +26,4 @@ notifications:
   email: false
 branches:
   only:
-    - master
-    - develop
+    - gh-pages
