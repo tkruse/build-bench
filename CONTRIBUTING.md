@@ -6,9 +6,15 @@ Open tasks:
 
 * Parsing the output of time and generating pretty reports / graphs (use time -o -f, then collect results)
 * sbt using junit 4.12
+* Configure pants without nailgun, and similar.
 * Add skeletton build files to arbitrary projects with flat parent/submodule structure. Possibly define meta-buildsystem with hooks.
 * Allow users to easily submit their results, incorporate into statistical plot
-* COllect benchmark results using Linux `perf` instead of `time`
+* Collect benchmark results
+* Use Linux `perf` instead of `time`
+* Consider other languages
+* Configure templated build
+* Provide log and zipped sources
+* table output
 * Simple tweaks for individual buildsystems (they should remain realistic)
 * templated configuration of builds (java version, dependencies)
 * Integrate other tools (checkstyle, Findbugs, PMD)
