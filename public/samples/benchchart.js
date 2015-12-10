@@ -7,9 +7,9 @@ d3.csv(filename, function(error, csvdata){
         chart_names.push(d.name);
     });
 
-
     csvdata = csvdata.sort(function(a, b) {
-        return d3.ascending(+a[columns[0]], +b[columns[0]]);
+        console.log(a[columns[0]])
+        return d3.ascending(parseFloat(a[columns[0]]), parseFloat(b[columns[0]]));
     });
 
 
@@ -27,7 +27,7 @@ d3.csv(filename, function(error, csvdata){
     csvdata.forEach(function(d) {
         i = 0;
         columns.forEach(function(col) {
-            d[col] = +d[col];
+            d[col] = parseFloat(d[col]);
             test_data[i].values.push({'x': d.name, 'y': d[col]});
             i += 1;
         });
@@ -55,7 +55,7 @@ d3.csv(filename, function(error, csvdata){
             .axisLabelDistance(-5)
             .tickFormat(d3.format(',.01f'))
         ;
-        chart.dispatch.on('renderEnd', function(){
+        chart.dispatch.on('renderEnd', function() {
             nv.log('Render Complete');
         });
 
@@ -68,7 +68,7 @@ d3.csv(filename, function(error, csvdata){
 				 chart.dispatch.on('stateChange', function(e) {
 						 nv.log('New State:', JSON.stringify(e));
 				 });
-				 chart.state.dispatch.on('change', function(state){
+				 chart.state.dispatch.on('change', function(state) {
 						 nv.log('state', JSON.stringify(state));
 				 });
     });
@@ -94,12 +94,12 @@ d3.csv(filename, function(error, csvdata) {
 	  .append('th')
 	    .text(function (d) { return d })
 
-	var rows = tbody.selectAll('tr')
+	rows = tbody.selectAll('tr')
 	    .data(csvdata)
 	    .enter()
 	  .append('tr')
 
-	var cells = rows.selectAll('td')
+	cells = rows.selectAll('td')
 	    .data(function(row) {
 	    	  return columns.map(function (column) {
 	    		    return { column: column, value: row[column] }
