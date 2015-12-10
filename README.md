@@ -66,10 +66,11 @@ Custom configurations are loaded after the `defaults.mk` providing some conventi
 ## Motivation
 
 While Maven and Gradle are used by most Java projects in the wild, there are many alternatives to choose from. Comparing those is difficult. This project is a setup to run a buildprocess for java projects using multiple buildsystems.
-It can serve to benchmark buildsystems, or just to compare features.
 
-The project is driven using GNU make. The `Makefile` creates a `build` folder,
-containing a folder structure for benchmarks. Subfolders follow the pattern `<benchmarkname>/<buildsystemname>`. Into those folders, Java source files and buildsystem specific files will be copied / generated. Then t eh buildsystem is invoked inside that folder and the time until completion is measured.
+My main goal was to find out which buildsystem feature pays off under which circumstances (and under which it is irrelevant). As secondary independent goal is to get a feel for how much difference there is in performance for "realistic" isolated projects (like open-source projects). A comparison for huge mono-repo situations was not that interesting to me.
+
+A single benchmark is driven by GNU make. The `Makefile` creates a `build` folder,
+containing a folder structure for benchmarks. Subfolders follow the pattern `<benchmarkname>/<buildsystemname>`. Into those folders, Java source files and buildsystem specific files will be copied / generated. Then the buildsystem is invoked inside that folder and the time until completion is measured.
 
 ## Samples
 
@@ -100,13 +101,15 @@ See [CONTRIBUTING](CONTRIBUTING.md)
 JVM startup adds something like 3 seconds to the whole process. Several tools offer daemons to reduce this offset. Tools not written in JVM languages do not have this offset.
 
 Parallel task execution: On machines with multiple cores, it may be possible to reduce build time by utilizing more than one CPU. However the build-time rarely is reduced by the number of CPUs. The overhead of finding out how to split tasks over several CPUs can eliminate benefits, and often there will be many dependencies that lead to tasks necessarily being build in sequence. Most buildtool will thus mostly offer to only build completely independent sub-modules in parallel. For single-module projects, no additional CPU is used then.
-Some tasks may even only work when not run in parallel, so using parallel fatures also increases maintenance effort.
+Some tasks may even only work when not run in parallel, so using parallel features also increases maintenance effort.
 
 Compiler speed may differ for different compilers. The scala compiler and clojure compiler seemed slower than javac for compiling java sources.
 
 Incremental re-compilation, meaning compiling only files that are affected by a change, can drastically reduce build times.
 
-Incremental build steps beond compilation help (e.g. Maven can compile incrementally, but not test incrementally).
+Incremental build steps beyond compilation help (e.g. Maven can compile incrementally, but not test incrementally).
+
+Incremental builds for sub-module filesets. Several buildsystems can (re-)build only those submodules that have change, but cannot only (re-)build only half a submodule. Being able to incrementally rebuild smaller parts can speed up builds in specific situations.
 
 Caching influences incremental builds. Several buildsystems have a simple caching strategy in that they will not run a task if the output still exist. This will improve performance for repeated builds.
 
