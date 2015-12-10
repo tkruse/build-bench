@@ -39,7 +39,7 @@ layout: default
     <svg></svg>
 </div>
 
-As a possible explanation for pants build times, here are the numbers of file system input and outputs as reported by GNU time for the clean builds.
+As a possible explanation for pants build times, here are the numbers of file system input and outputs as reported by GNU time for the clean builds. Some buildsystems have a value of zero, probably because their setup involves separate processes not covered by GNU time.
 
 <script>
 benchChart("public/samples/commons-math/sample1.csv", '#chart1 svg', ['real']);
