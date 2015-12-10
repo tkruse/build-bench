@@ -1,7 +1,7 @@
 name,real,user,system,filein,memory,fileout,swaps,socketin,command
 gradle2.9,5.02,1.98,0.12,320,0,440,0,0,/home/kruset/work/java/build-bench/caches/gradle/gradle2.9/bin/gradle -q --info --stacktrace test jar
 maven3.3.9,15.88,112.90,1.41,38096,0,7432,0,0,/home/kruset/work/java/build-bench/caches/maven/maven3.3.9/bin/mvn -q -B -T 1C -gs /home/kruset/work/java/build-bench/buildsystems/maven/settings.xml package -Dsurefire.printSummary=false
-buildr1.4.23,73.84,80.15,0.86,27712,0,10168,0,0,/home/kruset/work/java/build-bench/caches/buildr/gems/buildr-1.4.23/bin/buildr -q package
+buildr1.4.23,73.51,79.69,0.94,0,0,10168,0,0,/home/kruset/work/java/build-bench/caches/buildr/gems/buildr-1.4.23/bin/buildr -q parallel package
 ant_ivy1.9.6,109.51,143.97,5.25,10600,0,45824,0,0,/home/kruset/work/java/build-bench/caches/ant_ivy/ant_ivy1.9.6/bin/ant jar -q
 buckv2015.11.30.01,0.61,0.04,0.02,0,0,32,0,0,/home/kruset/work/java/build-bench/caches/buck/buckv2015.11.30.01/bin/buck test -v 0 --all
 lein-sub2.5.3,295.69,264.73,8.11,20032,0,27504,0,0,sh -c /home/kruset/work/java/build-bench/caches/leiningen/leiningen2.5.3/lein sub junit && /home/kruset/work/java/build-bench/caches/leiningen/leiningen2.5.3/lein sub jar
