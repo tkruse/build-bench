@@ -9,7 +9,7 @@ layout: default
     <script src="public/samples/benchchart.js"></script>
 
   <h1>Sample Results for Commons-Math</h1>
-    <p>Compile and Tests, single-module project, 4 CPU laptop, as measured by GNU time. The value shown is the real (wall clock) time spend on the process, and the user-space CPU time (sum over all CPUs). The system-space CPU time was negligeable.</p>
+    <p>Compile and Tests, single-module project, 4 CPU laptop, as measured by GNU time. The value shown is the real (wall clock) time spend on the process.</p>
 
   <h2>Clean build from scratch</h2>
 
@@ -18,7 +18,7 @@ layout: default
   </div>
 
     <p>
-    Sbt is quickest, by using all CPUs to the ullest. During the test, my system became unusable, the mouse crawling over the screen like a snail. Overall the other buildsystems doing parallelization show that 140 seconds is a reasonable number while keeping the system usable. Surprisingly pants took more time. This might be related to a great number of file operations (bootstrap time was not measured).
+    Sbt is quickest, by using all CPUs to the fullest. During the test, my system became unusable, the mouse crawling over the screen like a snail. Overall the other buildsystems doing parallelization show that 140 seconds is a reasonable number while keeping the system usable. Surprisingly pants took more time. This might be related to a great number of file operations (bootstrap time was not measured).
     </p>
     <p>
     Some buildsystems do not show any user CPU time, I assume this to be due to using separate daemon threads to do some work like nailgun.
