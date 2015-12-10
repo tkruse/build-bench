@@ -71,7 +71,11 @@ ant was difficult to debug (in particular what was missing for junit4).
 
 Leiningen does not have convenient options to run junit tests, in particular filtering out abstract classes by name was difficult. Had to use 3rd party plugin. Also excluding the test files from a jar seemed not trivially possible.
 
-Leiningen had no bundled support for subprojects, 3 different plugins libs were available, it was not immediately clear which one is most recommendable.
+Like in the Common LISP ecosystem, Leiningen suffers (or benefits from) a large diversity of projects solving the same problems, leaving it to the user to compare them all and decide which one is best (or least bad).
+
+E.g. Leiningen had no bundled support for subprojects, 3 different plugins libs were available, it was not immediately clear which one is most recommendable.
+
+Also Leiningen had no support for parallel builds / test, but 4 different plugin projects offered this feature.
 
 ## buildr
 
