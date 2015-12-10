@@ -33,7 +33,7 @@ version: $(PANTS_DIR)/pants
 .PHONY: pants%
 pants%: $(CONFIGURED_BUILD_ROOT)/pants%/BUILD $(PANTS_DIR)/pants $(CONFIGURED_BUILD_ROOT)/pants%/pants.ini% $(TIME) $(REPORTS_DIR)/$(TARGET_NAME)
 	$(info ******* pants start)
-	@cd $(CONFIGURED_BUILD_ROOT)/pants$*; $(PANTS_DIR)/pants --version
+	@cd $(CONFIGURED_BUILD_ROOT)/pants$*; $(PANTS_DIR)/pants bootstrap
 	cd $(CONFIGURED_BUILD_ROOT)/pants$*; $(call TIME_CMD,$@) $(PANTS_DIR)/pants test :test
 
 
