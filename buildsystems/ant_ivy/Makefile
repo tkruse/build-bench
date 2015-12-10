@@ -27,7 +27,7 @@ version: $(ANT_IVY_DIR)/ant_ivy$(ANT_DEFAULT_VERSION)/bin/ant
 
 .NOTPARALLEL: ant_ivy%
 .PHONY: ant_ivy%
-ant_ivy%: $(CONFIGURED_BUILD_ROOT)/ant_ivy%/build.xml $(ANT_IVY_DIR)/ant_ivy%/bin/ant $(ANT_IVY_DIR)/ant_home/lib/ivy-$(IVY_DEFAULT_VERSION).jar $(TIME) $(REPORTS_DIR)/$(TARGET_NAME)
+ant_ivy%: $(CONFIGURED_BUILD_ROOT)/ant_ivy%/build.xml $(ANT_IVY_DIR)/ant_ivy%/bin/ant $(ANT_IVY_DIR)/ant_home/lib/ivy-$(IVY_DEFAULT_VERSION).jar $(TIME) $(REPORTS_DIR)
 	$(info ******* ant-ivy start)
 	cd $(CONFIGURED_BUILD_ROOT)/ant_ivy$*; IVY_HOME=$(ANT_IVY_DIR)/ant_home/ ANT_HOME=$(ANT_IVY_DIR)/ant_ivy$* $(call TIME_CMD,$@) $(ANT_IVY_DIR)/ant_ivy$*/bin/ant jar -q
 

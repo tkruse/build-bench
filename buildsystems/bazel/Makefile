@@ -30,7 +30,7 @@ version: $(BAZEL_DIR)/bazel$(BAZEL_DEFAULT_VERSION)/bin/bazel
 
 .NOTPARALLEL: bazel%
 .PHONY: bazel%
-bazel%: $(CONFIGURED_BUILD_ROOT)/bazel%/BUILD $(BAZEL_DIR)/bazel%/bin/bazel $(TIME) $(REPORTS_DIR)/$(TARGET_NAME)
+bazel%: $(CONFIGURED_BUILD_ROOT)/bazel%/BUILD $(BAZEL_DIR)/bazel%/bin/bazel $(TIME) $(REPORTS_DIR)
 	$(info ******* bazel start)
 # fetch command has no spawn_strategy option, required on Travis CI
 	cd $(CONFIGURED_BUILD_ROOT)/bazel$*; $(BAZEL_DIR)/bazel$*/bin/bazel --bazelrc=$(BAZEL_DIR)/bazel$*/bazel.bazelrc fetch -- :all

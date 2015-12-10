@@ -28,7 +28,7 @@ version: $(MAVEN_DIR)/maven$(MAVEN_DEFAULT_VERSION)/bin/mvn
 
 .NOTPARALLEL: maven%
 .PHONY: maven%
-maven%: $(CONFIGURED_BUILD_ROOT)/maven%/pom.xml $(MAVEN_DIR)/maven%/bin/mvn $(TIME) $(REPORTS_DIR)/$(TARGET_NAME)
+maven%: $(CONFIGURED_BUILD_ROOT)/maven%/pom.xml $(MAVEN_DIR)/maven%/bin/mvn $(TIME) $(REPORTS_DIR)
 	$(info ******* maven start)
 	cd $(CONFIGURED_BUILD_ROOT)/maven$*; $(call TIME_CMD,$@) $(MAVEN_DIR)/$@/bin/mvn -q -B -T 1C -gs $(BUILDSYSTEMS_DIR)/maven/settings.xml package -Dsurefire.printSummary=false
 

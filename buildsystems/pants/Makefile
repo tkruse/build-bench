@@ -31,7 +31,7 @@ version: $(PANTS_DIR)/pants
 
 .NOTPARALLEL: pants%
 .PHONY: pants%
-pants%: $(CONFIGURED_BUILD_ROOT)/pants%/BUILD $(PANTS_DIR)/pants $(CONFIGURED_BUILD_ROOT)/pants%/pants.ini% $(TIME) $(REPORTS_DIR)/$(TARGET_NAME)
+pants%: $(CONFIGURED_BUILD_ROOT)/pants%/BUILD $(PANTS_DIR)/pants $(CONFIGURED_BUILD_ROOT)/pants%/pants.ini% $(TIME) $(REPORTS_DIR)
 	$(info ******* pants start)
 	@cd $(CONFIGURED_BUILD_ROOT)/pants$*; $(PANTS_DIR)/pants bootstrap
 	cd $(CONFIGURED_BUILD_ROOT)/pants$*; $(call TIME_CMD,$@) $(PANTS_DIR)/pants test :test

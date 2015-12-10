@@ -31,7 +31,7 @@ version: $(BUCK_DIR)/buck$(BUCK_DEFAULT_VERSION)/bin/buck
 
 .NOTPARALLEL: buck%
 .PHONY: buck%
-buck%: $(CONFIGURED_BUILD_ROOT)/buck%/BUCK $(BUCK_DIR)/buck%/bin/buck $(ANT) $(TIME) $(REPORTS_DIR)/$(TARGET_NAME)
+buck%: $(CONFIGURED_BUILD_ROOT)/buck%/BUCK $(BUCK_DIR)/buck%/bin/buck $(ANT) $(TIME) $(REPORTS_DIR)
 	$(info ******* buck start)
 	cd $(CONFIGURED_BUILD_ROOT)/buck$*; ANT_HOME=$(ANT_HOME) PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck fetch //:junit
 	@cd $(CONFIGURED_BUILD_ROOT)/buck$*; ANT_HOME=$(ANT_HOME) PATH=$(ANT_IVY_PATH):$(PATH) $(BUCK_DIR)/buck$*/bin/buck fetch //:hamcrest-core

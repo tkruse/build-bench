@@ -29,7 +29,7 @@ version: $(BUILDR_DIR)/gems/buildr-$(BUILDR_DEFAULT_VERSION)/bin/buildr
 
 .NOTPARALLEL: buildr%
 .PHONY: buildr%
-buildr%: $(CONFIGURED_BUILD_ROOT)/buildr%/buildfile $(BUILDR_DIR)/gems/buildr-%/bin/buildr $(TIME) $(REPORTS_DIR)/$(TARGET_NAME)
+buildr%: $(CONFIGURED_BUILD_ROOT)/buildr%/buildfile $(BUILDR_DIR)/gems/buildr-%/bin/buildr $(TIME) $(REPORTS_DIR)
 	$(info ******* buildr start)
 	cd $(CONFIGURED_BUILD_ROOT)/buildr$*; GEM_HOME=$(BUILDR_DIR) $(call TIME_CMD,$@) $(BUILDR_DIR)/gems/buildr-$*/bin/buildr -q package
 

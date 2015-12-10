@@ -11,8 +11,8 @@ define TIME_CMD
 $(TIME) -o $(REPORTS_DIR)/$(TARGET_NAME).csv -a -f'$1,$(REPORTS_FORMAT)'
 endef
 
-.PRECIOUS: $(REPORTS_DIR)/%
-$(REPORTS_DIR)/%:
+.PRECIOUS: $(REPORTS_DIR)
+$(REPORTS_DIR):
 	@mkdir -p $@
 
 .PRECIOUS: $(TIME_CACHE_DIR)/time-$(TIME_VERSION).tar.gz

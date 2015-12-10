@@ -28,7 +28,7 @@ version: $(GRADLE_DIR)/gradle$(GRADLE_DEFAULT_VERSION)/bin/gradle
 
 .NOTPARALLEL: gradle%
 .PHONY: gradle%
-gradle%: $(CONFIGURED_BUILD_ROOT)/gradle%/build.gradle $(GRADLE_DIR)/gradle%/bin/gradle $(TIME) $(REPORTS_DIR)/$(TARGET_NAME) $(REPORTS_DIR)/$(TARGET_NAME)
+gradle%: $(CONFIGURED_BUILD_ROOT)/gradle%/build.gradle $(GRADLE_DIR)/gradle%/bin/gradle $(TIME) $(REPORTS_DIR)
 	$(info ******* gradle start)
 	@cd $(CONFIGURED_BUILD_ROOT)/gradle$*; $(GRADLE_DIR)/$@/bin/gradle --stop
 	@cd $(CONFIGURED_BUILD_ROOT)/gradle$*; $(GRADLE_DIR)/$@/bin/gradle -v

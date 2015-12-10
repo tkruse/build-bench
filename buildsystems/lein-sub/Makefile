@@ -33,7 +33,7 @@ lein-sub: lein-sub$(LEININGEN_DEFAULT_VERSION)
 
 .NOTPARALLEL: lein-sub%
 .PHONY: lein-sub%
-lein-sub%: $(CONFIGURED_BUILD_ROOT)/lein-sub%/project.clj $(LEININGEN_DIR)/leiningen%/lein $(TIME) $(REPORTS_DIR)/$(TARGET_NAME)
+lein-sub%: $(CONFIGURED_BUILD_ROOT)/lein-sub%/project.clj $(LEININGEN_DIR)/leiningen%/lein $(TIME) $(REPORTS_DIR)
 	$(info ******* leiningen start)
 ## multi project:
 	@cd $(CONFIGURED_BUILD_ROOT)/lein-sub$*; $(LEININGEN_DIR)/leiningen$*/lein --version
