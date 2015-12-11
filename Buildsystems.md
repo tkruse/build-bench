@@ -137,3 +137,5 @@ Pants does not cache test results, so building again will run tests again. Pants
 Pants path syntax has special semantics for task names which match the directory name of the file their defined in.
 
 Pants uses an `.INI` file for some configuration (Do you live in the past?). The pants documentation version may lag far behind the latest version.
+
+Pants natively supports shading the tools that it runs, in order to prevent tools (particularly junit/checkstyle/et-al, which do not isolate themselves) from having classpath collisions with the code that they are building. This can take a long time but is very stable, in that it only changes when the version of a tool changes.
