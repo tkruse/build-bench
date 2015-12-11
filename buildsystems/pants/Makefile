@@ -33,7 +33,9 @@ version: $(PANTS_DIR)/pants
 .PHONY: pants%
 pants%: $(CONFIGURED_BUILD_ROOT)/pants%/BUILD $(PANTS_DIR)/pants $(CONFIGURED_BUILD_ROOT)/pants%/pants.ini% $(TIME) $(REPORTS_DIR)
 	$(info ******* pants start)
-	@cd $(CONFIGURED_BUILD_ROOT)/pants$*; $(PANTS_DIR)/pants bootstrap
+	# Do one throw-away run to ensure all tools are shaded.
+	@cd $(CONFIGURED_BUILD_ROOT)/pants$*; $(PANTS_DIR)/pants test :test
+	@cd $(CONFIGURED_BUILD_ROOT)/pants$*; $(PANTS_DIR)/pants clean-all
 	cd $(CONFIGURED_BUILD_ROOT)/pants$*; $(call TIME_CMD,$@) $(PANTS_DIR)/pants test :test
 
 
