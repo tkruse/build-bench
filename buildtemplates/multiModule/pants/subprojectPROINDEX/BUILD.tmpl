@@ -1,45 +1,17 @@
-
-target(name='lib{{ proindex }}',
-  dependencies = [
-    ':example-lib{{ proindex }}'
-  ],
-)
-
-target(name='test{{ proindex }}',
-  dependencies = [
-    ':example-test{{ proindex }}'
-  ],
-)
-
-java_library(name='example-lib{{ proindex }}',
+java_library(name='lib{{ proindex }}',
   sources = rglobs('src/main/java/*.java'),
   resources = [
-    'subproject{{ proindex }}/src/main/resources:resources'
+    'subproject{{ proindex }}/src/main/resources'
   ],
 )
 
-resources(name='resources',
-  sources = rglobs('src/test/resources/*'),
-  dependencies = [],
-)
-
-
-java_library(name='example-test-lib{{ proindex }}',
+junit_tests(name='test{{ proindex }}',
   sources = rglobs('src/test/java/*.java'),
   resources = [
-    'subproject{{ proindex }}/src/test/resources:resources'
-    #':resources'
+    'subproject{{ proindex }}/src/test/resources'
   ],
   dependencies = [
-    ':example-lib{{ proindex }}',
-    '3rdparty:junit'
+    ':lib{{ proindex }}',
+    '3rdparty:junit',
   ],
 )
-
-
-junit_tests(name='example-test{{ proindex }}',
-  sources = rglobs('src/test/java/*.java'),
-  dependencies = [
-    ':example-test-lib{{ proindex }}'
-   ],
- )
