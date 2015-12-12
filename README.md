@@ -142,7 +142,7 @@ Ant is still being used, but it's unclear what advantages it offers. Maybe simpl
 
 Leiningen and sbt are optimized (in usability) for Clojure and Scala respectively. If you only use Java, it probably does not pay off to use either of them, unless you wanted to learn / integrate those languages anyway.
 
-Bazel and Pants are derived from Googles Blaze system optimized for huge monorepo corporate ecosystems, where thousands of projects with interdependencies are continuously build and deployed. Buck is used at Facebook, Pants at Twitter.
+Buck and Pants are derived from Googles Blaze system optimized for huge monorepo corporate ecosystems, where thousands of projects with interdependencies are continuously build and deployed. Buck is used at Facebook, Pants at Twitter.
 They shine in build speed and caching, but they require more developer attention and effort, because they are rule based, and have no high-level abstraction of a project object model like Gradle or Maven. And being still fairly new as open-source projects at this time, they do not have the mature support from other open-source tools. As an example, buck only lately got a feature to automatically download dependencies from central Maven repositories.
 Since they have been used in a corporate setting where strict standards could be enforced, they are prone to detection of new bugs when being used in the wild by projects following a huge variety of conventions.
 
