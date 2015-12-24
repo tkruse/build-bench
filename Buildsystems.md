@@ -18,7 +18,7 @@ I recommend <http://sdkman.io/> for installing gradle.
 
 <http://maven.apache.org>
 
-Maven surprised by recompiling everything on the second run. Some research revealed two long-standing bugs (since 2013) with incremental compilation (MCOMPILER-209, MCOMPILER-205). Even with a workaround, 80 of the 600 classes of commons-math were found stale and recompiled, and hence all tests were also run again. So the benchmark for the second run is not realistic for Maven projects who get lucky enough not to be affected by these bugs.
+Maven surprised by recompiling everything on the second run. Some research revealed two long-standing bugs (since 2013) with incremental compilation (MCOMPILER-209, MCOMPILER-205). Even with a workaround, 80 of the 600 classes of commons-math were found stale and recompiled, and hence all tests were also run again. So the benchmark for the second run is not realistic for Maven projects who get lucky enough not to be affected by these bugs. Also see <https://blog.jetbrains.com/teamcity/2012/03/incremental-building-with-maven-and-teamcity/>
 
 Other things about Maven I personally dislike:
 
@@ -27,13 +27,13 @@ Lack of support for accessing root pom folder for shared build configuration:
 
 Transitive dependencies of dependencies with scope "compile" end up also having scope "compile", which causes a huge dependency mess, and there is no way of easily fixing this: <http://stackoverflow.com/questions/11044243/limiting-a-transitive-dependency-to-runtime-scope-in-maven>
 
-There is the so called maven enforcer plugin, however it seems that one does not cope with wildcard exclusions, so to use it you need to exclude every single transitive dependency by hand, then redeclare it as runtime dependency.
+There is the so called maven enforcer plugin, however it seems that one does not cope with wildcard exclusions, so to use it you need to specify multiple exclusions even if they belong to the same group.
 
-Maven complains about cyclic dependencies when Probejct B depends on A at runtime scope, and A depends on B at test scope. That's because Maven cannot not separate subproject class compilation and testing.
-
-Reusing the test resources from one submodule in another submodule seems impossible.
+Maven complains about cyclic dependencies when Project B depends on A at runtime scope, and A depends on B at test scope. That's because Maven cannot not separate subproject class compilation and testing.
 
 Some more reasons against Maven: <http://blog.ltgt.net/maven-is-broken-by-design/>
+
+Maven also has many command-line arguments which cannot be specified inside the pom or other configuration files, such as parallel threads, or to print full test failure logs, etc. This means tdevelopers have to always remember which options exist and which they want, which is very inconvenient.
 
 ## Sbt
 
