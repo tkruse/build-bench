@@ -134,19 +134,21 @@ To choose, consider the following:
 
 ### No really, which one should I use for Java projects?
 
-Maven or Gradle are the default choice for most open-source Java projects and many businesses out there. Maven may still be more popular in the industry for stability, but Gradle has a stronger innovation drive. Both have hundreds of open-source plugins available, and both get special support from IDEs, Continuous integration servers, etc. I personally prefer Gradle and give some details about what I dislike about Maven below.
+Maven or Gradle are the default choice for most open-source Java projects and many businesses out there. Maven may still be more popular in the industry for stability, but Gradle has a stronger innovation drive. Both have hundreds of open-source plugins available, and both get special support from IDEs, Continuous integration servers, etc. My personal recommendation is for Gradle, see the buildsystem comparison document for more details.
 
-Buildr seems to be mostly similar to Gradle but written in Ruby, which offers some advantages and disadvantages. It does not seem to gain the kind of market share Gradle and Maven have established.
+Google's Bazel is the open-sourced part of the Blaze system optimized for huge monorepo corporate ecosystems, where thousands of projects with interdependencies are continuously build and deployed. Buck and Pants are derived from Googles Bazel, Buck is used at Facebook, Pants at Twitter. If choosing among these 3, I would recommend Bazel because Google is behind it.
+
+All three of them require more developer attention and effort, because they are rule based, and have no high-level abstraction of a project object model like Gradle or Maven. And being still fairly new as open-source projects at this time, they do not have the mature support from other open-source tools. As an example, buck only lately got a feature to automatically download dependencies from central Maven repositories. Pants still uses version numbers labelled 0.0.x, and the required format of the buildfiles may still change between versions.
+Since they have been used in a corporate setting where strict standards could be enforced, they are prone to detection of new bugs when being used in the wild by projects following a huge variety of conventions.
+Bazel and Buck offer huge performance benefits due to advanced caching of build results. Pants seems to attempt to improve build performance by optionally including many other third-party tools like nailgun and zinc, but the benefit was not visible in the benchmarks.
+Buck seems mainly targetted at building Java apps for Android.
 
 Ant is still being used, but it's unclear what advantages it offers. Maybe simplicity for creating many small unconventional tasks. Gant is built on top of ant and similar in purpose, but allowing to write in Groovy. Other buildsystems like make, rake or scons might be similar enough to ant, but they do not get further consideration here because they have little tradition for Java projects.
 
 Leiningen and sbt are optimized (in usability) for Clojure and Scala respectively. If you only use Java, it probably does not pay off to use either of them, unless you wanted to learn / integrate those languages anyway.
 
-Buck and Pants are derived from Googles Blaze system optimized for huge monorepo corporate ecosystems, where thousands of projects with interdependencies are continuously build and deployed. Buck is used at Facebook, Pants at Twitter.
-They shine in build speed and caching, but they require more developer attention and effort, because they are rule based, and have no high-level abstraction of a project object model like Gradle or Maven. And being still fairly new as open-source projects at this time, they do not have the mature support from other open-source tools. As an example, buck only lately got a feature to automatically download dependencies from central Maven repositories.
-Since they have been used in a corporate setting where strict standards could be enforced, they are prone to detection of new bugs when being used in the wild by projects following a huge variety of conventions.
+Buildr seems to be mostly similar to Gradle but written in Ruby, which offers some advantages and disadvantages. Based on mailing list activity, it seems the project lost the interest of it's userbase.
 
-Buck is mainly targetted at building Java apps for Android, it is inspired by Blaze.
 
 | Name      | Target                     | language   | Written in   | Since        | Support    | Caching    | Model |
 | --------- | -------------------------- | ---------- | ------------ | ------------ | ---------- | ---------- | ----- |

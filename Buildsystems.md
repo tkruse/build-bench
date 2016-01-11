@@ -81,6 +81,8 @@ Also Leiningen had no support for parallel builds / test, but 4 different plugin
 
 <http://buildr.apache.org/>
 
+buildr is based on ruby and thus uses dependencies uncommon in the java ecosystem. Based on statistics on activity in mailing lists, it seems like the project has lost the interests of its userbase.
+
 buildr (and sbt I think) used the current CLASSPATH when running tests (instead of an isolated classpath). That caused surprising test failures, until I took care to have a clean system CLASSPATH.
 
 The buildr process was quite fast for small projects, with apparently very little overhead and good parallelization.
@@ -91,7 +93,7 @@ See <http://bazel.io/>
 
 Bazel caches build results by default in `~/.cache/bazel`, which means that you can delete your local repository, check it out again, and bazel will still find the cached results.
 
-Bazel (Sep 04, 2015) tutorials focus on android, iOS and Google appengine examples, and do not start with simple Framework agnostic examples. The Build file syntax itself is clean, but the way the different BUILD and WORKSPACE files interact with each other is not self-evident or explained in the tutorials. Also the path-like syntax for subprojects and dependencies with colons, double-slashes and '@' symbols ('@junit//jar') looks unusual and complex. Some examples place BUILD files at the project root and also next to the java source files, which is confusing at a glance. Running bazel spams my project root folder with symlinks to several bazel cache folders, which are kept in `~/.cache/bazel`. My java_library does not just produce a jar, but also a jar_manifest_proto file. Many details of java builds have to be configured, there is none of the convention-over-configuration as provided by Maven or Gradle (canonical file structure like src/main/java/package/Example.class recognized by default). Oddly Bazels java_library rule does look for resource files in the Maven canonical structure. Bazel automatically runs the Google linter "error-prone" on the project and renames java-libraries to lib...jar.
+Bazel (Sep 04, 2015) tutorials focus on android, iOS and Google appengine examples, and do not start with simple framework-agnostic examples. The Build file syntax itself is clean, but the way the different BUILD and WORKSPACE files interact with each other is not self-evident or explained in the tutorials. Also the path-like syntax for subprojects and dependencies with colons, double-slashes and '@' symbols ('@junit//jar') looks unusual and complex (it is used similarly for buck and pants). Some examples place BUILD files at the project root and also next to the java source files, which is confusing at a glance. Running bazel spams my project root folder with symlinks to several bazel cache folders, which are kept in `~/.cache/bazel`. My java_library does not just produce a jar, but also a jar_manifest_proto file. Many details of java builds have to be configured, there is none of the convention-over-configuration as provided by Maven or Gradle (canonical file structure like src/main/java/package/Example.class recognized by default). Oddly Bazels java_library rule does look for resource files in the Maven canonical structure. Bazel automatically runs the Google linter "error-prone" on the project and renames java-libraries to lib...jar.
 
 So basically Bazel imposes the Google standards upon the Bazel users, which is a bit annoying for everyone outside of Google.
 
@@ -99,9 +101,9 @@ Each rule must be named, which imposes an unnecessary burden of creativity and s
 The file syntax for the .bazelrc file also has several unconventional features.
 Examples online also show some oddities like using java_binary rule with main class "does.not.exist" to get a fatjar, instead of having that as an option in the java_library rule.
 
-I struggled to get the common-math classes and test classes compile and test even with the rule documentation. The documentation of the rules is insufficient, the tutorials do not cover tests.
+I struggled to get the common-math classes and test classes compile and test even with the rule documentation. The documentation of the rules at the time  was insufficient, the tutorials did not cover tests. However, one year later a lot of work seems to have gone into more documentation. 
 
-All of this is a mere matter of improving documentation and maybe a little polishing of the build rules for the general public outside Google.
+Bazel uses a database of build results (and input commands) to check whether the inputs of a given tasks have changed, so it does not rely on timestamps of files in the filesystem.
 
 ## pants
 
@@ -143,3 +145,5 @@ Pants path syntax has special semantics for task names which match the directory
 Pants uses an `.INI` file for some configuration (Do you live in the past?). The pants documentation version may lag far behind the latest version.
 
 Pants natively supports shading the tools that it runs, in order to prevent tools (particularly junit/checkstyle/et-al, which do not isolate themselves) from having classpath collisions with the code that they are building. This can take a long time but is very stable, in that it only changes when the version of a tool changes.
+
+Pants uses nailgun in the background, which however failed on the Travis CI server.
