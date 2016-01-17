@@ -6,6 +6,8 @@ d3.csv(filename, function(error, csvdata){
     csvdata.forEach(function(d) {
         chart_names.push(d.name);
     });
+    chart_names = chart_names.sort();
+    console.log(chart_names);
 
     csvdata = csvdata.sort(function(a, b) {
         //console.log(a[columns[0]])
