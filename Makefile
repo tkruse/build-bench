@@ -25,7 +25,10 @@ ifndef TARGET_NAME
 	$(error TARGET_NAME is not set, defines where files are to be generated to)
 endif
 	@mkdir -p $(CONFIGURED_BUILD_ROOT)/$*
-	@cd $(CONFIGURED_BUILD_ROOT)/$*; cp -rf $(CONFIGURED_BUILD_SOURCE)/* .
+	cd $(CONFIGURED_BUILD_ROOT)/$*; cp -rf $(CONFIGURED_BUILD_SOURCE)/* .
+# touch folder so that this step can be skipped next time
+	@touch $(CONFIGURED_BUILD_ROOT)/$*/src
+
 
 # invoke specific buildsystem version. TODO: Find out how to generify this with makefile
 
