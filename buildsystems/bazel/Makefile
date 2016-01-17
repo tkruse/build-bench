@@ -33,8 +33,8 @@ version: $(BAZEL_DIR)/bazel$(BAZEL_DEFAULT_VERSION)/bin/bazel
 bazel%: $(CONFIGURED_BUILD_ROOT)/bazel%/BUILD $(BAZEL_DIR)/bazel%/bin/bazel $(TIME) $(REPORTS_DIR)
 	$(info ******* bazel start)
 # fetch command has no spawn_strategy option, required on Travis CI
-	cd $(CONFIGURED_BUILD_ROOT)/bazel$*; $(BAZEL_DIR)/bazel$*/bin/bazel --bazelrc=$(BAZEL_DIR)/bazel$*/bazel.bazelrc fetch -- :all
-	cd $(CONFIGURED_BUILD_ROOT)/bazel$*; $(call TIME_CMD,$@) $(BAZEL_DIR)/bazel$*/bin/bazel --bazelrc=$(BAZEL_DIR)/bazel$*/bazel.bazelrc test $(BAZEL_COMMAND_OPTIONS) $(BAZEL_OPTIONS) //:example-tests
+	cd $(CONFIGURED_BUILD_ROOT)/bazel$*; $(BAZEL_DIR)/bazel$*/bin/bazel --bazelrc=$(BAZEL_DIR)/bazel$*/bazel.bazelrc --output_base=$(BAZEL_DIR)/bazel$*/bazel_cache fetch -- :all
+	cd $(CONFIGURED_BUILD_ROOT)/bazel$*; $(call TIME_CMD,$@) $(BAZEL_DIR)/bazel$*/bin/bazel --bazelrc=$(BAZEL_DIR)/bazel$*/bazel.bazelrc --output_base=$(BAZEL_DIR)/bazel$*/bazel_cache test $(BAZEL_COMMAND_OPTIONS) $(BAZEL_OPTIONS) //:example-tests
 
 .PRECIOUS: $(BAZEL_DIR)/bazel-%-installer-linux-x86_64.sh
 $(BAZEL_DIR)/bazel-%-installer-linux-x86_64.sh:
@@ -45,13 +45,13 @@ $(BAZEL_DIR)/bazel-%-installer-linux-x86_64.sh:
 .PRECIOUS: $(BAZEL_DIR)/bazel%/bazel.bazelrc
 $(BAZEL_DIR)/bazel%/bazel.bazelrc:
 	mkdir -p $(BAZEL_DIR)/bazel$*
-	echo "build --package_path %workspace%:$(BAZEL_DIR)/bazel$*/lib/bazel/base_workspace\nfetch --package_path %workspace%:$(BAZEL_DIR)/bazel$*/lib/bazel/base_workspace" > $(BAZEL_DIR)/bazel$*/bazel.bazelrc
+	echo "build --package_path %workspace%:$(BAZEL_DIR)/bazel$*/lib/bazel/base_workspace\nfetch --package_path %workspace%:$(BAZEL_DIR)/bazel$*/lib/bazel/base_workspace\nquery --package_path %workspace%:$(BAZEL_DIR)/bazel$*/lib/bazel/base_workspace" > $(BAZEL_DIR)/bazel$*/bazel.bazelrc
 
 .PRECIOUS: $(BAZEL_DIR)/bazel%/bin/bazel
 $(BAZEL_DIR)/bazel%/bin/bazel: $(BAZEL_DIR)/bazel-%-installer-linux-x86_64.sh $(BAZEL_DIR)/bazel%/bazel.bazelrc
 	@mkdir -p $(BAZEL_DIR)
 	cd $(BAZEL_DIR); ./bazel-$*-installer-linux-x86_64.sh --prefix=$(BAZEL_DIR)/bazel$* --bazelrc=$(BAZEL_DIR)/bazel$*/bazel.bazelrc
-# touch so that make remebers next time
+# touch so that make remembers next time
 	@touch $(BAZEL_DIR)/bazel$*/bin/bazel
 
 .PRECIOUS: $(CONFIGURED_BUILD_ROOT)/bazel%/BUILD

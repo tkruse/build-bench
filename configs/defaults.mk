@@ -38,7 +38,7 @@ export LEININGEN_DEFAULT_VERSION=2.5.3
 export SBT_DEFAULT_VERSION=0.13.9
 # pants is horrible at backwards compatibility, expect problems when upgrading
 export PANTS_DEFAULT_VERSION=0.0.67
-export BAZEL_DEFAULT_VERSION=0.1.3
+export BAZEL_DEFAULT_VERSION=0.1.4rc2
 
 ## Build orchestration variables
 ## Should usually be left alone
