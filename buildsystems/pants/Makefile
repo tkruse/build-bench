@@ -31,13 +31,16 @@ version: $(PANTS_DIR)/pants
 
 .NOTPARALLEL: pants%
 .PHONY: pants%
-pants%: $(CONFIGURED_BUILD_ROOT)/pants%/BUILD $(PANTS_DIR)/pants $(CONFIGURED_BUILD_ROOT)/pants%/pants.ini% $(TIME) $(REPORTS_DIR)
+pants%: $(CONFIGURED_BUILD_ROOT)/pants%/BUILD $(PANTS_DIR)/pants $(CONFIGURED_BUILD_ROOT)/pants%/pants.ini $(TIME) $(CONFIGURED_BUILD_ROOT)/pants%/.pants.d $(REPORTS_DIR)
 	$(info ******* pants start)
-	# Do one throw-away run to ensure all tools are shaded.
-	@cd $(CONFIGURED_BUILD_ROOT)/pants$*; $(PANTS_DIR)/pants test :test
-	@cd $(CONFIGURED_BUILD_ROOT)/pants$*; $(PANTS_DIR)/pants clean-all
 	cd $(CONFIGURED_BUILD_ROOT)/pants$*; $(call TIME_CMD,$@) $(PANTS_DIR)/pants test :test
 
+
+.PRECIOUS: $(PANTS_DIR)/pants%/.pants.d
+$(CONFIGURED_BUILD_ROOT)/pants%/.pants.d:
+# Do one throw-away run to ensure all tools are shaded.
+	@cd $(CONFIGURED_BUILD_ROOT)/pants$*; $(PANTS_DIR)/pants test :test
+	@cd $(CONFIGURED_BUILD_ROOT)/pants$*; $(PANTS_DIR)/pants clean-all
 
 # pants insists on being installed via virtualenv, version configured in project
 .PRECIOUS: $(PANTS_DIR)/pants
@@ -46,9 +49,10 @@ $(PANTS_DIR)/pants:
 	@cd $(PANTS_DIR); curl -s -O https://pantsbuild.github.io/setup/pants
 	@chmod u+x $(PANTS_DIR)/pants
 
+
 # make sure correct pants_version configured in project workspace
-.PHONY: $(CONFIGURED_BUILD_ROOT)/pants%/pants.ini%
-$(CONFIGURED_BUILD_ROOT)/pants%/pants.ini%: $(CONFIGURED_BUILD_ROOT)/pants%/BUILD
+.PRECIOUS: $(CONFIGURED_BUILD_ROOT)/pants%/pants.ini
+$(CONFIGURED_BUILD_ROOT)/pants%/pants.ini: $(CONFIGURED_BUILD_ROOT)/pants%/BUILD
 # intentionally avoiding sed -i because it is not cross compatible
 	@sed 's/pants_version.*$$/pants_version: $*/g'  $(CONFIGURED_BUILD_ROOT)/pants$*/pants.ini >  $(CONFIGURED_BUILD_ROOT)/pants$*/pants.ini.tmp && mv  $(CONFIGURED_BUILD_ROOT)/pants$*/pants.ini.tmp  $(CONFIGURED_BUILD_ROOT)/pants$*/pants.ini
 
