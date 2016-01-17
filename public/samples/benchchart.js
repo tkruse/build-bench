@@ -8,7 +8,7 @@ d3.csv(filename, function(error, csvdata){
     });
 
     csvdata = csvdata.sort(function(a, b) {
-        console.log(a[columns[0]])
+        //console.log(a[columns[0]])
         return d3.ascending(parseFloat(a[columns[0]]), parseFloat(b[columns[0]]));
     });
 

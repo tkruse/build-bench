@@ -33,9 +33,29 @@ layout: default
 
 <p>Several buildsystems recognize there is nothing to do, surprisingly pants is not among them.<p>
 
-    <h2>Clean build file Ops</h2>
+  <h2>Rebuild with change</h2>
+
+<p>For this case I added a small no-op change to one source file.</p>
 
 <div id="chart3" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+</div>
+
+<p>Since this is a single-module project, building a new version requires recompiling and retesting everything. Maybe some buildsystems could optimize this by defining smaller subsets of builds.<p>
+
+    <h2>Rebuild first version</h2>
+
+<p>For this case I manually reverted the file to the state of the first build.</p>
+    
+<div id="chart4" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+</div>
+
+<p>While I had expected bazel and buck to reuse a version from their cache, it seems they did not. I am not sure why not, possibly they do take into account timestamps for identifying same builds.<p>
+
+    <h2>Clean build file Ops</h2>
+
+<div id="chart5" class='with-3d-shadow with-transitions chart'>
     <svg></svg>
 </div>
 
@@ -44,6 +64,9 @@ Here are the numbers of file system input and outputs as reported by GNU time fo
 <script>
 benchChart("public/samples/commons-math/sample1.csv", '#chart1 svg', ['real']);
 benchChart("public/samples/commons-math/sample2.csv", '#chart2 svg', ['real']);
-benchChart("public/samples/commons-math/sample1.csv", '#chart3 svg', ['real', 'filein', 'fileout']);
+benchChart("public/samples/commons-math/sample3.csv", '#chart3 svg', ['real']);
+benchChart("public/samples/commons-math/sample4.csv", '#chart4 svg', ['real']);
+
+benchChart("public/samples/commons-math/sample1.csv", '#chart5 svg', ['real', 'filein', 'fileout']);
 
 </script>

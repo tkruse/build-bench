@@ -1,11 +1,10 @@
-name,real,user,system,I,K,O,W,r,C
-gradle2.9,4.79,1.59,0.10,1160,0,440,0,0,/home/kruset/work/java/build-bench/caches/gradle/gradle2.9/bin/gradle -q --stacktrace test jar
-maven3.3.9,135.99,287.12,2.92,89672,0,12744,0,0,/home/kruset/work/java/build-bench/caches/maven/maven3.3.9/bin/mvn -q -B -T1C -gs /home/kruset/work/java/build-bench/buildsystems/maven/settings.xml package -Dsurefire.printSummary=false
-buildr1.4.23,1.31,1.12,0.08,30584,0,0,0,0,/home/kruset/work/java/build-bench/caches/buildr/gems/buildr-1.4.23/bin/buildr -q package
-ant_ivy1.9.6,265.39,495.79,21.78,12696,0,170448,0,0,/home/kruset/work/java/build-bench/caches/ant_ivy/ant_ivy1.9.6/bin/ant jar -q
-buckv2015.11.30.01,0.64,0.04,0.01,0,0,32,0,0,/home/kruset/work/java/build-bench/caches/buck/buckv2015.11.30.01/bin/buck test -v0 --all
-leiningen2.5.3,486.86,339.72,21.40,110168,0,111064,0,0,sh-c/home/kruset/work/java/build-bench/caches/leiningen/leiningen2.5.3/lein junit && /home/kruset/work/java/build-bench/caches/leiningen/leiningen2.5.3/lein jar
-sbt0.13.9,49.88,334.53,2.49,167096,0,10568,0,0,/home/kruset/work/java/build-bench/caches/sbt/sbt0.13.9/bin/sbt -java-home/usr/lib/jvm/java-8-oracle/ test package
-bazel0.1.2,0.29,0.00,0.00,0,0,16,0,0,/home/kruset/work/java/build-bench/caches/bazel/bazel0.1.2/bin/bazel --bazelrc=/home/kruset/work/java/build-bench/caches/bazel/bazel0.1.2/bazel.bazelrc test --test_verbose_timeout_warnings --verbose_failures --javacopt=-extra_checks:off //:example-tests
-pants0.0.63,125.22,272.00,2.34,1800,0,11432,0,0,/home/kruset/work/java/build-bench/caches/pants/pants test :test
-
+name,real,user,system,filein,memory,fileout,swaps,socketin,command
+gradle2.10,5.26,1.62,0.06,1168,0,440,0,0,/home/kruset/work/java/build-bench/caches/gradle/gradle2.10/bin/gradle -q --info --stacktrace test jar
+maven3.3.9,130.06,273.47,2.98,79200,0,12888,0,0,/home/kruset/work/java/build-bench/caches/maven/maven3.3.9/bin/mvn -q -B -T 1C -gs /home/kruset/work/java/build-bench/buildsystems/maven/settings.xml package -Dsurefire.printSummary=false
+buildr1.4.23,1.28,1.06,0.11,33520,0,0,0,0,/home/kruset/work/java/build-bench/caches/buildr/gems/buildr-1.4.23/bin/buildr -q parallel package
+ant_ivy1.9.6,266.70,493.43,23.07,54552,0,170256,0,0,/home/kruset/work/java/build-bench/caches/ant_ivy/ant_ivy1.9.6/bin/ant jar -q
+buckv2015.12.28.01,0.65,0.06,0.00,0,0,32,0,0,/home/kruset/work/java/build-bench/caches/buck/buckv2015.12.28.01/bin/buck test -v 0 --all
+leiningen2.5.3,483.35,335.66,21.89,7048,0,111272,0,0,sh -c /home/kruset/work/java/build-bench/caches/leiningen/leiningen2.5.3/lein junit && /home/kruset/work/java/build-bench/caches/leiningen/leiningen2.5.3/lein jar
+sbt0.13.9,49.41,328.38,2.17,110848,0,10544,0,0,/home/kruset/work/java/build-bench/caches/sbt/sbt0.13.9/bin/sbt -java-home /usr/lib/jvm/java-8-oracle/ test package
+bazel0.1.4rc2,6.59,17.46,0.68,597640,0,1064,0,0,/home/kruset/work/java/build-bench/caches/bazel/bazel0.1.4rc2/bin/bazel --bazelrc=/home/kruset/work/java/build-bench/caches/bazel/bazel0.1.4rc2/bazel.bazelrc --batch --output_base=/home/kruset/work/java/build-bench/caches/bazel/bazel_cache test --test_verbose_timeout_warnings --verbose_failures --javacopt=-extra_checks:off //:example-tests
+pants0.0.67,149.52,283.87,2.42,57192,0,153872,0,0,/home/kruset/work/java/build-bench/caches/pants/pants test :test
