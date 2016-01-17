@@ -54,12 +54,11 @@ $ make clean all CONFIG=configs/generated_multi.mk
 
 ## Prerequisites
 
+* Linux       (MacOS, Unix and BSD may also work)
 * Java        (7 or 8, configure JAVA_HOME)
-* bash        (the standard Ubuntu shell)
 * GNU make    (should be present on any *nix)
-* GNU time    (should be present on any *nix)
 * Python      (2 or 3)
-* jinja2      (if using templated sources, install via pip or apt-get)
+* jinja2      (python library, if using templated sources, install with apt-get on ubuntu)
 * Ruby        (1 or 2, for Apache buildr, jruby should also work)
 
 The whole setup is described [here](Design.md)
@@ -115,6 +114,8 @@ Incremental re-compilation, meaning compiling only files that are affected by a 
 Incremental build steps beyond compilation help (e.g. Maven can compile incrementally, but not test incrementally).
 
 Incremental builds for sub-module filesets. Several buildsystems can (re-)build only those submodules that have change, but cannot only (re-)build only half a submodule. Being able to incrementally rebuild smaller parts can speed up builds in specific situations.
+
+Incremental compilation that understand the language. Sbt as an example may analyze the changes to a changed file to decide whether depending classes need to be recompiled. So when the change only affect private methods, sbt can decide that dependencies need not be rebased.
 
 Caching influences incremental builds. Several buildsystems have a simple caching strategy in that they will not run a task if the output still exist. This will improve performance for repeated builds.
 
