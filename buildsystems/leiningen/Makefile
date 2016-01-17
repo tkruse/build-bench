@@ -26,7 +26,7 @@ version: $(LEININGEN_DIR)/leiningen$(LEININGEN_DEFAULT_VERSION)/lein
 
 .NOTPARALLEL: leiningen%
 .PHONY: leiningen%
-leiningen%: $(CONFIGURED_BUILD_ROOT)/leiningen%/project.clj $(LEININGEN_DIR)/leiningen%/lein $(TIME) $(REPORTS_DIR)
+leiningen%: $(CONFIGURED_BUILD_ROOT)/leiningen%/project.clj $(LEININGEN_DIR)/leiningen%/lein $(REPORTS_DIR)/$(TARGET_NAME).csv
 	$(info ******* leiningen start)
 ## single project:
 	@cd $(CONFIGURED_BUILD_ROOT)/leiningen$*; $(LEININGEN_DIR)/leiningen$*/lein --version

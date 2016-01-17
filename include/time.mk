@@ -11,9 +11,10 @@ define TIME_CMD
 $(TIME) -o $(REPORTS_DIR)/$(TARGET_NAME).csv -a -f'$1,$(REPORTS_FORMAT)'
 endef
 
-.PRECIOUS: $(REPORTS_DIR)
-$(REPORTS_DIR):
-	@mkdir -p $@
+.PRECIOUS: $(REPORTS_DIR)/$(TARGET_NAME).csv
+$(REPORTS_DIR)/$(TARGET_NAME).csv: $(TIME)
+	@mkdir -p $(REPORTS_DIR)
+	echo "name,real,user,system,filein,memory,fileout,swaps,socketin,command" > $(REPORTS_DIR)/$(TARGET_NAME).csv
 
 .PRECIOUS: $(TIME_CACHE_DIR)/time-$(TIME_VERSION).tar.gz
 $(TIME_CACHE_DIR)/time-$(TIME_VERSION).tar.gz:
