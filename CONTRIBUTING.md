@@ -4,13 +4,9 @@ I welcome anyone who wants to add something.
 
 Open tasks:
 
-* bazel / pants global caches within caches folder
+* pants global caches within caches folder
 * clean global caches (global-clean)
-* update versions
-* measure file io for all filesystems.
 * measure # generated files
-* benchmark reverted version
-* warmup step, clean step
 * sbt using junit 4.12
 * table output
 * Nicely collect benchmark results
@@ -18,7 +14,6 @@ Open tasks:
 * Provide log and zipped sources
 * Simple tweaks for individual buildsystems (they should remain realistic)
   * sbt less system resources
-  * mvn parallel build
   * optionally run tests/tasks in parallel using n CPU
 * templated configuration of builds (java version, dependencies)
 * Integrate other tools (checkstyle, Findbugs, PMD)
