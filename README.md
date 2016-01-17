@@ -36,6 +36,11 @@ $ make clean maven gradle
 
 # to run for just selected buildsystems in particular versions
 $ make clean maven3.3.3 gradle2.7
+
+# to run with changed code:
+# change file in build/source
+$ touch build/source
+$ make ...
 ```
 
 The process is configured using variables that can be changed, the configs folder has a `defauls.mk` file setting defaults, and some example files for different kinds of builds.
