@@ -7,4 +7,4 @@ buckv2015.12.28.01,135.67,0.08,0.02,0,0,24,0,0,/home/kruset/work/java/build-benc
 leiningen2.5.3,506.74,402.68,23.72,29352,0,163680,0,0,sh -c /home/kruset/work/java/build-bench/caches/leiningen/leiningen2.5.3/lein junit && /home/kruset/work/java/build-bench/caches/leiningen/leiningen2.5.3/lein jar
 sbt0.13.9,48.75,317.92,2.15,82272,0,37248,0,0,/home/kruset/work/java/build-bench/caches/sbt/sbt0.13.9/bin/sbt -java-home /usr/lib/jvm/java-8-oracle/ test package
 bazel0.1.4rc2,137.69,319.84,4.25,569104,0,40224,0,0,/home/kruset/work/java/build-bench/caches/bazel/bazel0.1.4rc2/bin/bazel --bazelrc=/home/kruset/work/java/build-bench/caches/bazel/bazel0.1.4rc2/bazel.bazelrc --batch --output_base=/home/kruset/work/java/build-bench/caches/bazel/bazel_cache test --test_verbose_timeout_warnings --verbose_failures --javacopt=-extra_checks:off //:example-tests
-pants0.0.67,157.13,294.16,2.05,57512,0,154592,0,0,/home/kruset/work/java/build-bench/caches/pants/pants test :test
+pants0.0.70,140.94,282.24,3.47,89224,0,217560,0,0,/home/kruset/work/java/build-bench/caches/pants/pants test :test
