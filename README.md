@@ -38,8 +38,8 @@ $ make clean maven gradle
 $ make clean maven3.3.3 gradle2.7
 
 # to run with changed code:
-# change file in build/source
-$ touch build/source
+# change file in build/<project>/source
+$ touch build/<project>/source
 $ make ...
 ```
 
