@@ -161,12 +161,12 @@ Buildr seems to be mostly similar to Gradle but written in Ruby, which offers so
 | ant       | Java                       | XML        | Java         | 2000         | Apache     | None       | rules |
 | maven     | Java (Scala, Ruby, C#)     | XML        | Java         | 2002         | Apache     | None       | POM   |
 | gradle    | Java, Groovy (Scala, C++,) | Groovy     | Java, Groovy | 2007         | Gradleware | last build | POM   |
-| buildr    | Java, Scala, Groovy        | Ruby       | Ruby         | 2010?        | Apache     | ?          | POM   |
-| sbt       | Scala, Java                | Scala      | Scala        | 2010?        | ?          | ?          | POM   |
-| leiningen | Clojure, Java              | Clojure    | Clojure      | 2009?        | ?          | ?          | POM   |
+| buildr    | Java, Scala, Groovy        | Ruby       | Ruby         | 2010?        | Apache     | None       | POM   |
+| sbt       | Scala, Java                | Scala      | Scala        | 2010?        | ?          | None       | POM   |
+| leiningen | Clojure, Java              | Clojure    | Clojure      | 2009?        | ?          | None       | POM   |
 | buck      | Java (Android)             | Python-ish | Java, Python | 2012         | Facebook   | true cache | rules |
 | bazel     | C++, Java, Python, Go      | Python-ish | C++, Java    | 2015 (2005?) | Google     | true cache | rules |
-| pants     | Java, Scala, Python        | Python     | Python       | 2014 (2010)  | Twitter    | true cache | rules |
+| pants     | Java, Scala, Python        | Python     | Python       | 2014 (2010)  | Twitter    | None       | rules |
 
 ### Why are ant/sbt/leiningen so slow for clean testing of commons-math?
 
