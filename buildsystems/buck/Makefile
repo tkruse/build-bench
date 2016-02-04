@@ -48,6 +48,6 @@ $(BUCK_DIR)/buck%/bin/buck: $(BUCK_DIR)/%.zip $(ANT_IVY_PATH)/ant
 	@cd $(BUCK_DIR); unzip -u -q $*.zip; mv buck-$(subst v,,$*) buck$*
 	@cd $(BUCK_DIR); touch buck$*/bin/buck
 
-.PRECIOUS: $(CONFIGURED_BUILD_ROOT)/buck%/build.buck
+.PRECIOUS: $(CONFIGURED_BUILD_ROOT)/buck%/BUCK
 $(CONFIGURED_BUILD_ROOT)/buck%/BUCK: $(CONFIGURED_BUILD_SOURCE)
 	@python $(SCRIPTS_DIR)/apply-templates.py $(BUILDTEMPLATES_DIR)/$(BUILD_DEFINITIONS)/buck $(CONFIGURED_BUILD_ROOT)/buck$* --subprojectnum=$(SUBPROJECT_NUM) --filenum=$(FILE_NUM)
