@@ -9,7 +9,7 @@ layout: default
     <script src="public/samples/benchchart.js"></script>
 
   <h1>Sample Results for Multi-module project</h1>
-    <p>Compile and Tests, single-module project, 4 CPU laptop, as measured by GNU time. The value shown is the real (wall clock) time spend on the process, and the user-space CPU time (sum over all CPUs). The system-space CPU time was negligeable. The code was 8 submodules with 20 long running tests each.</p>
+    <p>Compile and Tests, single-module project, 4 CPU laptop, as measured by GNU time. The value shown is the real (wall clock) time spend on the process, and the user-space CPU time (sum over all CPUs). The system-space CPU time was negligeable. The code was 16 submodules with 10 long running tests each. 16 submodules were chosen as a number sufficiently larger than the number of CPUs.</p>
 
   <h2>Clean build from scratch</h2>
 
@@ -36,8 +36,8 @@ What is visible here is some projects can do incremental builds, while others re
 
 
 <script>
-benchChart("public/samples/multi-8-20/sample1.csv", '#chart1 svg', ['real']);
-benchChart("public/samples/multi-8-20/sample2.csv", '#chart2 svg', ['real']);
-benchChart("public/samples/multi-8-20/sample3.csv", '#chart3 svg', ['real']);
+benchChart("public/samples/multi-16-10/sample1.csv", '#chart1 svg', ['real']);
+benchChart("public/samples/multi-16-10/sample2.csv", '#chart2 svg', ['real']);
+benchChart("public/samples/multi-16-10/sample3.csv", '#chart3 svg', ['real']);
 
 </script>
