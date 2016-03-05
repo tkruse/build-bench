@@ -27,7 +27,7 @@ Also see [my notes](Buildsystems.md)
 
 ## Running
 
-```bash
+~~~ shell
 # to run all buildsystems
 $ make
 
@@ -45,16 +45,16 @@ $ make clean maven3.3.3 gradle2.7
 # change file in build/<project>/source
 $ touch build/<project>/source
 $ make ...
-```
+~~~
 
 The process is configured using variables that can be changed, the configs folder has a `defauls.mk` file setting defaults, and some example files for different kinds of builds.
 
 It is possible to run a custom Benchmark configuration using:
 
-```bash
+~~~ shell
 # to run specific configuration
 $ make clean all CONFIG=configs/generated_multi.mk
-```
+~~~
 
 ## Prerequisites
 
@@ -196,11 +196,11 @@ I chose to test against commons-math because it is reasonably large, well tested
 
 The main problems I had with commons-math was that the naming for the Testcases is not consistent. The commons-math ant file lists those rules:
 
-```xml
+~~~ xml
     <include name="**/*Test.java"/>
     <include name="**/*TestBinary.java"/>
     <include name="**/*TestPermutations.java"/>
     <exclude name="**/*AbstractTest.java"/>
-```
+~~~
 
 And even those do not cover all Testcases defined in the codebase.

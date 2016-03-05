@@ -150,16 +150,16 @@ One consequence of trying to optimize for monorepos in large organizations is to
 
 The output from making mistakes in BUILD files was sometimes confusing, sometimes ugly Python stacktraces, sometimes unhelpful Python type error messages:
 
-```bash
+~~~ shell
     FAILURE
     Exception message: 'str' object has no attribute 'value'
-```
+~~~
 
 or
 
-```bash
+~~~ shell
 IllegalArgumentException: No enum constant org.pantsbuild.tools.jar.JarBuilder.DuplicateAction.CONCAT_TEXT
-```
+~~~
 
 This is a symptom of having not very many active users to report such issues and complain about bad error messages.
 

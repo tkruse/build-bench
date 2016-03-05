@@ -64,7 +64,7 @@ The `caches` and `build` folders are never checked in, their content can be dele
 
 Showing the tree structure for example Apache Ant.
 
-```
+~~~
 build-bench
 ├── Makefile               // Drives the whole build, main entry point
 ├── build                  // not checked in, all output during benchmark run should go here
@@ -131,7 +131,7 @@ build-bench
 │   └── time.mk
 └── scripts
     └── apply-templates.py        // instantiates templates recursively
-```
+~~~
 
 ## Jinja2 file generation
 
