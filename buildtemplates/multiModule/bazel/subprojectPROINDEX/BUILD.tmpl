@@ -14,12 +14,12 @@ java_library(
     deps = [
         ':example{{ proindex }}',
         '@junit//jar',
-        '@hamcrest-all//jar',
+        '@hamcrest_all//jar',
     ],
 )
 
 java_test(
-    name = "example-tests{{ proindex }}",
+    name = "example_tests{{ proindex }}",
     srcs = glob(["src/test/java/**/*Test.java"],
         exclude = ["src/test/java/**/*Abstract*Test.java"]),
     size='small',
@@ -29,6 +29,6 @@ java_test(
         ':example{{ proindex }}',
         ':test_helpers{{ proindex }}',
         '@junit//jar',
-        '@hamcrest-all//jar',
+        '@hamcrest_all//jar',
     ],
 )

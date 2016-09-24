@@ -14,12 +14,12 @@ java_library(
     deps = [
         ':example',
         '@junit//jar',
-        '@hamcrest-all//jar',
+        '@hamcrest_all//jar',
     ],
 )
 
 java_test(
-    name = "example-tests",
+    name = "example_tests",
     srcs = glob(["src/test/java/**/*Test.java"],
         exclude = ["src/test/java/**/*Abstract*Test.java"]),
     size='small',
@@ -29,6 +29,6 @@ java_test(
         ':example',
         ':test_helpers',
         '@junit//jar',
-        '@hamcrest-all//jar',
+        '@hamcrest_all//jar',
     ],
 )

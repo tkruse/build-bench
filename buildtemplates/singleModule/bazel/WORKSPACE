@@ -4,6 +4,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "hamcrest-all",
+    name = "hamcrest_all",
     artifact = "org.hamcrest:hamcrest-all:1.3",
 )

@@ -9,10 +9,10 @@ package_group(
 )
 
 test_suite(
-    name = "example-tests",
+    name = "example_tests",
     tests = [
     {% for var in range(0, subprojectnum) %}
-    '//subproject{{ var }}:example-tests{{ var }}',
+    '//subproject{{ var }}:example_tests{{ var }}',
 {% endfor %}
     ],
 )

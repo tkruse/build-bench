@@ -19,7 +19,7 @@ include $(ROOT_DIR)/include/time.mk
 
 export BAZEL_DIR=$(CACHE_DIR)/bazel
 
-export BAZEL_OPTIONS:=--test_verbose_timeout_warnings --verbose_failures --javacopt='-extra_checks:off'
+export BAZEL_OPTIONS:=--test_verbose_timeout_warnings --verbose_failures --legacy_bazel_java_test --javacopt='-extra_checks:off' 
 
 .PHONY: bazel
 bazel: bazel$(BAZEL_DEFAULT_VERSION)
@@ -34,7 +34,7 @@ bazel%: $(CONFIGURED_BUILD_ROOT)/bazel%/BUILD $(BAZEL_DIR)/bazel%/bin/bazel $(RE
 	$(info ******* bazel start)
 # fetch command has no spawn_strategy option, required on Travis CI
 	cd $(CONFIGURED_BUILD_ROOT)/bazel$*; $(BAZEL_DIR)/bazel$*/bin/bazel --bazelrc=$(BAZEL_DIR)/bazel$*/bazel.bazelrc --output_base=$(BAZEL_DIR)/bazel$*/bazel_cache fetch -- :all
-	cd $(CONFIGURED_BUILD_ROOT)/bazel$*; $(call TIME_CMD,$@) $(BAZEL_DIR)/bazel$*/bin/bazel --bazelrc=$(BAZEL_DIR)/bazel$*/bazel.bazelrc --output_base=$(BAZEL_DIR)/bazel$*/bazel_cache test $(BAZEL_COMMAND_OPTIONS) $(BAZEL_OPTIONS) //:example-tests
+	cd $(CONFIGURED_BUILD_ROOT)/bazel$*; $(call TIME_CMD,$@) $(BAZEL_DIR)/bazel$*/bin/bazel --bazelrc=$(BAZEL_DIR)/bazel$*/bazel.bazelrc --output_base=$(BAZEL_DIR)/bazel$*/bazel_cache test $(BAZEL_COMMAND_OPTIONS) $(BAZEL_OPTIONS) //:example_tests
 
 .PRECIOUS: $(BAZEL_DIR)/bazel-%-installer-linux-x86_64.sh
 $(BAZEL_DIR)/bazel-%-installer-linux-x86_64.sh:

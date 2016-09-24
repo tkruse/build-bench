@@ -27,18 +27,19 @@ export DEFAULT_CONFIG=$(ROOT_DIR)/configs/generated_minimal.mk
 export FILE_NUM=0
 export SUBPROJECT_NUM=0
 
-export ANT_DEFAULT_VERSION=1.9.6
+export ANT_DEFAULT_VERSION=1.9.7
 export IVY_DEFAULT_VERSION=2.4.0
 export MAVEN_DEFAULT_VERSION=3.3.9
-export GRADLE_DEFAULT_VERSION=2.10
-export BUILDR_DEFAULT_VERSION=1.4.23
+export GRADLE_DEFAULT_VERSION=3.1
+export BUILDR_DEFAULT_VERSION=1.4.25
 # git repository tag
-export BUCK_DEFAULT_VERSION=v2015.12.28.01
-export LEININGEN_DEFAULT_VERSION=2.5.3
-export SBT_DEFAULT_VERSION=0.13.9
+export BUCK_DEFAULT_VERSION=v2016.04.18.01
+
+export LEININGEN_DEFAULT_VERSION=2.7.1
+export SBT_DEFAULT_VERSION=0.13.12
 # pants is horrible at backwards compatibility, expect problems when upgrading
-export PANTS_DEFAULT_VERSION=0.0.70
-export BAZEL_DEFAULT_VERSION=0.1.4rc2
+export PANTS_DEFAULT_VERSION=1.1.0
+export BAZEL_DEFAULT_VERSION=0.3.1
 
 ## Build orchestration variables
 ## Should usually be left alone

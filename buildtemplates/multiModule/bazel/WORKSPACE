@@ -5,16 +5,16 @@ maven_jar(
 )
 
 bind(
-  name = "junit-jar",
+  name = "junit_jar",
   actual = "@junit//jar"
 )
 
 maven_jar(
-    name = "hamcrest-all",
+    name = "hamcrest_all",
     artifact = "org.hamcrest:hamcrest-all:1.3",
 )
 
 bind(
-  name = "hamcrest-all-jar",
+  name = "hamcrest_all_jar",
   actual = "@hamcrest-all//jar"
 )
