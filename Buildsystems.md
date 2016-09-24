@@ -27,6 +27,13 @@ Lack of support for accessing root pom folder for shared build configuration:
 
 Transitive dependencies of dependencies with scope "compile" end up also having scope "compile", which causes a huge dependency mess, and there is no way of easily fixing this: <http://stackoverflow.com/questions/11044243/limiting-a-transitive-dependency-to-runtime-scope-in-maven>
 
+To exclude a 2nd level transitive dependency, one first has to exclude the 1st level transitive dependency, then re-include it separately, and then exclude the originally undesired transitive dependency from it.
+
+While maven can build all submodules of a multi-module build with just one command without installing, it cannot build half of them first, then later the other half, unless you install the first half first.
+
+Maven does not allow you to set the working directory of a command, instead you have to switch into that directory, and then invoke maven pointing outward to the directory with the pom.
+
+
 There is the so called maven enforcer plugin, however it seems that one does not cope with wildcard exclusions, so to use it you need to specify multiple exclusions even if they belong to the same group.
 
 Maven complains about cyclic dependencies when Project B depends on A at runtime scope, and A depends on B at test scope. That's because Maven cannot not separate subproject class compilation and testing.
@@ -53,7 +60,7 @@ Getting buck to do anything at all was a real pain, `quickstart` did not start q
 
 buck very few high-level features and plugins compared to gradle and maven, in particular for non-Android projects.
 
-buckd left behind many process running in the background.
+buckd left behind many process running in the background. It recommends installing a separate application "watchman" to further optimize caching of build files. watchman itself also seems like a fickle install.
 
 ## ant
 
@@ -95,15 +102,31 @@ Bazel caches build results by default in `~/.cache/bazel`, which means that you 
 
 Bazel (Sep 04, 2015) tutorials focus on android, iOS and Google appengine examples, and do not start with simple framework-agnostic examples. The Build file syntax itself is clean, but the way the different BUILD and WORKSPACE files interact with each other is not self-evident or explained in the tutorials. Also the path-like syntax for subprojects and dependencies with colons, double-slashes and '@' symbols ('@junit//jar') looks unusual and complex (it is used similarly for buck and pants). Some examples place BUILD files at the project root and also next to the java source files, which is confusing at a glance but may be a performance optimization. Running bazel spams my project root folder with symlinks to several bazel cache folders, which are kept in `~/.cache/bazel`. My java_library does not just produce a jar, but also a jar_manifest_proto file. Many details of java builds have to be configured, there is none of the convention-over-configuration as provided by Maven or Gradle (canonical file structure like src/main/java/package/Example.class recognized by default). Oddly Bazels java_library rule does look for resource files in the Maven canonical structure. Bazel automatically runs the Google linter "error-prone" on the project and renames java-libraries to lib...jar.
 
+With the 0.2 update, bazel deprecated the Junit runner in favor of the BazelTestRunner, in a backwards incompatibel way, requiring a flag to run the normal Junit runner. Worse, the BazelRunner does not support running more than one test class, so developers either have to write/generate one rule per test, or create test suites just for Bazel.
+
 So basically Bazel imposes the Google standards upon the Bazel users, which is a bit annoying for everyone outside of Google.
 
-Each rule must be named, which imposes an unnecessary burden of creativity and structuredness of the developer. How to best name the rule for a maven dependency? How for a test? Convention over configuration would go a long way here.
+Each rule must be named, which imposes an unnecessary burden of creativity and structuredness of the developer. How to best name the rule for a maven dependency? How for a test? Convention over configuration would go a long way here. The rules for names may change, e.g. between 0.1 and 0.2, dashes became forbidden. The name may have hidden implicit meaning, such as hinting at the test class to execute.
+
 The file syntax for the .bazelrc file also has several unconventional features.
 Examples online also show some oddities like using java_binary rule with main class "does.not.exist" to get a fatjar, instead of having that as an option in the java_library rule.
 
 I struggled to get the common-math classes and test classes compile and test even with the rule documentation. The documentation of the rules at the time  was insufficient, the tutorials did not cover tests. However, one year later a lot of work seems to have gone into more documentation. 
 
 Bazel uses a database of build results (and input commands) to check whether the inputs of a given tasks have changed, so it does not rely on timestamps of files in the filesystem.
+Bazel may be configured to share the caching via hazelcast:
+```
+* First you need to run a standalone Hazelcast server with JCache API in the
+classpath. This will start Hazelcast with the default configuration.
+java -cp third_party/hazelcast/hazelcast-3.5.4.jar \
+    com.hazelcast.core.server.StartServer
+* Then you run Bazel pointing to the Hazelcast server.
+bazel build --hazelcast_node=127.0.0.1:5701 --spawn_strategy=remote \
+    src/tools/generate_workspace:all
+Above command will build generate_workspace with remote spawn strategy that uses
+Hazelcast as the distributed caching backend.
+```
+But I have not tried this out myself.
 
 Bazel 0.1.3 gave confusing caching results when building multiple times, rebuilding one artifact out of 3 when no file had changed.
 
