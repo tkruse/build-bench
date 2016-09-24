@@ -15,7 +15,6 @@ maven \
 buildr \
 ant_ivy \
 buck \
-lein-sub \
 sbt \
 bazel \
 pants

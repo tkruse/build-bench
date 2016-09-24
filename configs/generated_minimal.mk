@@ -6,3 +6,13 @@ export SUBPROJECT_NUM=1
 
 # Name of the benchmark, used for folder and report
 export TARGET_NAME=$(SOURCE_PROJECT)-$(SUBPROJECT_NUM)-$(FILE_NUM)
+
+export BUILDSYSTEMS=\
+gradle \
+maven \
+buildr \
+ant_ivy \
+buck \
+sbt \
+bazel \
+pants
