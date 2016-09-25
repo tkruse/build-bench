@@ -28,7 +28,8 @@ Also see [my notes](Buildsystems.md)
 # to run all buildsystems
 $ make
 
-# to run all buildsystems freshly
+# to run all buildsystems freshly (TODO: do something about bazel global cache)
+$ rm -rf caches/bazel/bazel<version>/bazel_cache
 $ make clean all
 
 # to run for just selected buildsystems, e.g. maven vs. gradle:
