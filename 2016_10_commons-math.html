@@ -18,10 +18,7 @@ layout: default
   </div>
 
     <p>
-      Sbt is quickest, by using all CPUs to the fullest. During the test, my system became unusable, the mouse crawling over the screen like a snail. Overall the other buildsystems doing parallelization show that 140 seconds is a reasonable number while keeping the system usable. Surprisingly pants took more time.
-    </p>
-    <p>
-    Some buildsystems do not show any user CPU time, I assume this to be due to using separate daemon threads to do some work like nailgun.
+      Sbt is quickest, by using all CPUs to the fullest. During the test, my system became unusable, the mouse crawling over the screen like a snail. Overall the other buildsystems doing parallelization show that 140 seconds is a reasonable number while keeping the system usable.
     </p>
 
 
@@ -41,7 +38,7 @@ layout: default
     <svg></svg>
 </div>
 
-<p>Since this is a single-module project, building a new version requires recompiling and retesting everything. Maybe some buildsystems could optimize this by defining smaller subsets of builds.<p>
+<p>Since this is a single-module build, all buildsystems run all tests again after a file change.<p>
 
     <h2>Rebuild first version</h2>
 
@@ -51,7 +48,7 @@ layout: default
     <svg></svg>
 </div>
 
-<p>While I had expected bazel and buck to reuse a version from their cache, it seems they did not. I am not sure why not, possibly they do take into account timestamps for identifying same builds.<p>
+<p>While I had expected bazel and buck to reuse a version from their cache, it seems they did not. I am not sure why not, possibly they do take into account timestamps for identifying same builds. In other scenarios, at least bazel used results from a cache.<p>
 
     <h2>Clean build file Ops</h2>
 
