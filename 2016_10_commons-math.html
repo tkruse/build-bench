@@ -1,0 +1,72 @@
+---
+layout: default
+---
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
+    <script src="public/samples/benchchart.js"></script>
+
+  <h1>Sample Results for Commons-Math (Okt. 2016)</h1>
+    <p>Compile and Tests, single-module project, 4 CPU laptop, as measured by GNU time. The value shown is the real (wall clock) time spend on the process.</p>
+
+  <h2>Clean build from scratch</h2>
+
+  <div id="chart1" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+  </div>
+
+    <p>
+      Sbt is quickest, by using all CPUs to the fullest. During the test, my system became unusable, the mouse crawling over the screen like a snail. Overall the other buildsystems doing parallelization show that 140 seconds is a reasonable number while keeping the system usable. Surprisingly pants took more time.
+    </p>
+    <p>
+    Some buildsystems do not show any user CPU time, I assume this to be due to using separate daemon threads to do some work like nailgun.
+    </p>
+
+
+  <h2>Rebuild without changes</h2>
+
+<div id="chart2" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+</div>
+
+<p>Several buildsystems recognize there is nothing to do, surprisingly pants is not among them.<p>
+
+  <h2>Rebuild with change</h2>
+
+<p>For this case I added a small no-op change to one source file.</p>
+
+<div id="chart3" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+</div>
+
+<p>Since this is a single-module project, building a new version requires recompiling and retesting everything. Maybe some buildsystems could optimize this by defining smaller subsets of builds.<p>
+
+    <h2>Rebuild first version</h2>
+
+<p>For this case I manually reverted the file to the state of the first build.</p>
+    
+<div id="chart4" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+</div>
+
+<p>While I had expected bazel and buck to reuse a version from their cache, it seems they did not. I am not sure why not, possibly they do take into account timestamps for identifying same builds.<p>
+
+    <h2>Clean build file Ops</h2>
+
+<div id="chart5" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+</div>
+
+Here are the numbers of file system input and outputs as reported by GNU time for the clean builds. Some buildsystems have a value of zero, probably because their setup involves separate processes not covered by GNU time.
+
+<script>
+benchChart("public/samples/2016_10/commons-math/sample1.csv", '#chart1 svg', ['real']);
+benchChart("public/samples/2016_10/commons-math/sample2.csv", '#chart2 svg', ['real']);
+benchChart("public/samples/2016_10/commons-math/sample3.csv", '#chart3 svg', ['real']);
+benchChart("public/samples/2016_10/commons-math/sample4.csv", '#chart4 svg', ['real']);
+
+benchChart("public/samples/2016_10/commons-math/sample1.csv", '#chart5 svg', ['real', 'filein', 'fileout']);
+
+</script>
