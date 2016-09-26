@@ -59,7 +59,8 @@ $ make clean all CONFIG=configs/generated_multi.mk
 * Java        (7 or 8, configure JAVA_HOME)
 * GNU make    (should be present on any *nix)
 * Python      (2 or 3)
-* jinja2      (python library, if using templated sources, install with apt-get on ubuntu)
+* jinja2      (python library, if using templated sources, install with apt-get on ubuntu. TODO: install locally)
+* watchman    (optional python library, optimizes buck. TODO: install locally)
 * Ruby        (1 or 2, for Apache buildr, jruby should also work)
 
 The whole setup is described [here](Design.md)

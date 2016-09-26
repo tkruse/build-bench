@@ -14,7 +14,7 @@ java_test(
   srcs = glob(['src/test/java/**/*Test.java'], excludes = ['src/test/java/**/*AbstractTest.java']),
   resources = glob(['src/test/resources/**/*', 'src/main/resources/**/*']),
   deps = [':example', ':example-tests', ':junit', ':hamcrest-core'],
-  source_under_test = [':example']
+  tests = [':example']
 )
 
 # define a dependency
