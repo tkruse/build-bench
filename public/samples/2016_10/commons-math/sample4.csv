@@ -7,4 +7,4 @@ pants1.1.0,145.04,329.58,2.38,53184,0,11408,0,0,/home/kruset/work/java/build-ben
 gradle3.1,165.86,2.50,0.22,384,0,608,0,0,/home/kruset/work/java/build-bench/caches/gradle/gradle3.1/bin/gradle -q --info --stacktrace test jar
 bazel0.3.1,138.81,0.00,0.00,0,0,16,0,0,/home/kruset/work/java/build-bench/caches/bazel/bazel0.3.1/bin/bazel --bazelrc=/home/kruset/work/java/build-bench/caches/bazel/bazel0.3.1/bazel.bazelrc --output_base=/home/kruset/work/java/build-bench/caches/bazel/bazel0.3.1/bazel_cache test --test_verbose_timeout_warnings --verbose_failures --legacy_bazel_java_test --javacopt=-extra_checks:off //:example_tests
 buildr1.4.25,159.50,349.11,5.35,55216,0,99224,0,0,/home/kruset/work/java/build-bench/caches/buildr/gems/buildr-1.4.25/bin/buildr -q parallel package
-buckv2016.04.18.01,149.25,0.08,0.02,0,0,24,0,0,/home/kruset/work/java/build-bench/caches/buck/buckv2016.04.18.01/bin/buck test -v 0 --all
+buckv2016.09.02.01,1.04,0.04,0.02,0,0,32,0,0,/home/kruset/work/java/build-bench/caches/buck/buckv2016.09.02.01/bin/buck test -v 0 --all
