@@ -45,6 +45,8 @@ d3.csv(filename, function(error, csvdata){
             .margin({bottom: 100, left: 70})
             .rotateLabels(45)
             .groupSpacing(0.1)
+            .showControls(columns.length > 1)
+            .showLegend(columns.length > 1)
         ;
         chart.reduceXTicks(false).staggerLabels(true);
         chart.xAxis
@@ -53,10 +55,15 @@ d3.csv(filename, function(error, csvdata){
             .showMaxMin(false)
         ;
         chart.yAxis
-            .axisLabel("value")
             .axisLabelDistance(-5)
             .tickFormat(d3.format(',.01f'))
         ;
+        if (columns.length > 1) {
+            chart.yAxis.axisLabel(columns.join())
+        } else {
+            chart.yAxis.axisLabel("seconds")
+        }
+
         chart.dispatch.on('renderEnd', function() {
             nv.log('Render Complete');
         });
