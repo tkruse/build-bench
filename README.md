@@ -106,9 +106,9 @@ See [CONTRIBUTING](CONTRIBUTING.md)
 
 ### What influences performance?
 
-JVM startup adds something like 3 seconds to the whole process. Several tools offer daemons to reduce this offset. Tools not written in JVM languages do not have this offset.
+JVM startup adds something like 3 seconds to the whole process. Several tools offer daemons to reduce this offset. Tools not written in JVM languages do not have this offset. A background process living on between builds can also cache other valuable data to make further runs startup faster. The startup time reduction however becomes only relevant at large scales.
 
-Parallel task execution: On machines with multiple cores, it may be possible to reduce build time by utilizing more than one CPU. However the build-time rarely is reduced by the number of CPUs. The overhead of finding out how to split tasks over several CPUs can eliminate benefits, and often there will be many dependencies that lead to tasks necessarily being build in sequence. Most buildtool will thus mostly offer to only build completely independent sub-modules in parallel. For single-module projects, no additional CPU is used then.
+Parallel task execution: On machines with multiple cores, it may be possible to reduce build time by utilizing more than one CPU. Even with just one CPU, multithreaded execution can have a performance bonus. However the build-time rarely is reduced by the number of CPUs. The overhead of finding out how to split tasks over several CPUs can eliminate benefits, and often there will be many dependencies that lead to tasks necessarily being build in sequence. Most buildtool will thus mostly offer to only build completely independent sub-modules in parallel. For single-module projects, no additional CPU is used then.
 Some tasks may even only work when not run in parallel, so using parallel features also increases maintenance effort.
 
 Compiler speed may differ for different compilers. The scala compiler and clojure compiler seemed slower than javac for compiling java sources.
@@ -119,11 +119,11 @@ Incremental build steps beyond compilation help (e.g. Maven can compile incremen
 
 Incremental builds for sub-module filesets. Several buildsystems can (re-)build only those submodules that have change, but cannot only (re-)build only half a submodule. Being able to incrementally rebuild smaller parts can speed up builds in specific situations.
 
-Incremental compilation that understand the language. Sbt as an example may analyze the changes to a changed file to decide whether depending classes need to be recompiled. So when the change only affect private methods, sbt can decide that dependencies need not be rebased.
+Incremental compilation that understand the language. Sbt as an example may analyze the changes to a changed file to decide whether depending classes need to be recompiled. So when the change only affect private methods, sbt can decide that dependencies need not be recompiled. However the benefit only becomes noticeable at large scales.
 
 Caching influences incremental builds. Several buildsystems have a simple caching strategy in that they will not run a task if the output still exist. This will improve performance for repeated builds.
 
-Buck, Bazel and Pants were the only build system benchmarked here that offers advanced (true) caching of build results, in that the cache is an independent storage that maintains multiple versions of build results over time. This can dramatically reduce build times in many more situations than simple caching described before.
+Some buildsystems can offer advanced (true) caching of build results, in that the cache is an independent storage that maintains multiple versions of build results over time. This can dramatically reduce build times in many more situations than simple caching described before.
 
 For large projects with plenty of subprojects and subtasks, performance can be gained by caching in a fine-grained way and reusing more previous artifacts. The example and setup used in this benchmark may not be optimal for any given buildsystem. In particular, Pants has some online examples defining plenty of smaller library targets for individual Java files, which might improve caching performance when rebuilding after a single java file changed (not sure what other advantage it could have).
 
@@ -159,6 +159,8 @@ Leiningen and sbt are optimized (in usability) for Clojure and Scala respectivel
 
 Buildr seems to be mostly similar to Gradle but written in Ruby, which offers some advantages and disadvantages. Based on mailing list activity, it seems the project lost the interest of it's userbase.
 
+The Kotlin ecosystem also has a buildsystem called Kobalt, but it seemed not established enough to be considered in the benchmarks.
+
 
 | Name      | Target                     | language       | Written in   | Since        | Support    | Caching    | Model |
 | --------- | -------------------------- | -------------- | ------------ | ------------ | ---------- | ---------- | ----- |
@@ -172,11 +174,6 @@ Buildr seems to be mostly similar to Gradle but written in Ruby, which offers so
 | bazel     | C++, Java, Python, Go      | Python-ish     | C++, Java    | 2015 (2005?) | Google     | true cache | rules |
 | pants     | Java, Scala, Python        | Python         | Python       | 2014 (2010)  | Twitter    | None       | rules |
 
-### Why are ant/sbt/leiningen so slow for clean testing of commons-math?
-
-I do not know for sure. There must be some overhead not present in the other systems, maybe a new JVM process is started for each test.
-
-Note that for sbt and leiningen, extra plugins were required to run JUnit tests written in Java. These buildsystems would specialize on tests written in Scala/Clojure, and the results here do not tell whether tests written in Scala or Clojure would have similar overheads.
 
 ### I get InstantiationExceptions with some buildsystem, what is going on?
 

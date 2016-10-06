@@ -4,6 +4,17 @@ I present some observations I made and my opinions here.
 
 DISCLAIMER: I am mostly a Gradle user, so having had least problems with it can also be due to my experience with those.
 
+## ant
+
+<http://ant.apache.org/>
+
+ant is packaged for Ubuntu. Ivy is the dependency management. Ant+Ivy are also used within buck.
+
+Install ivy by placing ivy jar in ant lib dir. See <http://ant.apache.org/ivy/history/latest-milestone/install.html>
+
+ant was difficult to debug (in particular what was missing for junit4).
+
+
 ## Gradle
 
 See <https://gradle.org/>
@@ -49,28 +60,6 @@ Maven also has many command-line arguments which cannot be specified inside the 
 Running junit 4.11 tests with sbt was a pain, because getting junit 4.x to work was not trivial, required 3rd party testing libs in specific versions.
 
 sbt occasionally failed apache commons-math tests, but not consistently so.
-
-## buck
-
-See <https://buckbuild.com/>
-
-Buck has the most sophisticated caching, that promises extraordinary performance in many common cases (but a bit more convoluted than the simple setup). Buck caches outputs of rules (equivalent to tasks) separate from the build output. It stores multiple versions of outputs, and thus can avoid re-building anything that it has built in the recent past (like over the last week). The cache is by default not removed using `buck clean`. The cache-key includes several parameters, including the input filetree (filenames and timestamps, not content). Extended options allow sharing the caches between computers, such as the CI servers and developer machines. A single-module project may benefit least from this kind of caching in comparison to the simpler caching strategies of gradle or buildr, so benchmark results for commons-math do not show an large improvement over gradle.
-
-Getting buck to do anything at all was a real pain, `quickstart` did not start quickly. There were many details to consider that are settled by convention in other build tools. Most failures had no helpful error messages. Making buck run existing tests was painful because buck will try to run any class it finds as a testcase, and fail if it is not (TestUtils, abstract test classes), and does not provide any help in filtering what shall be considered a TestCase. The official documentation is okay though, but in comparison the other systems were more self-explaining. What is missing from the documentation is an explanation of how to create a nice library jar, the focus seems to be on creating Android APK files. Getting buck to download files from Maven Central or so is possible, but not straightforward. The best approach seems to add "bucklets" from a different git repository and use a specialized rule. It was difficult to adapt buck project files to the traditional folder structure that Maven suggests. This makes it unnecessarily hard to migrate projects from other buildsystems, and it can be expected that projects built with buck will run into problems that have long been solved in the larger community.
-
-buck very few high-level features and plugins compared to gradle and maven, in particular for non-Android projects.
-
-buckd left behind many process running in the background. It recommends installing a separate application "watchman" to further optimize caching of build files. watchman itself also seems like a fickle install.
-
-## ant
-
-<http://ant.apache.org/>
-
-ant is packaged for Ubuntu. Ivy is the dependency management. Ant+Ivy are also used within buck.
-
-Install ivy by placing ivy jar in ant lib dir. See <http://ant.apache.org/ivy/history/latest-milestone/install.html>
-
-ant was difficult to debug (in particular what was missing for junit4).
 
 ## leiningen
 
@@ -130,6 +119,19 @@ But I have not tried this out myself.
 
 Bazel 0.1.3 gave confusing caching results when building multiple times, rebuilding one artifact out of 3 when no file had changed.
 
+## buck
+
+See <https://buckbuild.com/>
+
+Buck has sophisticated caching, that promises extraordinary performance in many common cases (but a bit more convoluted than the simple setup). Buck caches outputs of rules (equivalent to tasks) separate from the build output. It stores multiple versions of outputs, and thus can avoid re-building anything that it has built in the recent past (like over the last week). The cache is by default not removed using `buck clean`. The cache-key includes several parameters, including the input filetree (filenames and timestamps, not content). Extended options allow sharing the caches between computers, such as the CI servers and developer machines. A single-module project may benefit least from this kind of caching in comparison to the simpler caching strategies of gradle or buildr, so benchmark results for commons-math do not show an large improvement over gradle.
+
+Getting buck to do anything at all was a real pain, `quickstart` did not start quickly. There were many details to consider that are settled by convention in other build tools. Most failures had no helpful error messages. Making buck run existing tests was painful because buck will try to run any class it finds as a testcase, and fail if it is not (TestUtils, abstract test classes), and does not provide any help in filtering what shall be considered a TestCase. The official documentation is okay though, but in comparison the other systems were more self-explaining. What is missing from the documentation is an explanation of how to create a nice library jar, the focus seems to be on creating Android APK files. Getting buck to download files from Maven Central or so is possible, but not straightforward. The best approach seems to add "bucklets" from a different git repository and use a specialized rule. It was difficult to adapt buck project files to the traditional folder structure that Maven suggests. This makes it unnecessarily hard to migrate projects from other buildsystems, and it can be expected that projects built with buck will run into problems that have long been solved in the larger community.
+
+buck very few high-level features and plugins compared to gradle and maven, in particular for non-Android projects.
+
+buckd left behind many process running in the background. It recommends installing a separate application "watchman" to further optimize caching of build files. watchman itself also seems like a fickle install.
+
+
 ## pants
 
 <https://pantsbuild.github.io/>
@@ -171,4 +173,4 @@ Pants uses an `.INI` file for some configuration (Do you live in the past?). The
 
 Pants natively supports shading the tools that it runs, in order to prevent tools (particularly junit/checkstyle/et-al, which do not isolate themselves) from having classpath collisions with the code that they are building. This can take a long time but is very stable, in that it only changes when the version of a tool changes.
 
-Pants uses nailgun in the background, which however failed on the Travis CI server.
+Pants uses nailgun in the background, which however failed for me on the Travis CI server.
