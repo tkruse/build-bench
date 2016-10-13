@@ -2,19 +2,25 @@ language: java
 sudo: false
 jdk:
   - oraclejdk8
+dist: trusty
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - wget
+      - pkg-config
 install:
-  - cd scripts/nodejs; npm install; cd ../..
   - pip install -q --user jinja2
+  - strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
   # bazel extra option for travis
   - echo -e "export BAZEL_COMMAND_OPTIONS:=--spawn_strategy=standalone --genrule_strategy=standalone" > custom.mk
 # refresh caches, travis uploads after install
-  - TERM=dumb make CONFIG=configs/generated_minimal.mk
+  - TERM=dumb make maven3.3.9 bazel0.2.3 CONFIG=configs/generated_minimal.mk
 script:
-  - cd scripts/nodejs; ./node_modules/.bin/mdast ../../*.md --frail --no-color -q --config-path ./mdast/mdastrc; cd $TRAVIS_BUILD_DIR
-  - TERM=dumb make
-  - TERM=dumb make -j2 clean
-  - TERM=dumb make gradle2.9 maven3.3.9 ant_ivy1.9.6 buildr1.4.23 buckv2015.11.30.01 leiningen2.5.3 sbt0.13.9 pants0.0.63
-  - TERM=dumb make CONFIG=configs/generated_multi.mk
+  - TERM=dumb rm -rf build
+  - TERM=dumb make maven3.3.9 bazel0.2.3 CONFIG=configs/generated_multi.mk
+  - cat build/reports/multi-16-10.csv
 cache:
   directories:
   - $TRAVIS_BUILD_DIR/scripts/nodejs
