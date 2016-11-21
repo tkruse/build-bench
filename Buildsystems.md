@@ -53,6 +53,8 @@ Some more reasons against Maven: <http://blog.ltgt.net/maven-is-broken-by-design
 
 Maven also has many command-line arguments which cannot be specified inside the pom or other configuration files, such as parallel threads, or to print full test failure logs, etc. This means tdevelopers have to always remember which options exist and which they want, which is very inconvenient.
 
+Trying to have separated folders for unit and integration tests also seems like a major headache, since Maven assumes all tests of a module are located in the same source folder. Most workarounds will fail to generate a correct Project model for IDEs like Eclipse. After a lot of googling, one may find a solution with the help of a 3rd party plugin.
+
 ## Sbt
 
 <http://www.scala-sbt.org/download.html>
