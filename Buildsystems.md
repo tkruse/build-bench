@@ -55,6 +55,9 @@ Maven also has many command-line arguments which cannot be specified inside the 
 
 Trying to have separated folders for unit and integration tests also seems like a major headache, since Maven assumes all tests of a module are located in the same source folder. Most workarounds will fail to generate a correct Project model for IDEs like Eclipse. After a lot of googling, one may find a solution with the help of a 3rd party plugin.
 
+Setting up code warnings in Maven:
+```http://www.artificialworlds.net/blog/2016/12/23/setting-up-a-sane-maven-project/```
+
 ## Sbt
 
 <http://www.scala-sbt.org/download.html>
