@@ -1,0 +1,62 @@
+---
+layout: default
+---
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
+    <script src="public/samples/benchchart.js"></script>
+
+  <h1>Sample Results for Commons-Math (Feb. 2016)</h1>
+    <p>Compile and Tests, single-module project, 4 CPU laptop, as measured by GNU time. The value shown is the real (wall clock) time spend on the process.</p>
+
+  <h2>Clean build from scratch</h2>
+
+  <div id="chart1" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+  </div>
+
+<p>
+Sbt is quickest, by using all CPUs to the fullest (making the system unusable during that time).
+The only major change since 2016 here is that the pants buildsystem took singificantly longer than in the previously benchmarked version.
+</p>
+
+
+  <h2>Rebuild without changes</h2>
+
+<div id="chart2" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+</div>
+
+<p>Several buildsystems recognize there is nothing to do, surprisingly pants is not among them.
+A change since 2016 is that bazel now took considerable time to run again. The log shows a warning that the running server needs to be killed due to a change of start params (which did not change) so this might be a minor bug not affecting most users.
+<p>
+
+  <h2>Rebuild with change</h2>
+
+<p>For this case I added a small no-op change to one source file.</p>
+
+<div id="chart3" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+</div>
+
+<p>This benchmark shows some buidsystems stop doing anything when rebuilding with a change, possibly because the change detection algorithms did not detect the change...<p>
+
+    <h2>Rebuild first version</h2>
+
+<p>For this case I manually reverted the file to the state of the first build.</p>
+    
+<div id="chart4" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+</div>
+
+<p><p>
+
+<script>
+benchChart("public/samples/2017_03/commons-math/sample1.csv", '#chart1 svg', ['real']);
+benchChart("public/samples/2017_03/commons-math/sample2.csv", '#chart2 svg', ['real']);
+benchChart("public/samples/2017_03/commons-math/sample3.csv", '#chart3 svg', ['real']);
+benchChart("public/samples/2017_03/commons-math/sample4.csv", '#chart4 svg', ['real']);
+
+</script>

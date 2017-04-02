@@ -1,0 +1,43 @@
+---
+layout: default
+---
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
+    <script src="public/samples/benchchart.js"></script>
+
+  <h1>Sample Results for Multi-module project (Feb. 2016)</h1>
+    <p>Compile and Tests, single-module project, 4 CPU laptop, as measured by GNU time. The value shown is the real (wall clock) time spend on the process, and the user-space CPU time (sum over all CPUs). The system-space CPU time was negligeable. The code was 16 submodules with 10 long running tests each. 16 submodules were chosen as a number sufficiently larger than the number of CPUs.</p>
+
+  <h2>Clean build from scratch</h2>
+
+  <div id="chart1" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+  </div>
+
+
+
+  <h2>Rebuild without changes</h2>
+
+<div id="chart2" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+</div>
+
+
+  <h2>Rebuild after change in one module</h2>
+
+<div id="chart3" class='with-3d-shadow with-transitions chart'>
+    <svg></svg>
+</div>
+
+What is visible here is some projects can do incremental builds, while others rebuild all modules.
+
+
+<script>
+benchChart("public/samples/2017_03/multi-16-10/sample1.csv", '#chart1 svg', ['real']);
+benchChart("public/samples/2017_03/multi-16-10/sample2.csv", '#chart2 svg', ['real']);
+benchChart("public/samples/2017_03/multi-16-10/sample3.csv", '#chart3 svg', ['real']);
+
+</script>

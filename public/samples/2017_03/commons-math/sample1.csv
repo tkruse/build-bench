@@ -1,0 +1,8 @@
+name,real,user,system,filein,memory,fileout,swaps,socketin,command
+gradle3.4.1,143.51,2.76,0.22,224,0,328,0,0,/home/kruset/work/java/build-bench/caches/gradle/gradle3.4.1/bin/gradle -q --info --stacktrace test jar
+maven3.3.9,141.69,330.15,3.11,18392,0,50688,0,0,/home/kruset/work/java/build-bench/caches/maven/maven3.3.9/bin/mvn -q -B -T 1C -gs /home/kruset/work/java/build-bench/buildsystems/maven/settings.xml package -Dsurefire.printSummary=false
+buildr1.5.0,143.22,322.56,3.80,5104,0,98096,0,0,/home/kruset/work/java/build-bench/caches/buildr/gems/buildr-1.5.0/bin/buildr -q parallel package
+ant_ivy1.10.1,280.26,556.88,22.27,1696,0,209904,0,0,/home/kruset/work/java/build-bench/caches/ant_ivy/ant_ivy1.10.1/bin/ant jar -q
+buckv2017.03.29.01,148.27,0.08,0.03,0,0,144,0,0,/home/kruset/work/java/build-bench/caches/buck/buckv2017.03.29.01/bin/buck test -v 0 --all
+sbt0.13.13,82.43,488.75,3.55,8464,0,106296,0,0,/home/kruset/work/java/build-bench/caches/sbt/sbt0.13.13/bin/sbt -java-home /usr/lib/jvm/java-8-oracle/ test package
+bazel0.4.5,155.98,0.02,0.00,0,0,32,0,0,/home/kruset/work/java/build-bench/caches/bazel/bazel0.4.5/bin/bazel --watchfs --bazelrc=/home/kruset/work/java/build-bench/caches/bazel/bazel0.4.5/bazel.bazelrc --output_base=/home/kruset/work/java/build-bench/build/commons-math/bazel0.4.5/bazel_cache test --test_verbose_timeout_warnings --verbose_failures --legacy_bazel_java_test --javacopt=-extra_checks:off --genrule_strategy=standalone --spawn_strategy=standalone --curses=no //:example_tests
