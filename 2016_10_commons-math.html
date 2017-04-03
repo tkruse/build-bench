@@ -48,7 +48,7 @@ layout: default
     <svg></svg>
 </div>
 
-<p>While I had expected bazel and buck to reuse a version from their cache, it seems they did not. I am not sure why not, possibly they do take into account timestamps for identifying same builds. In other scenarios, at least bazel used results from a cache.<p>
+<p>Rebuilding initial version takes again original time. According to documentation, bazel and buck can support caching for such scenarios, but for this an additional setup with a remote cache server is required.<p>
 
     <h2>Clean build file Ops</h2>
 
