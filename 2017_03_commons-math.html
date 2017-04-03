@@ -19,7 +19,7 @@ layout: default
 
 <p>
 Sbt is quickest, by using all CPUs to the fullest (making the system unusable during that time).
-The only major change since 2016 here is that the pants buildsystem took singificantly longer than in the previously benchmarked version.
+Else not much change since 2016, bazel became a bit faster.
 </p>
 
 
@@ -30,7 +30,7 @@ The only major change since 2016 here is that the pants buildsystem took singifi
 </div>
 
 <p>Several buildsystems recognize there is nothing to do, surprisingly pants is not among them.
-A change since 2016 is that bazel now took considerable time to run again. The log shows a warning that the running server needs to be killed due to a change of start params (which did not change) so this might be a minor bug not affecting most users.
+
 <p>
 
   <h2>Rebuild with change</h2>
@@ -41,7 +41,7 @@ A change since 2016 is that bazel now took considerable time to run again. The l
     <svg></svg>
 </div>
 
-<p>This benchmark shows some buidsystems stop doing anything when rebuilding with a change, possibly because the change detection algorithms did not detect the change...<p>
+<p><p>
 
     <h2>Rebuild first version</h2>
 
