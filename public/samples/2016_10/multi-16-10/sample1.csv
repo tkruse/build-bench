@@ -6,4 +6,4 @@ ant_ivy1.9.7,114.05,153.86,6.21,8944,0,56000,0,0,/home/kruset/work/java/build-be
 buckv2016.09.02.01,19.56,0.04,0.02,0,0,24,0,0,/home/kruset/work/java/build-bench/caches/buck/buckv2016.09.02.01/bin/buck test -v 0 --all
 sbt0.13.12,28.59,158.18,2.14,11768,0,38576,0,0,/home/kruset/work/java/build-bench/caches/sbt/sbt0.13.12/bin/sbt -java-home /usr/lib/jvm/java-8-oracle/ test package
 bazel0.3.1,46.72,0.00,0.00,0,0,16,0,0,/home/kruset/work/java/build-bench/caches/bazel/bazel0.3.1/bin/bazel --bazelrc=/home/kruset/work/java/build-bench/caches/bazel/bazel0.3.1/bazel.bazelrc --output_base=/home/kruset/work/java/build-bench/caches/bazel/bazel0.3.1/bazel_cache test --test_verbose_timeout_warnings --verbose_failures --legacy_bazel_java_test --javacopt=-extra_checks:off //:example_tests
-pants1.1.0,68.89,71.41,0.52,6872,0,37176,0,0,/home/kruset/work/java/build-bench/caches/pants/pants test :test
+pants1.1.0,29.71,157.44,1.32,3768,0,93192,0,0,/home/kruset/work/java/build-bench/caches/pants/pants test :test
